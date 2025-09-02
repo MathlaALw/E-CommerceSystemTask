@@ -2,6 +2,7 @@
 using E_CommerceSystem.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Security.Cryptography;
+using AutoMapper;
 
 namespace E_CommerceSystem.Services
 {
@@ -11,12 +12,14 @@ namespace E_CommerceSystem.Services
         public IProductService _productService;
         public IOrderService _orderService;
         public IOrderProductsService _orderProductsService;
-        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IOrderService orderService)
+        private readonly IMapper _mapper;
+        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IOrderService orderService, IMapper mapper)
         {
             _reviewRepo = reviewRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
             _orderService = orderService;
+            _mapper = mapper;
         }
         public IEnumerable<Review> GetAllReviews(int pageNumber, int pageSize,int pid)
         {
@@ -66,15 +69,19 @@ namespace E_CommerceSystem.Services
                         if (existingReview != null)
                             throw new InvalidOperationException($"You have already reviewed this product.");
 
-                        //add review
-                        var review = new Review
-                        {
-                            PID = pid,
-                            UID = uid,
-                            Comment = reviewDTO.Comment,
-                            Rating = reviewDTO.Rating,
-                            ReviewDate = DateTime.Now
-                        };
+                        ////add review
+                        //var review = new Review
+                        //{
+                        //    PID = pid,
+                        //    UID = uid,
+                        //    Comment = reviewDTO.Comment,
+                        //    Rating = reviewDTO.Rating,
+                        //    ReviewDate = DateTime.Now
+                        //};
+                        
+                        // Using AutoMapper to map DTO to Entity
+                        // _add review to database
+                        var review = _mapper.Map<Review>(reviewDTO);
                         _reviewRepo.AddReview(review);
 
                         // Recalculate and update the product's overall rating
@@ -90,11 +97,14 @@ namespace E_CommerceSystem.Services
         {
             var review = GetReviewById(rid);
 
-            review.ReviewDate = DateTime.Now;
-            review.Rating = reviewDTO.Rating;
-            review.Comment = reviewDTO.Comment;
-
+            //review.ReviewDate = DateTime.Now;
+            //review.Rating = reviewDTO.Rating;
+            //review.Comment = reviewDTO.Comment;
+            if (review == null)
+                throw new KeyNotFoundException($"Review with ID {rid} not found.");
+            _mapper.Map(reviewDTO, review);
             _reviewRepo.UpdateReview(review);
+            
             RecalculateProductRating(review.Rating);
         }
         public void DeleteReview(int rid)

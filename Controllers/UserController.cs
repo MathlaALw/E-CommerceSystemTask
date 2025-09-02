@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 
 namespace E_CommerceSystem.Controllers
 {
@@ -16,11 +17,13 @@ namespace E_CommerceSystem.Controllers
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IConfiguration configuration)
+        public UserController(IUserService userService, IConfiguration configuration, IMapper mapper)
         {
             _userService = userService;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -32,16 +35,16 @@ namespace E_CommerceSystem.Controllers
                 if(InputUser == null)
                     return BadRequest("User data is required");
 
-                var user = new User
-                {
-                    UName = InputUser.UName,
-                    Email = InputUser.Email,
-                    Password = InputUser.Password,
-                    Role = InputUser.Role,
-                    Phone = InputUser.Phone,
-                    CreatedAt = DateTime.Now
-                };
-
+                //var user = new User
+                //{
+                //    UName = InputUser.UName,
+                //    Email = InputUser.Email,
+                //    Password = InputUser.Password,
+                //    Role = InputUser.Role,
+                //    Phone = InputUser.Phone,
+                //    CreatedAt = DateTime.Now
+                //};
+                var user = _mapper.Map<User>(InputUser);
                 _userService.AddUser(user);
 
                 return Ok(user);

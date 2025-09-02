@@ -11,7 +11,7 @@ using System.Text;
 namespace E_CommerceSystem.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[Controller]")]
     public class ProductController : ControllerBase
