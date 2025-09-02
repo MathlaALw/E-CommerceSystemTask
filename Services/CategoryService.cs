@@ -1,32 +1,49 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper;
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoryService
     {
         // inject repository
         private readonly ICategoryRepo _categoryRepo;
-        public CategoryService(ICategoryRepo categoryRepo)
+
+        // AutoMapper
+        private readonly IMapper _mapper;
+        public CategoryService(ICategoryRepo categoryRepo, IMapper mapper)
         {
             _categoryRepo = categoryRepo;
+            _mapper = mapper;
         }
 
         // Add Category
-        public void AddCategory(Category category)
+        public void AddCategory(CategoryDTO categoryDTO)
         {
+            // Map DTO to Entity
+            var category = _mapper.Map<Category>(categoryDTO);
             _categoryRepo.AddCategory(category);
         }
 
         // Update Category
-        public void UpdateCategory(Category category)
+        public void UpdateCategory(int categoryId, CategoryDTO categoryDTO)
         {
+            // Check if category exists
+            var category = _categoryRepo.GetCategoryById(categoryId);
+            if (category == null)
+                throw new KeyNotFoundException($"Category with ID {categoryId} not found.");
+            // Map updated fields from DTO to Entity
+            _mapper.Map(categoryDTO, category);
             _categoryRepo.UpdateCategory(category);
         }
 
         // Delete Category
         public void DeleteCategory(int categoryId)
         {
+            // Check if category exists
+            var category = _categoryRepo.GetCategoryById(categoryId);
+            if (category == null)
+                throw new KeyNotFoundException($"Category with ID {categoryId} not found.");
             _categoryRepo.DeleteCategory(categoryId);
         }
 
@@ -39,6 +56,7 @@ namespace E_CommerceSystem.Services
         // Get Category by Id
         public Category GetCategoryById(int categoryId)
         {
+            // Check if category exists
             var category = _categoryRepo.GetCategoryById(categoryId);
             if (category == null)
                 throw new KeyNotFoundException($"Category with ID {categoryId} not found.");
