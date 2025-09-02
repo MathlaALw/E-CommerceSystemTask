@@ -18,11 +18,12 @@ namespace E_CommerceSystem.Controllers
     {
         private readonly IProductService _productService;
         private readonly IConfiguration _configuration;
-
+      
         public ProductController(IProductService productService, IConfiguration configuration)
         {
             _productService = productService;
             _configuration = configuration;
+           
         }
 
         [HttpPost("AddProduct")]
@@ -49,19 +50,21 @@ namespace E_CommerceSystem.Controllers
                 }
 
                 // Create a new product
-                var product = new Product
-                {
-                    ProductName = productInput.ProductName,
-                    Price = productInput.Price,
-                    Description = productInput.Description,
-                    Stock = productInput.Stock,
-                    OverallRating = 0
-                };
+                //var product = new Product
+                //{
+                //    ProductName = productInput.ProductName,
+                //    Price = productInput.Price,
+                //    Description = productInput.Description,
+                //    Stock = productInput.Stock,
+                //    OverallRating = 0
+                //};
 
+                // Map DTO to Product entity
+                //var product = _mapper.Map<Product>(productInput);
                 // Add the new product to the database/service layer
-                _productService.AddProduct(product);
+                _productService.AddProduct(productInput);
 
-                return Ok(product);
+                return Ok("Product added successfully.");
             }
             catch (Exception ex)
             {
@@ -90,16 +93,16 @@ namespace E_CommerceSystem.Controllers
                 if (productInput == null)
                     return BadRequest("Product data is required.");
 
-                var product = _productService.GetProductById(productId);
+                //var product = _productService.GetProductById(productId);
                 
-                product.ProductName = productInput.ProductName;
-                product.Price = productInput.Price;
-                product.Description = productInput.Description;
-                product.Stock = productInput.Stock;
+                //product.ProductName = productInput.ProductName;
+                //product.Price = productInput.Price;
+                //product.Description = productInput.Description;
+                //product.Stock = productInput.Stock;
                  
-                _productService.UpdateProduct(product);
+                _productService.UpdateProduct(productId , productInput);
 
-                return Ok(product);
+                return Ok("Product updated successfully.");
             }
             catch (Exception ex)
             {

@@ -46,22 +46,27 @@ namespace E_CommerceSystem.Services
                 .ToList();
 
             return pagedProducts;
-        
-    }
-         public Product GetProductById(int pid)
+
+        }
+        public Product GetProductById(int pid)
         {
             var product = _productRepo.GetProductById(pid);
             if (product == null)
                 throw new KeyNotFoundException($"Product with ID {pid} not found.");
             return product;
         }
-
+        // Add Product DTO
         public void AddProduct(ProductDTO productDTO)
         {
             var product = _mapper.Map<Product>(productDTO);
             _productRepo.AddProduct(product);
         }
-
+        // Add Product Object
+        public void AddProduct(Product product)
+        {
+            _productRepo.AddProduct(product);
+        }
+        // Update Product DTO
         public void UpdateProduct(int productId, ProductDTO productDTO)
         {
 
@@ -71,7 +76,14 @@ namespace E_CommerceSystem.Services
             _mapper.Map(productDTO, existingProduct);
             _productRepo.UpdateProduct(existingProduct);
         }
-
+        // Update Product Object
+        public void UpdateProduct(Product product)
+        {
+            var existingProduct = _productRepo.GetProductById(product.PID);
+            if (existingProduct == null)
+                throw new KeyNotFoundException($"Product with ID {product.PID} not found.");
+            _productRepo.UpdateProduct(product);
+        }
         public Product GetProductByName(string productName)
         {
             var product = _productRepo.GetProductByName(productName);
