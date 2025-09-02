@@ -3,9 +3,11 @@ using E_CommerceSystem.Repositories;
 using E_CommerceSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
 
 namespace E_CommerceSystem
 {
@@ -35,6 +37,11 @@ namespace E_CommerceSystem
 
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+
+            // Add AutoMapper
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
