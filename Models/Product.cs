@@ -35,5 +35,12 @@ namespace E_CommerceSystem.Models
         public int CategoryId { get; set; }
 
         public Category Categoty{get; set;}
+
+        // Navigation property for Supplier
+        [ForeignKey("Supplier")]
+        public int SupplierId { get; set; }
+        public Supplier Supplier { get; set; }
+
+
     }
 }
