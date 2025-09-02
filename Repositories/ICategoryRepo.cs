@@ -9,5 +9,6 @@ namespace E_CommerceSystem.Repositories
         IEnumerable<Category> GetAllCategories();
         Category GetCategoryById(int categoryId);
         void UpdateCategory(Category category);
+        Category GetCategoryByName(string name);
     }
 }

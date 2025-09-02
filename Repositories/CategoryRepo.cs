@@ -95,5 +95,18 @@ namespace E_CommerceSystem.Repositories
             }
         }
 
+        // Get Category by Name
+        public Category GetCategoryByName(string name)
+        {
+            try
+            {
+                return _context.Categories.FirstOrDefault(c => c.Name == name);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
+
     }
 }
