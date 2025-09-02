@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace E_CommerceSystem.Models
@@ -19,14 +20,20 @@ namespace E_CommerceSystem.Models
 
         [Required]
         [Range(0, int.MaxValue)]
-        public int Stock {  get; set; }
+        public int Stock { get; set; }
 
         public decimal OverallRating { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<OrderProducts> OrderProducts { get;set; }
+        public virtual ICollection<OrderProducts> OrderProducts { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Review> Reviews { get; set; }
+
+        // Navigation property for Category
+        [ForeignKey("Categoty")]
+        public int CategoryId { get; set; }
+
+        public Category Categoty{get; set;}
     }
 }

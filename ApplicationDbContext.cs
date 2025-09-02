@@ -15,12 +15,21 @@ namespace E_CommerceSystem
         public DbSet<OrderProducts> OrderProducts { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
                         .HasIndex(u => u.Email)
                         .IsUnique();
-
+            // Category
+            modelBuilder.Entity<Category>()
+              .HasIndex(c => c.Name).IsUnique();
+            // Product-Category (Many-to-One)
+            modelBuilder.Entity<Product>()
+              .HasOne(p => p.Categoty)
+              .WithMany(c => c.Products)
+              .HasForeignKey(p => p.CategoryId);
         }
     }
 }
