@@ -4,11 +4,11 @@ namespace E_CommerceSystem.Services
 {
     public interface ICategoryService
     {
-        void AddCategory(Category category);
+        void AddCategory(CategoryDTO categoryDTO);
         void DeleteCategory(int categoryId);
         IEnumerable<Category> GetAllCategories();
         Category GetCategoryById(int categoryId);
         Category GetCategoryByName(string name);
-        void UpdateCategory(Category category);
+        void UpdateCategory(int categoryId, CategoryDTO categoryDTO);
     }
 }

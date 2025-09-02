@@ -4,7 +4,7 @@ using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
         // inject repository
         private readonly ICategoryRepo _categoryRepo;
