@@ -29,17 +29,8 @@ namespace E_CommerceSystem.Repositories
         {
             try
             {
-                var existingCategory = _context.Categories.Find(category.CategoryId);
-                if (existingCategory != null)
-                {
-                    existingCategory.Name = category.Name;
-                    existingCategory.Description = category.Description;
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    throw new KeyNotFoundException("Category not found.");
-                }
+                _context.Categories.Update(category);
+                _context.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -52,16 +43,13 @@ namespace E_CommerceSystem.Repositories
         {
             try
             {
-                var category = _context.Categories.Find(categoryId);
+                var category = GetCategoryById(categoryId);
                 if (category != null)
                 {
                     _context.Categories.Remove(category);
                     _context.SaveChanges();
                 }
-                else
-                {
-                    throw new KeyNotFoundException("Category not found.");
-                }
+                
             }
             catch (Exception ex)
             {
