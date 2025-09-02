@@ -56,20 +56,20 @@ namespace E_CommerceSystem.Services
             return product;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(ProductDTO productDTO)
         {
-            //var product = _mapper.Map<Product>(productDTO);
+            var product = _mapper.Map<Product>(productDTO);
             _productRepo.AddProduct(product);
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(int productId, ProductDTO productDTO)
         {
 
-            var existingProduct = _productRepo.GetProductById(product.PID);
+            var existingProduct = _productRepo.GetProductById(productId);
             if (existingProduct == null)
-                throw new KeyNotFoundException($"Product with ID {product.PID} not found.");
-            
-            _productRepo.UpdateProduct(product);
+                throw new KeyNotFoundException($"Product with ID {productId} not found.");
+            _mapper.Map(productDTO, existingProduct);
+            _productRepo.UpdateProduct(existingProduct);
         }
 
         public Product GetProductByName(string productName)
