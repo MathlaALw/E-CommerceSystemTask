@@ -2,16 +2,19 @@
 using E_CommerceSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
+using AutoMapper;
 
 namespace E_CommerceSystem.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepo _productRepo;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepo productRepo)
+        public ProductService(IProductRepo productRepo, IMapper mapper)
         {
             _productRepo = productRepo;
+            _mapper = mapper;
         }
 
 
@@ -55,6 +58,7 @@ namespace E_CommerceSystem.Services
 
         public void AddProduct(Product product)
         {
+            //var product = _mapper.Map<Product>(productDTO);
             _productRepo.AddProduct(product);
         }
 
@@ -64,7 +68,7 @@ namespace E_CommerceSystem.Services
             var existingProduct = _productRepo.GetProductById(product.PID);
             if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {product.PID} not found.");
-
+            
             _productRepo.UpdateProduct(product);
         }
 

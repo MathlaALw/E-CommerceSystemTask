@@ -1,6 +1,7 @@
 ﻿using E_CommerceSystem.Models;
 using E_CommerceSystem.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceSystem.Controllers
@@ -8,7 +9,7 @@ namespace E_CommerceSystem.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[Controller]")]
-    public class CategoryController
+    public class CategoryController : ControllerBase
     {
         // inject service
         private readonly ICategoryService _categoryService;
@@ -19,39 +20,88 @@ namespace E_CommerceSystem.Controllers
 
         // Add Category
         [HttpPost("AddCategory")]
-        public IActionResult AddCategory([FromBody] Category category)
+        public IActionResult AddCategory(CategoryDTO categoryDTO)
         {
             try
             {
-                if (category == null || string.IsNullOrWhiteSpace(category.Name))
-                {
-                    return new BadRequestObjectResult("Category data is invalid.");
-                }
-                _categoryService.AddCategory(category);
-                return new OkObjectResult("Category added successfully.");
+               _categoryService.AddCategory(categoryDTO);
+                return Ok("Category added successfully.");
             }
             catch (Exception ex)
             {
-                return new ObjectResult($"An error occurred while adding the category. {ex.Message}") { StatusCode = 500 };
+                return StatusCode(500, $"An error occurred while adding the category. {ex.Message}");
             }
         }
-
+        // Update Category
+        [HttpPut("UpdateCategory")]
+        public IActionResult UpdateCategory(int categoryId, CategoryDTO categoryDTO)
+        {
+            try
+            {
+                _categoryService.UpdateCategory(categoryId, categoryDTO);
+                return Ok("Category updated successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating the category. {ex.Message}");
+            }
+        }
+        // Delete Category
+        [HttpDelete("DeleteCategory")]
+        public IActionResult DeleteCategory(int categoryId)
+        {
+            try
+            {
+                _categoryService.DeleteCategory(categoryId);
+                return Ok("Category deleted successfully.");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting the category. {ex.Message}");
+            }
+        }
         // get all categories
         [HttpGet("GetAllCategories")]
         public IActionResult Get()
         {
             try
             {
-                var categories = _categoryService.GetAllCategories();
-                return new OkObjectResult(categories);
+                
+                return Ok(_categoryService.GetAllCategories());
             }
             catch (Exception ex)
             {
-                return new ObjectResult($"An error occurred while retrieving categories. {ex.Message}") { StatusCode = 500 };
+                return StatusCode(500, $"An error occurred while retrieving categories. {ex.Message}");
             }
 
         }
 
-
+        [HttpGet("GetCategoryById")]
+        public IActionResult GetCategoryById(int categoryId)
+        {
+            try
+            {
+                return Ok(_categoryService.GetCategoryById(categoryId));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving the category. {ex.Message}");
+            }
         }
+
+
+
+    }
 }
