@@ -121,6 +121,9 @@ namespace E_CommerceSystem.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
 
         }
+
+       // Add method to generate refresh token
+
         // [NonAction] attribute indicates that this method is not a web action and cannot be called directly via a URL.
         [NonAction]
         public RefreshToken GenerateRefreshToken(string ipAddress)
