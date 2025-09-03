@@ -196,7 +196,7 @@ namespace E_CommerceSystem.Controllers
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))  // Checks if the "X-Forwarded-For" header is present. This is common when using proxies or load balancers.
             {
-                return Request.Headers["X-Forwarded-For"];
+                return Request.Headers["X-Forwarded-For"]; // Returns the IP address from the "X-Forwarded-For" header
             }
             else
             {
