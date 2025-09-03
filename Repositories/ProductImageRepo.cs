@@ -72,6 +72,12 @@ namespace E_CommerceSystem.Repositories
                 _context.ProductImages.Update(productImage); // Update the product image in the context
                 _context.SaveChanges();
             }
+            catch (Exception ex) // Catch any exceptions that occur during the database operation
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
+
 
 
 
@@ -79,4 +85,4 @@ namespace E_CommerceSystem.Repositories
 
 
     }
-    }
+}
