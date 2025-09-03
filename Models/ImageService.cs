@@ -55,7 +55,7 @@
 
         public bool IsValidImage(IFormFile imageFile) // Method to validate image file types
         {
-            if (imageFile == null)
+            if (imageFile == null) // Check if the file is null
                 return false;
 
 
