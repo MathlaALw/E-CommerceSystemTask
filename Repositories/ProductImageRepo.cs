@@ -2,7 +2,7 @@
 
 namespace E_CommerceSystem.Repositories
 {
-    public class ProductImageRepo
+    public class ProductImageRepo : IProductImageRepo 
     {
         private readonly ApplicationDbContext _context; // Database context
         public ProductImageRepo(ApplicationDbContext context) // Constructor with dependency injection
