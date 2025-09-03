@@ -64,6 +64,33 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
+        [HttpPut("UpdateProduct/{productId}")] // Update product with images
+        public async Task<IActionResult> UpdateProduct(int productId, [FromForm] ProductDTO productInput)
+        {
+            try
+            {
+                // Authorization check
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var userRole = GetUserRoleFromToken(token);
+
+                if (userRole != "admin")
+                {
+                    return BadRequest("You are not authorized to perform this action.");
+                }
+
+                if (productInput == null)
+                    return BadRequest("Product data is required.");
+
+                await _productService.UpdateProductWithImages(productId, productInput);
+                return Ok("Product updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating product. {(ex.Message)}");
+            }
+        }
+
+
 
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
