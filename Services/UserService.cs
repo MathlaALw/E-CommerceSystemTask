@@ -41,6 +41,8 @@ namespace E_CommerceSystem.Services
         {
             return _userRepo.GetAllUsers();
         }
+
+        // Get User by Email and Password
         public User GetUSer(string email, string password)
         {
             var user = _userRepo.GetUSer(email, password);
