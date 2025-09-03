@@ -104,6 +104,15 @@ namespace E_CommerceSystem.Repositories
                 throw new InvalidOperationException($"Database error: {ex.Message}");
             }
         }
+        private void DeleteImageFile(string imageUrl) // Method to delete the physical image file from the server
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(imageUrl) && File.Exists(imageUrl))
+                {
+                    File.Delete(imageUrl);
+                }
+            }
 
 
 
@@ -113,4 +122,4 @@ namespace E_CommerceSystem.Repositories
 
 
     }
-}
+    }
