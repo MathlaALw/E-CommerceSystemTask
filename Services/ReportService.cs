@@ -96,7 +96,7 @@ namespace E_CommerceSystem.Services
         public IEnumerable<ActiveCustomerDTO> GetMostActiveCustomers(DateTime startDate, DateTime endDate, int limit = 10) // Get most active customers within a date range
         {
             return _context.Orders // Query to get orders
-                .Include(o => o.user)
+                .Include(o => o.user) // Include user details
                 .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled)
                 .GroupBy(o => new { o.UID, o.user.UName, o.user.Email })
                 .Select(g => new ActiveCustomerDTO
