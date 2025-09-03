@@ -35,9 +35,14 @@ namespace E_CommerceSystem.Repositories
                     DeleteImageFile(image.ImageUrl);
                 }
             }
+            catch (Exception ex) // Catch any exceptions that occur during the database operation
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
 
 
 
 
     }
-    }
+}
