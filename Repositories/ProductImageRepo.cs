@@ -40,9 +40,16 @@ namespace E_CommerceSystem.Repositories
                 throw new InvalidOperationException($"Database error: {ex.Message}");
             }
         }
+        public ProductImage GetProductImageById(int imageId) // Method to retrieve a product image by its ID
+        {
+            try
+            {
+                return _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId);
+            }
+
 
 
 
 
     }
-}
+    }
