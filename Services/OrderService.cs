@@ -17,16 +17,16 @@ namespace E_CommerceSystem.Services
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService , IMapper mapper)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper)
         {
             _orderRepo = orderRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
-            _mapper = mapper; 
+            _mapper = mapper;
         }
 
         //get all orders for login user
-        public List <OrderProducts> GetAllOrders(int uid)
+        public List<OrderProducts> GetAllOrders(int uid)
         {
             var orders = _orderRepo.GetOrderByUserId(uid);
             if (orders == null || !orders.Any())
@@ -53,7 +53,7 @@ namespace E_CommerceSystem.Services
             List<OrdersOutputOTD> items = new List<OrdersOutputOTD>();
             OrdersOutputOTD ordersOutputOTD = null;
 
-            
+
             List<OrderProducts> products = null;
             Product product = null;
             string productName = string.Empty;
@@ -82,9 +82,9 @@ namespace E_CommerceSystem.Services
                     items.Add(ordersOutputOTD);
                 }
             }
-   
+
             return items;
-     
+
         }
 
         public IEnumerable<Order> GetOrderByUserId(int uid)
@@ -105,8 +105,9 @@ namespace E_CommerceSystem.Services
             _orderRepo.DeleteOrder(oid);
             throw new Exception($"order with ID {oid} is deleted");
         }
-        public void AddOrder(Order order)
+        public void AddOrder(OrdersOutputOTD orderDto)
         {
+            var order = _mapper.Map<Order>(orderDto);
             _orderRepo.AddOrder(order);
         }
         public void UpdateOrder(Order order)
@@ -115,11 +116,11 @@ namespace E_CommerceSystem.Services
         }
 
         //Places an order for the given list of items and user ID.
-        public void PlaceOrder( List<OrderItemDTO> items, int uid)
+        public void PlaceOrder(List<OrderItemDTO> items, int uid)
         {
             // Temporary variable to hold the currently processed product
             Product existingProduct = null;
-            
+
             decimal TotalPrice, totalOrderPrice = 0; // Variables to hold the total price of each item and the overall order
 
             OrderProducts orderProducts = null;
@@ -137,15 +138,17 @@ namespace E_CommerceSystem.Services
 
             }
             // Create a new order for the user
-            var order = new Order { UID = uid, OrderDate = DateTime.Now, TotalAmount = 0 };
-            AddOrder(order); // Save the order to the database
+            // var order = new Order { UID = uid, OrderDate = DateTime.Now, TotalAmount = 0 };
+            var order = _mapper.Map<Order>(existingProduct);
+            _orderRepo.AddOrder(order);
+            //AddOrder(order); // Save the order to the database
 
             // Process each item in the order
             foreach (var item in items)
             {
                 // Retrieve the product by its name
                 existingProduct = _productService.GetProductByName(item.ProductName);
-               
+
                 // Calculate the total price for the current item
                 TotalPrice = item.Quantity * existingProduct.Price;
 
@@ -156,7 +159,7 @@ namespace E_CommerceSystem.Services
                 totalOrderPrice += TotalPrice;
 
                 // Create a relationship record between the order and product
-                orderProducts = new OrderProducts {OID = order.OID, PID = existingProduct.PID, Quantity = item.Quantity  };
+                orderProducts = new OrderProducts { OID = order.OID, PID = existingProduct.PID, Quantity = item.Quantity };
                 _orderProductsService.AddOrderProducts(orderProducts);
 
                 // Update the product's stock in the database
