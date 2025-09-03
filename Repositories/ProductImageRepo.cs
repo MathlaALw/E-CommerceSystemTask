@@ -57,7 +57,7 @@ namespace E_CommerceSystem.Repositories
             {
                 return _context.ProductImages // Retrieve images for the specified product
                     .Where(pi => pi.PID == productId) // Filter by product ID
-                    .OrderBy(pi => pi.DisplayOrder)
+                    .OrderBy(pi => pi.DisplayOrder) // Order by display order
                     .ToList();
             }
 
