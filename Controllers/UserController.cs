@@ -142,5 +142,9 @@ namespace E_CommerceSystem.Controllers
 
                     // Sets the token's expiration date to 7 days from the current UTC time.
                     Expires = DateTime.UtcNow.AddDays(7),
+
+                    // Records the exact time the token was created in UTC.
+                    Created = DateTime.UtcNow,
+
                 }
         }
