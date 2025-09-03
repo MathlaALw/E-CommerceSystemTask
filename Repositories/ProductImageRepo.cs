@@ -42,7 +42,7 @@ namespace E_CommerceSystem.Repositories
         }
         public ProductImage GetProductImageById(int imageId) // Method to retrieve a product image by its ID
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 return _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId);
             }
