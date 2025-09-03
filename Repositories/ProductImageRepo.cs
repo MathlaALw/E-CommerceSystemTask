@@ -106,7 +106,7 @@ namespace E_CommerceSystem.Repositories
         }
         private void DeleteImageFile(string imageUrl) // Method to delete the physical image file from the server
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 if (!string.IsNullOrEmpty(imageUrl) && File.Exists(imageUrl))
                 {
