@@ -52,6 +52,8 @@ namespace E_CommerceSystem.Services
             }
             return user;
         }
+
+        // Get User by Id
         public User GetUserById(int uid)
         {
             var user = _userRepo.GetUserById(uid);
