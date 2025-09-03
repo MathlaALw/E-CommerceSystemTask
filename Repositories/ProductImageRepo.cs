@@ -67,7 +67,7 @@ namespace E_CommerceSystem.Repositories
         }
         public void UpdateProductImage(ProductImage productImage) // Method to update an existing product image
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 _context.ProductImages.Update(productImage);
                 _context.SaveChanges();
