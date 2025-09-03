@@ -46,7 +46,7 @@ namespace E_CommerceSystem.Controllers
         {
             try // Try-catch block for error handling
             {
-                if (periodType.ToLower() != "daily" && periodType.ToLower() != "monthly")
+                if (periodType.ToLower() != "daily" && periodType.ToLower() != "monthly") // Validate period type
                 {
                     return BadRequest("Period type must be 'daily' or 'monthly'.");
                 }
