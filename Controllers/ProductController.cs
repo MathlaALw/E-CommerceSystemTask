@@ -121,6 +121,22 @@ namespace E_CommerceSystem.Controllers
         }
 
 
+        [HttpDelete("DeleteImage/{imageId}")] // Delete an image by its ID
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteImage(int imageId)
+        {
+            try
+            {
+                _productService.DeleteProductImage(imageId);
+                return Ok("Image deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while deleting image. {ex.Message}");
+            }
+        }
+
+
 
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
