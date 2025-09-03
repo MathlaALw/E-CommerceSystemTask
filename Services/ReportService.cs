@@ -31,11 +31,16 @@ namespace E_CommerceSystem.Services
                     TotalQuantitySold = g.Sum(op => op.Quantity), // Total Quantity Sold
                     TotalRevenue = g.Sum(op => op.Quantity * op.product.Price) // Total Revenue
                 })
-
-                
-
+                 .OrderByDescending(p => p.TotalQuantitySold) // Order by total quantity sold descending
+                .Take(limit)
+                .ToList();
         }
 
 
+
+
     }
+
+
 }
+
