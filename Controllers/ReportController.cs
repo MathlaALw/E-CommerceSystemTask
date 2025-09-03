@@ -21,7 +21,7 @@ namespace E_CommerceSystem.Controllers
         }
 
         [HttpGet("BestSellingProducts")] // Endpoint to get best-selling products
-        public IActionResult GetBestSellingProducts(
+        public IActionResult GetBestSellingProducts( // Get best-selling products within a date range
           [FromQuery] DateTime startDate,
           [FromQuery] DateTime endDate,
           [FromQuery] int limit = 10)
