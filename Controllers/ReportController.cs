@@ -77,7 +77,7 @@ namespace E_CommerceSystem.Controllers
         }
 
         [HttpGet("ActiveCustomers")] // Endpoint to get active customers
-        public IActionResult GetActiveCustomers(
+        public IActionResult GetActiveCustomers( // Get most active customers within a date range
          [FromQuery] DateTime startDate,
          [FromQuery] DateTime endDate,
          [FromQuery] int limit = 10)
