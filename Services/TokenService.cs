@@ -30,6 +30,11 @@ namespace E_CommerceSystem.Services
 
             // Gets the secret key from the configuration, used for signing the token.
             var secretKey = jwtSettings["SecretKey"];
+
+            // Creates an array of claims to be included in the token.
+            var claims = new[]
+            {
+
         }
 
 }
