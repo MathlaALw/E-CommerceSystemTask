@@ -84,7 +84,7 @@ namespace E_CommerceSystem.Repositories
             {
                 // Reset all images as not main
                 var images = _context.ProductImages.Where(pi => pi.PID == productId).ToList();
-                foreach (var image in images)
+                foreach (var image in images) // Loop through each image
                 {
                     image.IsMain = (image.ImageId == imageId);
                 }
