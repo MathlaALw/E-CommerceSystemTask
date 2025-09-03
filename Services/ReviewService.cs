@@ -9,6 +9,7 @@ namespace E_CommerceSystem.Services
 {
     public class ReviewService : IReviewService
     {
+        // Dependencies
         public IReviewRepo _reviewRepo;
         public IProductService _productService;
         public IOrderService _orderService;
