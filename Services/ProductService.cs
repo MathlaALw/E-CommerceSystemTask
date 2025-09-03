@@ -10,6 +10,8 @@ namespace E_CommerceSystem.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepo _productRepo;
+        private readonly IProductImageRepo _productImageRepo; // For managing product images
+        private readonly IImageService _imageService;
         private readonly IMapper _mapper;
 
         public ProductService(IProductRepo productRepo, IMapper mapper)
