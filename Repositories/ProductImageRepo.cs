@@ -58,13 +58,17 @@ namespace E_CommerceSystem.Repositories
                 return _context.ProductImages // Retrieve images for the specified product
                     .Where(pi => pi.PID == productId) // Filter by product ID
                     .OrderBy(pi => pi.DisplayOrder) // Order by display order
-                    .ToList();
+                    .ToList(); // Convert to list
             }
-
+            catch (Exception ex) // Catch any exceptions that occur during the database operation
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
 
 
 
 
 
     }
-    }
+}
