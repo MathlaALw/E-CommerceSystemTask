@@ -106,8 +106,8 @@ namespace E_CommerceSystem.Controllers
         }
 
         [HttpPost("SetMainImage/{productId}/{imageId}")] // Set main image for a product
-        [Authorize(Roles = "admin")]
-        public IActionResult SetMainImage(int productId, int imageId)
+        [Authorize(Roles = "admin")] // Only admin can set main image
+        public IActionResult SetMainImage(int productId, int imageId) // Set main image for a product
         {
             try
             {
