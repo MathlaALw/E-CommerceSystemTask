@@ -55,6 +55,8 @@ namespace E_CommerceSystem.Services
 
             // Creates a new JWT token instance.
             var token = new JwtSecurityToken(
+            // Sets the claims for the token.
+            claims: claims,
 
         }
 
