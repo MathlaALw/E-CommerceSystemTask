@@ -55,7 +55,7 @@ namespace E_CommerceSystem.Services
                         TotalRevenue = g.Sum(o => o.TotalAmount), // Total revenue
                         AverageOrderValue = g.Average(o => o.TotalAmount) // Average order value
                     })
-                    .OrderBy(r => r.Period)
+                    .OrderBy(r => r.Period) // Order by period
                     .ToList();
             }
 
