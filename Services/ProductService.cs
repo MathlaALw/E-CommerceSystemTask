@@ -162,6 +162,48 @@ namespace E_CommerceSystem.Services
 
         }
 
+        public async Task UpdateProductWithImages(int productId, ProductDTO productDTO) // Update product with images
+        {
+            var existingProduct = _productRepo.GetProductById(productId);
+            if (existingProduct == null)
+                throw new KeyNotFoundException($"Product with ID {productId} not found.");
+
+            _mapper.Map(productDTO, existingProduct);
+
+            // Handle new main image
+            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
+            {
+                // Delete old main image if exists
+                var oldMainImage = _productImageRepo.GetProductImages(productId)
+                    .FirstOrDefault(pi => pi.IsMain);
+
+                if (oldMainImage != null)
+                {
+                    _imageService.DeleteImage(oldMainImage.ImageUrl);
+                    _productImageRepo.DeleteProductImage(oldMainImage.ImageId);
+                }
+
+                // Save new main image
+                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products");
+
+                var mainImage = new ProductImage
+                {
+                    PID = productId,
+                    ImageUrl = imageUrl,
+                    IsMain = true,
+                    DisplayOrder = 0
+                };
+
+                _productImageRepo.AddProductImage(mainImage);
+
+                // Update product's main image URL
+                existingProduct.MainImageUrl = imageUrl;
+            }
+
+            _productRepo.UpdateProduct(existingProduct);
+        }
+
+
 
     }
 }
