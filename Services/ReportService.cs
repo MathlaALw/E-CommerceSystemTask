@@ -108,7 +108,7 @@ namespace E_CommerceSystem.Services
                     TotalSpent = g.Sum(o => o.TotalAmount) // Total Amount Spent
                 })
                 .OrderByDescending(c => c.TotalSpent) // Order by total spent descending
-                .ThenByDescending(c => c.OrderCount)
+                .ThenByDescending(c => c.OrderCount) // Then by order count descending
                 .Take(limit)
                 .ToList();
         }
