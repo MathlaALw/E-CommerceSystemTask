@@ -113,13 +113,16 @@ namespace E_CommerceSystem.Repositories
                     File.Delete(imageUrl);
                 }
             }
-
-
-
-
-
-
-
-
+            catch (Exception ex) // Catch any exceptions that occur during file deletion
+            {
+                // Log error but don't throw to avoid affecting the main operation
+                Console.WriteLine($"Error deleting image file: {ex.Message}");
+            }
+        }
     }
-    }
+
+
+
+
+}
+    
