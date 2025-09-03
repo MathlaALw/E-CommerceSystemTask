@@ -24,6 +24,9 @@ namespace E_CommerceSystem.Models
 
         public decimal OverallRating { get; set; }
 
+        // Add image support
+        public string MainImageUrl { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<OrderProducts> OrderProducts { get; set; }
 
