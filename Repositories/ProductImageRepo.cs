@@ -1,4 +1,6 @@
-﻿namespace E_CommerceSystem.Repositories
+﻿using E_CommerceSystem.Models;
+
+namespace E_CommerceSystem.Repositories
 {
     public class ProductImageRepo
     {
@@ -7,7 +9,14 @@
         {
             _context = context;
         }
+        public void AddProductImage(ProductImage productImage) // Method to add a new product image
+        {
+            try
+            {
+                _context.ProductImages.Add(productImage);
+                _context.SaveChanges();
+            }
 
 
     }
-}
+    }
