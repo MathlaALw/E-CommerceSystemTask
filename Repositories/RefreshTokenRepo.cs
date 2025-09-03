@@ -61,9 +61,12 @@ namespace E_CommerceSystem.Repositories
                 }
                 else if (childToken != null)
                 {
-
-
+                    // If child is inactive, recurse deeper into chain
+                    RevokeDescendantRefreshTokens(childToken, ipAddress, reason);
                 }
+            }
+
+        }
 
 
 
