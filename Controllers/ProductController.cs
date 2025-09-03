@@ -32,6 +32,10 @@ namespace E_CommerceSystem.Controllers
         }
 
         [HttpPost("AddProduct")]
+        [Authorize(Policy = "AdminOnly")] // [Authorize] is an attribute that restricts access to the action method or controller.
+                                          // It ensures that only authenticated users can access the resource.
+                                          // The Policy = "AdminOnly" part specifies that the authenticated user must also
+                                          // have the "AdminOnly" policy applied to their account, which typically means they have the 'Admin' role.
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
             try

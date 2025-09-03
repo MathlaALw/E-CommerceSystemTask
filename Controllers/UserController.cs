@@ -140,7 +140,7 @@ namespace E_CommerceSystem.Controllers
         public RefreshToken GenerateRefreshToken(string ipAddress)
         {
             // A secure way to generate cryptographic random numbers.
-            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            using (RNGCryptoServiceProvider rngCryptoServiceProvider = new RNGCryptoServiceProvider())
             {
                 // Creates a byte array to hold the random data for the token.
                 var randomBytes = new byte[64];
