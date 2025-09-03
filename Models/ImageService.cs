@@ -24,6 +24,11 @@
             if (!Directory.Exists(uploadsFolder)) // Check if the directory exists
                 Directory.CreateDirectory(uploadsFolder);
 
+            // Generate unique filename
+            var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+
 
 
         }
