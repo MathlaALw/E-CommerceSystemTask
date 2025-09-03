@@ -18,6 +18,8 @@ namespace E_CommerceSystem
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }//add RefreshTokens DbSet to ApplicationDbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
