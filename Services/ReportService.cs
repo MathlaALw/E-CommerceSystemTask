@@ -12,5 +12,10 @@ namespace E_CommerceSystem.Services
     {
         private readonly ApplicationDbContext _context; // Database context
 
+        public ReportService(ApplicationDbContext context) // Constructor with dependency injection
+        {
+            _context = context;
+        }
+
     }
 }
