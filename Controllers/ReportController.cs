@@ -28,7 +28,7 @@ namespace E_CommerceSystem.Controllers
         {
             try // Try-catch block for error handling
             {
-                var result = _reportService.GetBestSellingProducts(startDate, endDate, limit);
+                var result = _reportService.GetBestSellingProducts(startDate, endDate, limit); // Call the service method
                 return Ok(result);
             }
             catch (Exception ex)
