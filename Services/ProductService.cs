@@ -134,7 +134,7 @@ namespace E_CommerceSystem.Services
                 _productImageRepo.AddProductImage(mainImage); // Add image to the repository
 
                 // Update product's main image URL
-                product.MainImageUrl = imageUrl;
+                product.MainImageUrl = imageUrl; // Update main image URL
                 _productRepo.UpdateProduct(product);
             }
 
