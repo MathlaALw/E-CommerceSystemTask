@@ -15,6 +15,7 @@ namespace E_CommerceSystem.Controllers
     public class ReportController : ControllerBase // Inherits from ControllerBase
     {
         private readonly IReportService _reportService; // Report service dependency
+        private readonly ApplicationDbContext _context; // Database context
 
         public ReportController(IReportService reportService) // Constructor with dependency injection
         {
@@ -113,7 +114,7 @@ namespace E_CommerceSystem.Controllers
                     .Sum(r => r.TotalRevenue); // Sum the total revenue
 
                 // Total customers
-                var totalCustomers = _context.Users.Count(u => u.Role == "user"); // Count users with role 'user'
+                  var totalCustomers = _context.Users.Count(u => u.Role == "user"); // Count users with role 'user'
 
                 // Total orders this month
                 var monthOrders = _context.Orders // Query to get orders
@@ -139,3 +140,4 @@ namespace E_CommerceSystem.Controllers
 
         }
     }
+}
