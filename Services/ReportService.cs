@@ -63,7 +63,7 @@ namespace E_CommerceSystem.Services
             {
                 return orders // Query to group by month
                     .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month }) // Group by year and month
-                    .Select(g => new RevenueReportDTO
+                    .Select(g => new RevenueReportDTO // Select into DTO
                     {
                         Period = new DateTime(g.Key.Year, g.Key.Month, 1),
                         PeriodType = "Monthly",
