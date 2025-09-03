@@ -110,5 +110,28 @@ namespace E_CommerceSystem.Services
                 throw new KeyNotFoundException($"Product with Nmae {productName} not found.");
             return product;
         }
-    }
-}
+
+        public async Task AddProductWithImages(ProductDTO productDTO) // Add product with images
+        {
+            var product = _mapper.Map<Product>(productDTO);
+
+            // Add the product first
+            _productRepo.AddProduct(product);
+
+            // Handle main image
+            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
+            {
+                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products");
+
+                var mainImage = new ProductImage
+                {
+                    PID = product.PID,
+                    ImageUrl = imageUrl,
+                    IsMain = true,
+                    DisplayOrder = 0
+                };
+
+            }
+
+
+        }
