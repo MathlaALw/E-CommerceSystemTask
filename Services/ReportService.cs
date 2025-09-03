@@ -43,6 +43,23 @@ namespace E_CommerceSystem.Services
                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled) // Filter by date range and exclude cancelled orders
                .ToList(); // Execute the query and get the list
 
+            if (periodType.ToLower() == "daily") // Daily report
+            {
+                return orders
+                    .GroupBy(o => o.OrderDate.Date)
+                    .Select(g => new RevenueReportDTO
+                    {
+                        Period = g.Key,
+                        PeriodType = "Daily",
+                        TotalOrders = g.Count(),
+                        TotalRevenue = g.Sum(o => o.TotalAmount),
+                        AverageOrderValue = g.Average(o => o.TotalAmount)
+                    })
+                    .OrderBy(r => r.Period)
+                    .ToList();
+            }
+
+
 
 
 
