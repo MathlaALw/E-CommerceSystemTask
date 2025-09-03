@@ -53,6 +53,9 @@ namespace E_CommerceSystem.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 
+            // Creates a new JWT token instance.
+            var token = new JwtSecurityToken(
+
         }
 
 }
