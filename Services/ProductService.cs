@@ -221,6 +221,11 @@ namespace E_CommerceSystem.Services
         {
             _productImageRepo.SetMainImage(productId, imageId); // Update the main image in the repository
         }
+        public void DeleteProductImage(int imageId) // Delete a specific product image by its ID
+        {
+            _productImageRepo.DeleteProductImage(imageId); // Remove the image from the repository
+        }
+
 
 
 
