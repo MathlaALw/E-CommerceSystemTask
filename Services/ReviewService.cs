@@ -41,6 +41,7 @@ namespace E_CommerceSystem.Services
             return pagedProducts;
         }
 
+        // Get review by product id and user id
         public Review GetReviewsByProductIdAndUserId(int pid, int uid)
         {
             return _reviewRepo.GetReviewsByProductIdAndUserId(pid,uid);
