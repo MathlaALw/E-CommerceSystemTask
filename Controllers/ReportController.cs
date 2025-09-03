@@ -115,6 +115,9 @@ namespace E_CommerceSystem.Controllers
                 // Total customers
                 var totalCustomers = _context.Users.Count(u => u.Role == "user"); // Count users with role 'user'
 
+                // Total orders this month
+                var monthOrders = _context.Orders
+                    .Count(o => o.OrderDate >= monthStart && o.OrderDate <= monthEnd && o.Status != OrderStatus.Cancelled);
 
 
 
