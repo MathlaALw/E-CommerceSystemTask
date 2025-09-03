@@ -131,6 +131,7 @@ namespace E_CommerceSystem.Services
             RecalculateProductRating(review.PID);
         }
 
+        // Helper method to recalculate and update product rating
         private void RecalculateProductRating(int pid)
         {
             // get all reviews for the product
