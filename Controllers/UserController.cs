@@ -134,5 +134,8 @@ namespace E_CommerceSystem.Controllers
                 // Fills the byte array with cryptographically strong random bytes.
                 rngCryptoServiceProvider.GetBytes(randomBytes);
 
-            }
+                // Creates and returns a new RefreshToken object.
+                return new RefreshToken
+                {
+                }
         }
