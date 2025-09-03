@@ -117,5 +117,9 @@ namespace E_CommerceSystem.Services
 
             // Updates the cookie expiration to match the refresh token's expiration.
             cookieOptions.Expires = refreshToken.Expires;
+
+            // Appends the refresh token to the response cookies.
+            response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
         }
+    }
 }
