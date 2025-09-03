@@ -1,4 +1,7 @@
-﻿namespace E_CommerceSystem.Repositories
+﻿using E_CommerceSystem.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace E_CommerceSystem.Repositories
 {
     public class RefreshTokenRepo
     {
@@ -14,5 +17,6 @@
         // Adds a new refresh token to the database
         public void AddRefreshToken(RefreshToken refreshToken)
         {
+            _context.RefreshTokens.Add(refreshToken);   // Add entity to DbSet
         }
 }
