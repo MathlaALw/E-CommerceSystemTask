@@ -69,8 +69,8 @@
                 return false;
 
             // Check content type
-            var allowedContentTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp" };
-            if (!allowedContentTypes.Contains(imageFile.ContentType.ToLower()))
+            var allowedContentTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp" }; // Allowed MIME types
+            if (!allowedContentTypes.Contains(imageFile.ContentType.ToLower())) // Check if the content type is allowed
                 return false;
 
 
