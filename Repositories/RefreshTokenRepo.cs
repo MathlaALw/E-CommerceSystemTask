@@ -45,7 +45,7 @@ namespace E_CommerceSystem.Repositories
             token.ReplacedByToken = replacedByToken;      // If rotated, set replacement token
             _context.RefreshTokens.Update(token);         // Update token entity
             _context.SaveChanges();                       // Save changes
-
+        }
         // Revokes all descendant tokens in a token chain (rotation scenario)
          public void RevokeDescendantRefreshTokens(RefreshToken refreshToken, string ipAddress, string reason)
         {
