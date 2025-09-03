@@ -97,7 +97,7 @@ namespace E_CommerceSystem.Services
         {
             return _context.Orders // Query to get orders
                 .Include(o => o.user) // Include user details
-                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled)
+                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled) // Filter by date range and exclude cancelled orders
                 .GroupBy(o => new { o.UID, o.user.UName, o.user.Email })
                 .Select(g => new ActiveCustomerDTO
                 {
