@@ -41,7 +41,7 @@ namespace E_CommerceSystem.Services
         {
             var orders = _context.Orders // Query to get orders
                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled) // Filter by date range and exclude cancelled orders
-               .ToList();
+               .ToList(); // Execute the query and get the list
 
 
 
