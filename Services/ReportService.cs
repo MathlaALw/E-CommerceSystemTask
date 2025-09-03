@@ -88,7 +88,7 @@ namespace E_CommerceSystem.Services
                     ReviewCount = p.Reviews.Count // Number of Reviews
                 })
                 .OrderByDescending(p => p.AverageRating) // Order by average rating descending
-                .ThenByDescending(p => p.ReviewCount)
+                .ThenByDescending(p => p.ReviewCount) // Then by review count descending
                 .Take(limit)
                 .ToList();
         }
