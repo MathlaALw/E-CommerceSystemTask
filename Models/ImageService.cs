@@ -42,6 +42,13 @@
             if (string.IsNullOrEmpty(imageUrl))
                 return;
 
+            // Convert URL to physical path
+            var physicalPath = imageUrl.StartsWith("/")
+                ? Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/'))
+                : imageUrl;
+
+
+
 
 
 
