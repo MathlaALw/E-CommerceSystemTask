@@ -87,6 +87,12 @@ namespace E_CommerceSystem
                         };
                     });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+                options.AddPolicy("AdminOrManager", policy => policy.RequireRole("admin", "manager"));
+                options.AddPolicy("CustomerOnly", policy => policy.RequireRole("customer"));
+            });
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
