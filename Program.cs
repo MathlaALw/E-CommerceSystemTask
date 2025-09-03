@@ -4,6 +4,7 @@ using E_CommerceSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -19,8 +20,8 @@ namespace E_CommerceSystem
             builder.Services.AddControllers();
 
             // Add services to the container.
-            builder.Services.AddScoped<IUserRepo,UserRepo>();
-            builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
@@ -38,9 +39,6 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-            builder.Services.AddScoped<ISupplierRepo, SupplierRepo>();
-            builder.Services.AddScoped<ISupplierService, SupplierService>();
-
 
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -50,6 +48,9 @@ namespace E_CommerceSystem
 
             // Report Service
             builder.Services.AddScoped<IReportService, ReportService>();
+
+            // Invoice Service
+            builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -75,7 +76,26 @@ namespace E_CommerceSystem
                             ValidateIssuerSigningKey = true, // Ensures the token is properly signed.
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) // Match with your token generation key.
                         };
+
+                        // Extract token from cookie or header
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                // Try to get token from cookie first
+                                context.Token = context.Request.Cookies["accessToken"];
+
+                            }
+                        };
                     });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+                options.AddPolicy("AdminOrManager", policy => policy.RequireRole("admin", "manager"));
+                options.AddPolicy("CustomerOnly", policy => policy.RequireRole("customer"));
+            });
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

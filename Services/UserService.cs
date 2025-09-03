@@ -10,19 +10,22 @@ namespace E_CommerceSystem.Services
         private readonly IUserRepo _userRepo;
 
         // AutoMapper
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
 
         public UserService(IUserRepo userRepo, IMapper mapper) // constructor injection
         {
             _userRepo = userRepo;
-            _mapper=mapper;
+            _mapper = mapper;
         }
 
         // Add User
-        public void AddUser(UserDTO userDTO)
+        public void AddUser(User user)
         {
-            // Map DTO to Entity
-            var user = _mapper.Map<User>(userDTO);
+            // Validate role
+            var validRoles = new[] { "admin", "customer", "manager" };
+            if (!validRoles.Contains(user.Role.ToLower()))
+                throw new ArgumentException("Invalid role. Valid roles are: admin, customer, manager");
+
             _userRepo.AddUser(user);
         }
 

@@ -155,6 +155,28 @@ namespace E_CommerceSystem.Controllers
                 return StatusCode(500, $"An error occurred while updating order status. {(ex.Message)}");
             }
         }
+
+        // Send Invoice
+        [HttpPost("SendInvoice/{orderId}")]
+        public IActionResult SendInvoice(int orderId)
+        {
+            try
+            {
+                // Retrieve user ID from token
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var userId = GetUserIdFromToken(token);
+                int uid = int.Parse(userId);
+
+                _orderService.SendInvoiceEmail(orderId, uid);
+                return Ok("Invoice sent successfully to your email.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while sending the invoice. {(ex.Message)}");
+            }
+        }
+
+
     }
 
 

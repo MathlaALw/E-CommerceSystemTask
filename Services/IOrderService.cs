@@ -11,6 +11,7 @@ namespace E_CommerceSystem.Services
         IEnumerable<OrdersOutputOTD> GetOrderById(int oid, int uid);
         IEnumerable<Order> GetOrderByUserId(int uid);
         void PlaceOrder(List<OrderItemDTO> items, int uid);
+        void SendInvoiceEmail(int orderId, int userId);
         void UpdateOrder(Order order);
         void UpdateOrderStatus(int orderId, OrderStatus status, int userId);
     }
