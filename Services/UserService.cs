@@ -63,14 +63,14 @@ namespace E_CommerceSystem.Services
         }
 
         // Update User
-        public void UpdateUser(User user)
+        public void UpdateUser(int uid, UserDTO userDTO)
         {
-            var existingUser = _userRepo.GetUserById(user.UID);
-            if (existingUser == null)
-                throw new KeyNotFoundException($"User with ID {user.UID} not found.");
-
-            _userRepo.UpdateUser(user);
+            var user = _userRepo.GetUserById(uid);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {uid} not found.");
+           
         }
+
     }
 
 }
