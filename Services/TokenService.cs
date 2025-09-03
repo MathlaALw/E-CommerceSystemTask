@@ -70,8 +70,11 @@ namespace E_CommerceSystem.Services
         // Method to generate a cryptographically secure RefreshToken.
         public RefreshToken GenerateRefreshToken(string ipAddress)
         {
+            // Uses a secure random number generator. Note: RNGCryptoServiceProvider is obsolete.
+            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
 
-        }
+            }
 
 }
 }
