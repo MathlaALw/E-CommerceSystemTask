@@ -67,7 +67,11 @@ namespace E_CommerceSystem.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-    }
+        // Method to generate a cryptographically secure RefreshToken.
+        public RefreshToken GenerateRefreshToken(string ipAddress)
+        {
+
+        }
 
 }
 }
