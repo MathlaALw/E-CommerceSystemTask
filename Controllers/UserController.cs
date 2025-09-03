@@ -33,7 +33,7 @@ namespace E_CommerceSystem.Controllers
             _configuration = configuration;
             _mapper = mapper;
             _refreshTokenRepo = refreshTokenRepo; // Assigns the injected IRefreshTokenRepo instance to the private, read-only field.
-            _tokenService = tokenService;
+            _tokenService = tokenService; // Assigns the injected ITokenService instance to the private, read-only field
 
         }
 
