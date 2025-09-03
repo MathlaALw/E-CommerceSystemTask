@@ -51,6 +51,15 @@ namespace E_CommerceSystem.Repositories
                 throw new InvalidOperationException($"Database error: {ex.Message}");
             }
         }
+        public IEnumerable<ProductImage> GetProductImages(int productId) // Method to retrieve all images for a specific product
+        {
+            try
+            {
+                return _context.ProductImages
+                    .Where(pi => pi.PID == productId)
+                    .OrderBy(pi => pi.DisplayOrder)
+                    .ToList();
+            }
 
 
 
@@ -58,4 +67,4 @@ namespace E_CommerceSystem.Repositories
 
 
     }
-}
+    }
