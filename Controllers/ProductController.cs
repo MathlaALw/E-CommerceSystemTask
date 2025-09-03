@@ -39,7 +39,7 @@ namespace E_CommerceSystem.Controllers
 
         public async Task<IActionResult> AddNewProduct([FromForm] ProductDTO productInput) // Add product with images
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 // Authorization check
                 var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
