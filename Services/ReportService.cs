@@ -65,7 +65,7 @@ namespace E_CommerceSystem.Services
                     .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month }) // Group by year and month
                     .Select(g => new RevenueReportDTO // Select into DTO
                     {
-                        Period = new DateTime(g.Key.Year, g.Key.Month, 1), 
+                        Period = new DateTime(g.Key.Year, g.Key.Month, 1),
                         PeriodType = "Monthly",
                         TotalOrders = g.Count(),  // Total number of orders
                         TotalRevenue = g.Sum(o => o.TotalAmount), // Total revenue
@@ -74,18 +74,39 @@ namespace E_CommerceSystem.Services
                     .OrderBy(r => r.Period) // Order by period
                     .ToList(); // Execute the query and return the list
             }
-
-
-
-
-
-
-
-
-
+        }
+        // Get top-rated products
+        public IEnumerable<TopRatedProductDTO> GetTopRatedProducts(int limit = 10)
+        {
+            return _context.Products
+                .Where(p => p.Reviews.Count > 0)
+                .Select(p => new TopRatedProductDTO
+                {
+                    ProductId = p.PID,
+                    ProductName = p.ProductName,
+                    AverageRating = p.OverallRating,
+                    ReviewCount = p.Reviews.Count
+                })
+                .OrderByDescending(p => p.AverageRating)
+                .ThenByDescending(p => p.ReviewCount)
+                .Take(limit)
+                .ToList();
         }
 
 
+
+
+
+
+
+
+
+
+
+
     }
+
+
 }
+
 
