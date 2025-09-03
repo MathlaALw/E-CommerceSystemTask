@@ -4,6 +4,7 @@ namespace E_CommerceSystem.Services
 {
     public interface IEmailService
     {
+        void SendInvoiceEmail(Order order, byte[] invoicePdf);
         void SendOrderCancellationEmail(Order order);
         void SendOrderConfirmationEmail(Order order);
         void SendOrderStatusUpdateEmail(Order order, OrderStatus newStatus);

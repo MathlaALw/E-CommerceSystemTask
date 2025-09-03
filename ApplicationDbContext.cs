@@ -16,7 +16,7 @@ namespace E_CommerceSystem
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<ProductImage> ProductImages { get; set; } // DbSet for ProductImage entity
         public DbSet<Supplier> Suppliers { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }//add RefreshTokens DbSet to ApplicationDbContext

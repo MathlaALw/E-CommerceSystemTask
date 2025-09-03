@@ -16,10 +16,11 @@ namespace E_CommerceSystem.Services
         private readonly IOrderProductsService _orderProductsService;
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
+        private readonly IInvoiceService _invoiceService;
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService, IEmailService emailService)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService, IEmailService emailService, IInvoiceService invoiceService)
         {
             _orderRepo = orderRepo;
             _productService = productService;
@@ -27,6 +28,7 @@ namespace E_CommerceSystem.Services
             _mapper = mapper;
             _userService = userService;
             _emailService = emailService;
+            _invoiceService = invoiceService;
         }
 
         //get all orders for login user
@@ -234,6 +236,24 @@ namespace E_CommerceSystem.Services
 
         }
 
+
+        // Send invoice email
+        public void SendInvoiceEmail(int orderId, int userId)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+
+            if (order.UID != userId)
+                throw new UnauthorizedAccessException("You can only request invoices for your own orders.");
+
+            var invoiceData = _invoiceService.GetInvoiceData(orderId);
+            var pdfBytes = _invoiceService.GenerateInvoicePdf(invoiceData);
+
+            // Send email with invoice attachment
+            _emailService.SendInvoiceEmail(order, pdfBytes);
+        }
 
 
     }
