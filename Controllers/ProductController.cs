@@ -187,43 +187,43 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
-        [HttpPut("UpdateProduct/{productId}")]
-        public IActionResult UpdateProduct(int productId, ProductDTO productInput)
-        {
-            try
-            {
-                // Retrieve the Authorization header from the request
-                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        //[HttpPut("UpdateProduct/{productId}")]
+        //public IActionResult UpdateProduct(int productId, ProductDTO productInput)
+        //{
+        //    try
+        //    {
+        //        // Retrieve the Authorization header from the request
+        //        var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-                // Decode the token to check user role
-                var userRole = GetUserRoleFromToken(token);
+        //        // Decode the token to check user role
+        //        var userRole = GetUserRoleFromToken(token);
 
-                // Only allow Admin users to add products
-                if (userRole != "admin")
-                {
-                    return BadRequest("You are not authorized to perform this action.");
-                }
+        //        // Only allow Admin users to add products
+        //        if (userRole != "admin")
+        //        {
+        //            return BadRequest("You are not authorized to perform this action.");
+        //        }
 
-                if (productInput == null)
-                    return BadRequest("Product data is required.");
+        //        if (productInput == null)
+        //            return BadRequest("Product data is required.");
 
-                //var product = _productService.GetProductById(productId);
+        //        //var product = _productService.GetProductById(productId);
                 
-                //product.ProductName = productInput.ProductName;
-                //product.Price = productInput.Price;
-                //product.Description = productInput.Description;
-                //product.Stock = productInput.Stock;
+        //        //product.ProductName = productInput.ProductName;
+        //        //product.Price = productInput.Price;
+        //        //product.Description = productInput.Description;
+        //        //product.Stock = productInput.Stock;
                  
-                _productService.UpdateProduct(productId , productInput);
+        //        _productService.UpdateProduct(productId , productInput);
 
-                return Ok("Product updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Return a generic error response
-                return StatusCode(500, $"An error occurred while updte product. {(ex.Message)}");
-            }
-        }
+        //        return Ok("Product updated successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Return a generic error response
+        //        return StatusCode(500, $"An error occurred while updte product. {(ex.Message)}");
+        //    }
+        //}
 
        
         [AllowAnonymous]
