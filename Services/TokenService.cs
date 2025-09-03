@@ -22,5 +22,9 @@ namespace E_CommerceSystem.Services
         // Declares a method to set both JWT and RefreshToken as HTTP cookies on the response.
         void SetTokenCookies(HttpResponse response, string jwtToken, RefreshToken refreshToken);
 
+        // Declares a method to delete the token cookies from the HTTP response.
+        void RemoveTokenCookies(HttpResponse response);
     }
+
+}
 }
