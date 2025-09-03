@@ -94,5 +94,10 @@ namespace E_CommerceSystem.Controllers
 
         }
 
+        [HttpGet("DashboardSummary")] // Endpoint to get dashboard summary
+        public IActionResult GetDashboardSummary()
+        {
+
+
+        }
     }
-}
