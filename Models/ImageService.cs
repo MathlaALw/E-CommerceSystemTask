@@ -19,5 +19,12 @@
             if (!IsValidImage(imageFile)) // Validate the image file type
                 throw new ArgumentException("Invalid image file");
 
+            // Create uploads directory if it doesn't exist
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", subFolder);
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+
+
         }
     }
