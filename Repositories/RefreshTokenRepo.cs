@@ -56,6 +56,11 @@ namespace E_CommerceSystem.Repositories
 
                 if (childToken != null && childToken.IsActive)
                 {
+                    // If child is still active, revoke it
+                    RevokeRefreshToken(childToken, ipAddress, reason);
+                }
+                else if (childToken != null)
+                {
 
 
                 }
