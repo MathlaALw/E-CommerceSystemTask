@@ -17,5 +17,10 @@ namespace E_CommerceSystem.Services
             _context = context;
         }
 
+        public IEnumerable<BestSellingProductDTO> GetBestSellingProducts(DateTime startDate, DateTime endDate, int limit = 10) // Get best-selling products within a date range
+        { 
+        }
+
+
     }
 }
