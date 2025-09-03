@@ -56,7 +56,7 @@ namespace E_CommerceSystem.Services
                         AverageOrderValue = g.Average(o => o.TotalAmount) // Average order value
                     })
                     .OrderBy(r => r.Period) // Order by period
-                    .ToList();
+                    .ToList(); // Execute the query and return the list
             }
 
 
