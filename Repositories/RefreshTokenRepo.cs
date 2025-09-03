@@ -25,4 +25,5 @@ namespace E_CommerceSystem.Repositories
         public RefreshToken GetRefreshToken(string token)
         {
             return _context.RefreshTokens
+                  .Include(rt => rt.User)                 // Eager load related User entity
 }
