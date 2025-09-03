@@ -109,7 +109,7 @@ namespace E_CommerceSystem.Controllers
 
                 // This month's revenue
                 var monthRevenue = _reportService.GetRevenueReport(monthStart, monthEnd, "daily") // Call the service method
-                    .Sum(r => r.TotalRevenue);
+                    .Sum(r => r.TotalRevenue); // Sum the total revenue
 
 
 
