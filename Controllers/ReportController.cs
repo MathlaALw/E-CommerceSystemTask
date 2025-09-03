@@ -131,10 +131,11 @@ namespace E_CommerceSystem.Controllers
                     BestSellers = bestSellers // Best-selling products this month
                 });
 
-
-
-
-
             }
-    }
+            catch (Exception ex) // Catch any exceptions
+            {
+                return StatusCode(500, $"An error occurred while retrieving dashboard summary: {ex.Message}");
+            }
+
+        }
     }
