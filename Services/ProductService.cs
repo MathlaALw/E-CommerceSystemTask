@@ -155,7 +155,7 @@ namespace E_CommerceSystem.Services
                             DisplayOrder = order++ // Increment display order
                         };
 
-                        _productImageRepo.AddProductImage(productImage);
+                        _productImageRepo.AddProductImage(productImage); // Add image to the repository
                     }
                 }
             }
