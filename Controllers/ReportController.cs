@@ -33,7 +33,7 @@ namespace E_CommerceSystem.Controllers
             }
             catch (Exception ex) // Catch any exceptions
             {
-                return StatusCode(500, $"An error occurred while retrieving best selling products: {ex.Message}");
+                return StatusCode(500, $"An error occurred while retrieving best selling products: {ex.Message}"); // Return 500 Internal Server Error with the exception message
             }
 
 
