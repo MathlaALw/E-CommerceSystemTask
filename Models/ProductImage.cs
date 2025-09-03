@@ -17,7 +17,7 @@ namespace E_CommerceSystem.Models
         public int DisplayOrder { get; set; } // Order of display if multiple images exist
 
         [ForeignKey("Product")] // Foreign key to the Product entity
-        public int PID { get; set; }
+        public int PID { get; set; } // Foreign key to Product
 
         [JsonIgnore]
         public Product Product { get; set; }
