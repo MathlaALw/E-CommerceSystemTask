@@ -49,6 +49,9 @@ namespace E_CommerceSystem
             // Report Service
             builder.Services.AddScoped<IReportService, ReportService>();
 
+            // Invoice Service
+            builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

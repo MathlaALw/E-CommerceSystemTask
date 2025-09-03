@@ -108,6 +108,64 @@ namespace E_CommerceSystem.Services
                 Console.WriteLine($"Failed to send email: {ex.Message}");
             }
         }
+
+        // Send invoice email with PDF attachment
+        public void SendInvoiceEmail(Order order, byte[] invoicePdf)
+        {
+            var user = _userService.GetUserById(order.UID);
+            var subject = $"Your Invoice - Order #{order.OID}";
+            var body = $@"
+        <h2>Your Order Invoice</h2>
+        <p>Attached is the invoice for your order #{order.OID}.</p>
+        <p><strong>Order Total:</strong> ${order.TotalAmount}</p>
+        <p><strong>Order Date:</strong> {order.OrderDate.ToString("f")}</p>
+        <p>Thank you for shopping with us!</p>
+    ";
+
+            SendEmailWithAttachment(user.Email, subject, body, invoicePdf, $"Invoice-{order.OID}.pdf");
+        }
+
+        private void SendEmailWithAttachment(string toEmail, string subject, string body, byte[] attachment, string attachmentName)
+        {
+            try
+            {
+                var smtpSettings = _configuration.GetSection("SmtpSettings");
+                var fromEmail = smtpSettings["FromEmail"];
+                var password = smtpSettings["Password"];
+                var host = smtpSettings["Host"];
+                var port = int.Parse(smtpSettings["Port"]);
+                var enableSsl = bool.Parse(smtpSettings["EnableSsl"]);
+
+                using (var client = new SmtpClient(host, port))
+                {
+                    client.Credentials = new NetworkCredential(fromEmail, password);
+                    client.EnableSsl = enableSsl;
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(fromEmail),
+                        Subject = subject,
+                        Body = body,
+                        IsBodyHtml = true
+                    };
+                    mailMessage.To.Add(toEmail);
+
+                    // Add attachment
+                    using (var stream = new MemoryStream(attachment))
+                    {
+                        var attachmentItem = new Attachment(stream, attachmentName, "application/pdf");
+                        mailMessage.Attachments.Add(attachmentItem);
+
+                        client.Send(mailMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log email sending error
+                Console.WriteLine($"Failed to send email with attachment: {ex.Message}");
+            }
+        }
     }
 }
 
