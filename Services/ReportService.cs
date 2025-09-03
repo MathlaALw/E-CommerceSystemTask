@@ -25,6 +25,13 @@ namespace E_CommerceSystem.Services
                 .Where(op => op.Order.OrderDate >= startDate && op.Order.OrderDate <= endDate) // Filter by date range
                 .GroupBy(op => new { op.PID, op.product.ProductName }) // Group by product ID and name
                 .Select(g => new BestSellingProductDTO // Select into DTO
+                {
+                    ProductId = g.Key.PID, // Product ID
+                    ProductName = g.Key.ProductName,
+                    TotalQuantitySold = g.Sum(op => op.Quantity),
+                    TotalRevenue = g.Sum(op => op.Quantity * op.product.Price)
+                })
+
                 
 
         }
