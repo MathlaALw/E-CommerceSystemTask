@@ -90,6 +90,21 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
+        [HttpGet("GetProductImages/{productId}")] // Get images for a specific product
+        [AllowAnonymous]
+        public IActionResult GetProductImages(int productId)
+        {
+            try
+            {
+                var images = _productService.GetProductImages(productId);
+                return Ok(images);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while retrieving product images. {ex.Message}");
+            }
+        }
+
 
 
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
