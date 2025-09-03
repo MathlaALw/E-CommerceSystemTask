@@ -19,6 +19,13 @@ namespace E_CommerceSystem.Services
 
         public IEnumerable<BestSellingProductDTO> GetBestSellingProducts(DateTime startDate, DateTime endDate, int limit = 10) // Get best-selling products within a date range
         { 
+               return _context.OrderProducts // Query to get best-selling products
+                .Include(op => op.product)
+                .Include(op => op.Order)
+                .Where(op => op.Order.OrderDate >= startDate && op.Order.OrderDate <= endDate)
+                .GroupBy(op => new { op.PID, op.product.ProductName })
+                .Select(g => new BestSellingProductDTO
+
         }
 
 
