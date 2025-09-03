@@ -90,7 +90,7 @@ namespace E_CommerceSystem.Services
                 .OrderByDescending(p => p.AverageRating) // Order by average rating descending
                 .ThenByDescending(p => p.ReviewCount) // Then by review count descending
                 .Take(limit) // Limit the number of results
-                .ToList();
+                .ToList(); // Execute the query and return the list
         }
 
 
