@@ -99,7 +99,7 @@ namespace E_CommerceSystem.Controllers
                 var images = _productService.GetProductImages(productId);
                 return Ok(images);
             }
-            catch (Exception ex)
+            catch (Exception ex) // Catch any exceptions that occur during the process
             {
                 return StatusCode(500, $"An error occurred while retrieving product images. {ex.Message}");
             }
