@@ -63,9 +63,14 @@
                 return false;
 
             // Check file extension
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
-            var fileExtension = Path.GetExtension(imageFile.FileName).ToLower();
-            if (!allowedExtensions.Contains(fileExtension))
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" }; // Allowed image extensions
+            var fileExtension = Path.GetExtension(imageFile.FileName).ToLower(); // Get file extension in lowercase
+            if (!allowedExtensions.Contains(fileExtension)) // Check if the extension is allowed
+                return false;
+
+            // Check content type
+            var allowedContentTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp" };
+            if (!allowedContentTypes.Contains(imageFile.ContentType.ToLower()))
                 return false;
 
 
