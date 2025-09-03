@@ -62,7 +62,7 @@ namespace E_CommerceSystem.Controllers
 
         }
         [HttpGet("TopRatedProducts")] // Endpoint to get top-rated products
-        public IActionResult GetTopRatedProducts([FromQuery] int limit = 10)
+        public IActionResult GetTopRatedProducts([FromQuery] int limit = 10) // Get top-rated products
         {
 
         }
