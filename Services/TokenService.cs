@@ -37,6 +37,8 @@ namespace E_CommerceSystem.Services
                  // Adds the user's unique identifier (UID) as the 'sub' (subject) claim.
             new Claim(JwtRegisteredClaimNames.Sub, user.UID.ToString()),
 
+             // Adds the user's name as the 'name' claim.
+            new Claim(JwtRegisteredClaimNames.Name, user.UName),
         }
 
 }
