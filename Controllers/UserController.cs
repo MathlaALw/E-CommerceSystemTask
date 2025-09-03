@@ -187,7 +187,8 @@ namespace E_CommerceSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while logging out. {ex.Message}");
+                return StatusCode(500, $"An error occurred while logging out. {ex.Message}");// Catches any exceptions that occur during the logout process.
+                                                                                             // Returns a 500 Internal Server Error status with a descriptive error message.
             }
         }
 
