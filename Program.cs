@@ -39,6 +39,10 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+            builder.Services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>(); // Registers IRefreshTokenRepo and its concrete implementation, RefreshTokenRepo, with the dependency injection container.
+                                                                               // The 'AddScoped' lifetime means a new instance of RefreshTokenRepo will be created for each incoming HTTP request.
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
 
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
