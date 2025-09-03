@@ -33,6 +33,10 @@ namespace E_CommerceSystem
               .HasOne(p => p.Categoty)
               .WithMany(c => c.Products)
               .HasForeignKey(p => p.CategoryId);
+
+            modelBuilder.Entity<Order>()
+                        .Property(o => o.Status)
+                        .HasConversion<string>();
         }
     }
 }

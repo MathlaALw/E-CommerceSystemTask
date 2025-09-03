@@ -4,6 +4,7 @@ using E_CommerceSystem;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250903072038_addOrderStatus")]
+    partial class addOrderStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,10 +111,6 @@ namespace E_CommerceSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MainImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("OverallRating")
                         .HasColumnType("decimal(18,2)");
 
@@ -135,34 +134,6 @@ namespace E_CommerceSystem.Migrations
                     b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("E_CommerceSystem.Models.ProductImage", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
-
-                    b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImageId");
-
-                    b.HasIndex("PID");
-
-                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("E_CommerceSystem.Models.Review", b =>
@@ -311,17 +282,6 @@ namespace E_CommerceSystem.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("E_CommerceSystem.Models.ProductImage", b =>
-                {
-                    b.HasOne("E_CommerceSystem.Models.Product", "Product")
-                        .WithMany("ProductImages")
-                        .HasForeignKey("PID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("E_CommerceSystem.Models.Review", b =>
                 {
                     b.HasOne("E_CommerceSystem.Models.Product", "product")
@@ -354,8 +314,6 @@ namespace E_CommerceSystem.Migrations
             modelBuilder.Entity("E_CommerceSystem.Models.Product", b =>
                 {
                     b.Navigation("OrderProducts");
-
-                    b.Navigation("ProductImages");
 
                     b.Navigation("Reviews");
                 });

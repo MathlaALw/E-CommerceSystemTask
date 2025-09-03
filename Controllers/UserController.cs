@@ -39,11 +39,11 @@ namespace E_CommerceSystem.Controllers
 
         [AllowAnonymous]
         [HttpPost("Register")]
-        public IActionResult Register(UserDTO InputUser)
+        public IActionResult Register(User user)
         {
             try
             {
-                if (InputUser == null)
+                if(InputUser == null)
                     return BadRequest("User data is required");
 
                 //var user = new User
@@ -55,8 +55,9 @@ namespace E_CommerceSystem.Controllers
                 //    Phone = InputUser.Phone,
                 //    CreatedAt = DateTime.Now
                 //};
-                var user = _mapper.Map<User>(InputUser);
-                _userService.AddUser(user);
+                var users = _mapper.Map<User>(user);
+                //_userService.AddUser(users);
+                //_userService.AddUser(users);
 
                 return Ok(user);
             }

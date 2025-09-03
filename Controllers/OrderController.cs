@@ -115,6 +115,46 @@ namespace E_CommerceSystem.Controllers
 
             throw new UnauthorizedAccessException("Invalid or unreadable token.");
         }
+
+        [HttpPost("CancelOrder/{orderId}")]
+        public IActionResult CancelOrder(int orderId)
+        {
+            try
+            {
+                // Retrieve user ID from token
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var userId = GetUserIdFromToken(token);
+                int uid = int.Parse(userId);
+
+                _orderService.CancelOrder(orderId, uid);
+                return Ok("Order cancelled successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while cancelling order. {(ex.Message)}");
+            }
+        }
+
+        // Update Order Status - Admin only
+        [HttpPost("UpdateOrderStatus/{orderId}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult UpdateOrderStatus(int orderId, [FromBody] OrderStatus status)
+        {
+            try
+            {
+                // Retrieve user ID from token
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var userId = GetUserIdFromToken(token);
+                int uid = int.Parse(userId);
+
+                _orderService.UpdateOrderStatus(orderId, status, uid);
+                return Ok("Order status updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating order status. {(ex.Message)}");
+            }
+        }
     }
 
 

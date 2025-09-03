@@ -3,6 +3,7 @@ using E_CommerceSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceSystem.Services
 {
@@ -79,10 +80,23 @@ namespace E_CommerceSystem.Services
         // Update Product Object
         public void UpdateProduct(Product product)
         {
-            var existingProduct = _productRepo.GetProductById(product.PID);
-            if (existingProduct == null)
-                throw new KeyNotFoundException($"Product with ID {product.PID} not found.");
-            _productRepo.UpdateProduct(product);
+            try
+            {
+                var existingProduct = _productRepo.GetProductById(product.PID);
+                if (existingProduct == null)
+                    throw new KeyNotFoundException($"Product with ID {product.PID} not found.");
+
+                // Check if the RowVersion matches (concurrency check)
+                if (!existingProduct.RowVersion.SequenceEqual(product.RowVersion))
+                    throw new DbUpdateConcurrencyException("The product was modified by another user. Please refresh and try again.");
+
+                _productRepo.UpdateProduct(product);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                // Handle concurrency conflict
+                throw;
+            }
         }
         public Product GetProductByName(string productName)
         {
