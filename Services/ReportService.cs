@@ -27,7 +27,7 @@ namespace E_CommerceSystem.Services
                 .Select(g => new BestSellingProductDTO // Select into DTO
                 {
                     ProductId = g.Key.PID, // Product ID
-                    ProductName = g.Key.ProductName,
+                    ProductName = g.Key.ProductName, // Product Name
                     TotalQuantitySold = g.Sum(op => op.Quantity),
                     TotalRevenue = g.Sum(op => op.Quantity * op.product.Price)
                 })
