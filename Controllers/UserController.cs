@@ -22,7 +22,8 @@ namespace E_CommerceSystem.Controllers
         private readonly IMapper _mapper;
         private readonly IRefreshTokenRepo _refreshTokenRepo; // A private, read-only field that holds a reference to the refresh token repository.
                                                               // The 'readonly' keyword ensures this reference can only be set in the constructor.
-        private readonly ITokenService _tokenService;
+        private readonly ITokenService _tokenService; // A private, read-only field that holds a reference to the token service.
+                                                      // This is used to call methods for generating, setting, or removing tokens.
 
 
         public UserController(IUserService userService, IConfiguration configuration, IMapper mapper)
