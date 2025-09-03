@@ -217,6 +217,10 @@ namespace E_CommerceSystem.Services
         {
             return _productImageRepo.GetProductImages(productId); // Retrieve images from the repository
         }
+        public void SetMainProductImage(int productId, int imageId) // Set a specific image as the main image for a product
+        {
+            _productImageRepo.SetMainImage(productId, imageId); // Update the main image in the repository
+        }
 
 
 
