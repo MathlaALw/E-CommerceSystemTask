@@ -1,4 +1,5 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper;
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -13,6 +14,8 @@ namespace E_CommerceSystem.Services
         private readonly IOrderRepo _orderRepo;
         private readonly IProductService _productService;
         private readonly IOrderProductsService _orderProductsService;
+
+        private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
         public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService)
         {
