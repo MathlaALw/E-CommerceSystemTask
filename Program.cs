@@ -41,7 +41,8 @@ namespace E_CommerceSystem
 
             builder.Services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>(); // Registers IRefreshTokenRepo and its concrete implementation, RefreshTokenRepo, with the dependency injection container.
                                                                                // The 'AddScoped' lifetime means a new instance of RefreshTokenRepo will be created for each incoming HTTP request.
-            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<ITokenService, TokenService>(); // Registers ITokenService and its concrete implementation, TokenService, with the dependency injection container.
+                                                                       // 'AddScoped' ensures that a single instance of TokenService is shared throughout the lifetime of a single request.
 
 
             // Add AutoMapper
