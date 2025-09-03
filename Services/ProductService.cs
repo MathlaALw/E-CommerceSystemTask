@@ -180,7 +180,7 @@ namespace E_CommerceSystem.Services
                 if (oldMainImage != null) // If old main image exists
                 {
                     _imageService.DeleteImage(oldMainImage.ImageUrl); // Delete physical file
-                    _productImageRepo.DeleteProductImage(oldMainImage.ImageId);
+                    _productImageRepo.DeleteProductImage(oldMainImage.ImageId); // Remove from repository
                 }
 
                 // Save new main image
