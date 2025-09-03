@@ -10,6 +10,7 @@ namespace E_CommerceSystem.Repositories
                                                                                                         // Descendant tokens are those created from a previous token in the same chain.
         void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null); // Revokes a single refresh token, optionally noting what token replaced it.
                                                                                                                             // This method is useful for invalidating a specific token
-        void UpdateRefreshToken(RefreshToken refreshToken);
+        void UpdateRefreshToken(RefreshToken refreshToken);  // Updates an existing refresh token in the repository.
+                                                             // This is typically used to update properties like the expiration date or replacement token.
     }
 }
