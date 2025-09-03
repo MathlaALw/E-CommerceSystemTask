@@ -25,6 +25,8 @@ namespace E_CommerceSystem.Services
             _orderService = orderService;
             _mapper = mapper;
         }
+
+        // Get all reviews with pagination
         public IEnumerable<Review> GetAllReviews(int pageNumber, int pageSize,int pid)
         {
             // Base query
