@@ -11,7 +11,7 @@ using System.Text;
 
 namespace E_CommerceSystem.Services
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         // A private field to hold the application's configuration settings.
         private readonly IConfiguration _configuration;
