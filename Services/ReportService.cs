@@ -52,7 +52,7 @@ namespace E_CommerceSystem.Services
                         Period = g.Key, // Period (day)
                         PeriodType = "Daily",
                         TotalOrders = g.Count(), // Total number of orders
-                        TotalRevenue = g.Sum(o => o.TotalAmount),
+                        TotalRevenue = g.Sum(o => o.TotalAmount), // Total revenue
                         AverageOrderValue = g.Average(o => o.TotalAmount)
                     })
                     .OrderBy(r => r.Period)
