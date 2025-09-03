@@ -69,7 +69,7 @@ namespace E_CommerceSystem.Repositories
         {
             try // Try-catch block to handle potential exceptions
             {
-                _context.ProductImages.Update(productImage);
+                _context.ProductImages.Update(productImage); // Update the product image in the context
                 _context.SaveChanges();
             }
 
