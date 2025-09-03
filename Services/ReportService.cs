@@ -93,6 +93,29 @@ namespace E_CommerceSystem.Services
                 .ToList(); // Execute the query and return the list
         }
 
+        public IEnumerable<ActiveCustomerDTO> GetMostActiveCustomers(DateTime startDate, DateTime endDate, int limit = 10) // Get most active customers within a date range
+        {
+            return _context.Orders
+                .Include(o => o.user)
+                .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled)
+                .GroupBy(o => new { o.UID, o.user.UName, o.user.Email })
+                .Select(g => new ActiveCustomerDTO
+                {
+                    UserId = g.Key.UID,
+                    UserName = g.Key.UName,
+                    Email = g.Key.Email,
+                    OrderCount = g.Count(),
+                    TotalSpent = g.Sum(o => o.TotalAmount)
+                })
+                .OrderByDescending(c => c.TotalSpent)
+                .ThenByDescending(c => c.OrderCount)
+                .Take(limit)
+                .ToList();
+        }
+    }
+}
+
+
 
 
 
