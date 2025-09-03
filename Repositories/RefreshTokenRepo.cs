@@ -20,4 +20,9 @@ namespace E_CommerceSystem.Repositories
             _context.RefreshTokens.Add(refreshToken);   // Add entity to DbSet
             _context.SaveChanges();                     // Save changes to database
         }
+
+        // Retrieves a refresh token by its token string, including related User
+        public RefreshToken GetRefreshToken(string token)
+        {
+            return _context.RefreshTokens
 }
