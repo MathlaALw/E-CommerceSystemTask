@@ -63,7 +63,11 @@ namespace E_CommerceSystem.Services
             signingCredentials: creds
         );
 
+            // Uses a JwtSecurityTokenHandler to serialize and return the token as a string.
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+    }
 
 }
 }
