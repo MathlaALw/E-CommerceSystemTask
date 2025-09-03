@@ -109,7 +109,7 @@ namespace E_CommerceSystem.Controllers
         [Authorize(Roles = "admin")] // Only admin can set main image
         public IActionResult SetMainImage(int productId, int imageId) // Set main image for a product
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 _productService.SetMainProductImage(productId, imageId);
                 return Ok("Main image set successfully.");
