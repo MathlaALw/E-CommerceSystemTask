@@ -18,5 +18,9 @@ namespace E_CommerceSystem.Services
 
         // Declares a method to generate a new RefreshToken.
         RefreshToken GenerateRefreshToken(string ipAddress);
+
+        // Declares a method to set both JWT and RefreshToken as HTTP cookies on the response.
+        void SetTokenCookies(HttpResponse response, string jwtToken, RefreshToken refreshToken);
+
     }
 }
