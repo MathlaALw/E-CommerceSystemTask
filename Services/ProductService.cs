@@ -14,11 +14,14 @@ namespace E_CommerceSystem.Services
         private readonly IImageService _imageService; // For handling image file operations
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepo productRepo, IMapper mapper)
+        public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper)
         {
             _productRepo = productRepo;
+            _productImageRepo = productImageRepo;
+            _imageService = imageService;
             _mapper = mapper;
         }
+
 
 
         public IEnumerable<Product> GetAllProducts(int pageNumber, int pageSize, string? name = null, decimal? minPrice = null, decimal? maxPrice = null)
