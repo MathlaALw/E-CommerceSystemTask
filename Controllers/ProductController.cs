@@ -92,7 +92,7 @@ namespace E_CommerceSystem.Controllers
 
         [HttpGet("GetProductImages/{productId}")] // Get images for a specific product
         [AllowAnonymous]
-        public IActionResult GetProductImages(int productId)
+        public IActionResult GetProductImages(int productId) // Get images for a specific product
         {
             try
             {
