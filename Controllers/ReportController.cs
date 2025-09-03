@@ -36,9 +36,17 @@ namespace E_CommerceSystem.Controllers
                 return StatusCode(500, $"An error occurred while retrieving best selling products: {ex.Message}"); // Return 500 Internal Server Error with the exception message
             }
 
-
         }
 
+        [HttpGet("RevenueReport")] // Endpoint to get revenue report
+        public IActionResult GetRevenueReport(
+            [FromQuery] DateTime startDate,
+            [FromQuery] DateTime endDate,
+            [FromQuery] string periodType = "daily")
+        {
 
+
+
+        }
     }
-}
+    }
