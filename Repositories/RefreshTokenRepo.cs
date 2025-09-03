@@ -9,5 +9,10 @@
         {
             _context = context;
         }
-    }
+
+
+        // Adds a new refresh token to the database
+        public void AddRefreshToken(RefreshToken refreshToken)
+        {
+        }
 }
