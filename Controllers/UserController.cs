@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using System.Security.Cryptography;
+using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Controllers
 {
@@ -19,6 +20,10 @@ namespace E_CommerceSystem.Controllers
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IRefreshTokenRepo _refreshTokenRepo; // A private, read-only field that holds a reference to the refresh token repository.
+                                                              // The 'readonly' keyword ensures this reference can only be set in the constructor.
+        private readonly ITokenService _tokenService;
+
 
         public UserController(IUserService userService, IConfiguration configuration, IMapper mapper)
         {
