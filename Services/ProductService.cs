@@ -145,7 +145,7 @@ namespace E_CommerceSystem.Services
                 {
                     if (_imageService.IsValidImage(additionalImage)) // Validate the image
                     {
-                        var imageUrl = await _imageService.SaveImageAsync(additionalImage, "products");
+                        var imageUrl = await _imageService.SaveImageAsync(additionalImage, "products"); // Save image and get URL
 
                         var productImage = new ProductImage
                         {
