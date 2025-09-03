@@ -125,7 +125,7 @@ namespace E_CommerceSystem.Controllers
         [Authorize(Roles = "admin")] // Only admin can delete images
         public IActionResult DeleteImage(int imageId) // Delete an image by its ID
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 _productService.DeleteProductImage(imageId);
                 return Ok("Image deleted successfully.");
