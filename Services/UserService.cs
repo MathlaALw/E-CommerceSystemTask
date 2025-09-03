@@ -18,6 +18,7 @@ namespace E_CommerceSystem.Services
             _mapper=mapper;
         }
 
+        // Add User
         public void AddUser(User user)
         {
             _userRepo.AddUser(user);
