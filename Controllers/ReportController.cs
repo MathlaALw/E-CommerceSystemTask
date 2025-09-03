@@ -85,7 +85,11 @@ namespace E_CommerceSystem.Controllers
             try // Try-catch block for error handling
             {
                 var result = _reportService.GetMostActiveCustomers(startDate, endDate, limit); // Call the service method
-                return Ok(result);
+                return Ok(result); // Return 200 OK with the result
+            }
+            catch (Exception ex) // Catch any exceptions
+            {
+                return StatusCode(500, $"An error occurred while retrieving active customers: {ex.Message}");
             }
 
         }
