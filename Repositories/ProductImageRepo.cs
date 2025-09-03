@@ -86,7 +86,7 @@ namespace E_CommerceSystem.Repositories
                 var images = _context.ProductImages.Where(pi => pi.PID == productId).ToList();
                 foreach (var image in images) // Loop through each image
                 {
-                    image.IsMain = (image.ImageId == imageId);
+                    image.IsMain = (image.ImageId == imageId); // Set IsMain to true for the specified image, false for others
                 }
 
 
