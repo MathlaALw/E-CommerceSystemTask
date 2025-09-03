@@ -94,7 +94,7 @@ namespace E_CommerceSystem.Controllers
         [AllowAnonymous]
         public IActionResult GetProductImages(int productId) // Get images for a specific product
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 var images = _productService.GetProductImages(productId);
                 return Ok(images);
