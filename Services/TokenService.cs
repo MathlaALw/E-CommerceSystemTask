@@ -84,6 +84,8 @@ namespace E_CommerceSystem.Services
                 {
                     // Converts the random bytes to a Base64 string for the token value.
                     Token = Convert.ToBase64String(randomBytes),
+                    // Sets the token's expiration to 7 days from the current UTC time.
+                    Expires = DateTime.UtcNow.AddDays(7),
                 }
 
 }
