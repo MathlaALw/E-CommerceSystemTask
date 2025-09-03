@@ -19,8 +19,8 @@ namespace E_CommerceSystem.Models
         [ForeignKey("Product")] // Foreign key to the Product entity
         public int PID { get; set; } // Foreign key to Product
 
-        [JsonIgnore]
-        public Product Product { get; set; }
+        [JsonIgnore] // To prevent circular references during serialization
+        public Product Product { get; set; } // Navigation property to the Product
 
     }
 }
