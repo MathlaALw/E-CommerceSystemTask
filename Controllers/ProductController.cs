@@ -45,7 +45,7 @@ namespace E_CommerceSystem.Controllers
                 var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); // Retrieve the Authorization header from the request
                 var userRole = GetUserRoleFromToken(token); // Decode the token to check user role
 
-                if (userRole != "admin")
+                if (userRole != "admin") // Only allow Admin users to add products
                 {
                     return BadRequest("You are not authorized to perform this action.");
                 }
