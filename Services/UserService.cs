@@ -19,10 +19,13 @@ namespace E_CommerceSystem.Services
         }
 
         // Add User
-        public void AddUser(User user)
+        public void AddUser(UserDTO userDTO)
         {
+            // Map DTO to Entity
+            var user = _mapper.Map<User>(userDTO);
             _userRepo.AddUser(user);
         }
+
         public void DeleteUser(int uid)
         {
             var user = _userRepo.GetUserById(uid);
