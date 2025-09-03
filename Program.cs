@@ -45,8 +45,13 @@ namespace E_CommerceSystem
             // Email Service
             builder.Services.AddScoped<IEmailService, EmailService>();
 
+            // Report Service
+            builder.Services.AddScoped<IReportService, ReportService>();
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+           
 
             // Add JWT Authentication
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
