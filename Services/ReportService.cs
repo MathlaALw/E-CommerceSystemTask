@@ -45,7 +45,7 @@ namespace E_CommerceSystem.Services
 
             if (periodType.ToLower() == "daily") // Daily report
             {
-                return orders
+                return orders // Query to group by day
                     .GroupBy(o => o.OrderDate.Date)
                     .Select(g => new RevenueReportDTO
                     {
