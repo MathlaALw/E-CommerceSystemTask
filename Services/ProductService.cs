@@ -171,7 +171,7 @@ namespace E_CommerceSystem.Services
             _mapper.Map(productDTO, existingProduct); // Map updated fields from DTO to entity
 
             // Handle new main image
-            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
+            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image)) // New main image provided
             {
                 // Delete old main image if exists
                 var oldMainImage = _productImageRepo.GetProductImages(productId)
