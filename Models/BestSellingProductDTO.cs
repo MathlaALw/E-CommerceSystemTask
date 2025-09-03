@@ -8,5 +8,7 @@
 
         public int TotalQuantitySold { get; set; } // Total Quantity Sold
 
+        public decimal TotalRevenue { get; set; } // Total Revenue Generated
+
     }
 }
