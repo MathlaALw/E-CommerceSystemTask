@@ -55,7 +55,7 @@ namespace E_CommerceSystem.Repositories
         {
             try // Try-catch block to handle potential exceptions
             {
-                return _context.ProductImages
+                return _context.ProductImages // Retrieve images for the specified product
                     .Where(pi => pi.PID == productId)
                     .OrderBy(pi => pi.DisplayOrder)
                     .ToList();
