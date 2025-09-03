@@ -35,6 +35,8 @@ namespace E_CommerceSystem.Services
 
             _userRepo.DeleteUser(uid);
         }
+
+        // Get All Users
         public IEnumerable<User> GetAllUsers()
         {
             return _userRepo.GetAllUsers();
