@@ -127,11 +127,18 @@ namespace E_CommerceSystem.Services
                 {
                     PID = product.PID, // Associate with the newly created product
                     ImageUrl = imageUrl, // Set image URL
-                    IsMain = true,
-                    DisplayOrder = 0
+                    IsMain = true, // Set as main image
+                    DisplayOrder = 0 // Set display order
                 };
 
+                _productImageRepo.AddProductImage(mainImage); // Add image to the repository
+
+                // Update product's main image URL
+                product.MainImageUrl = imageUrl;
+                _productRepo.UpdateProduct(product);
             }
 
-
         }
+
+
+    }
