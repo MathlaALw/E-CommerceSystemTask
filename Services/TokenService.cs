@@ -57,6 +57,8 @@ namespace E_CommerceSystem.Services
             var token = new JwtSecurityToken(
             // Sets the claims for the token.
             claims: claims,
+            // Sets the token's expiration time based on the configured ExpiryInMinutes.
+            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryInMinutes"])),
 
         }
 
