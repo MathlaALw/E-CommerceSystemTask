@@ -42,8 +42,19 @@ namespace E_CommerceSystem.Controllers
         public IActionResult GetRevenueReport( // Get revenue report within a date range
             [FromQuery] DateTime startDate, // Start date from query parameters
             [FromQuery] DateTime endDate, // End date from query parameters
-            [FromQuery] string periodType = "daily")
+            [FromQuery] string periodType = "daily") // Period type (daily, weekly, monthly)
         {
+            try // Try-catch block for error handling
+            {
+                if (periodType.ToLower() != "daily" && periodType.ToLower() != "monthly")
+                {
+                    return BadRequest("Period type must be 'daily' or 'monthly'.");
+                }
+
+                var result = _reportService.GetRevenueReport(startDate, endDate, periodType);
+                return Ok(result);
+            }
+
 
 
 
