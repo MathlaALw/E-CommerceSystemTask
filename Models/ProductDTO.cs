@@ -16,5 +16,10 @@ namespace E_CommerceSystem.Models
         [Required]
         [Range(0, int.MaxValue)]
         public int Stock { get; set; }
+
+        // For image upload
+        public IFormFile Image { get; set; }
+        public List<IFormFile> AdditionalImages { get; set; }
+
     }
 }
