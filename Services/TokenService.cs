@@ -75,6 +75,9 @@ namespace E_CommerceSystem.Services
             {
                 // Creates a byte array to hold the random token data.
                 var randomBytes = new byte[64];
+
+                // Fills the byte array with cryptographically strong random data.
+                rngCryptoServiceProvider.GetBytes(randomBytes);
             }
 
 }
