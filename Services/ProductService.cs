@@ -164,7 +164,7 @@ namespace E_CommerceSystem.Services
 
         public async Task UpdateProductWithImages(int productId, ProductDTO productDTO) // Update product with images
         {
-            var existingProduct = _productRepo.GetProductById(productId);
+            var existingProduct = _productRepo.GetProductById(productId); // Get existing product
             if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {productId} not found.");
 
