@@ -146,5 +146,9 @@ namespace E_CommerceSystem.Controllers
                     // Records the exact time the token was created in UTC.
                     Created = DateTime.UtcNow,
 
-                }
+                    // Stores the IP address from which the token was created.
+                    CreatedByIp = ipAddress
+                };
+
+            }
         }
