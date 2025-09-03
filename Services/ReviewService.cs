@@ -119,6 +119,8 @@ namespace E_CommerceSystem.Services
             
             RecalculateProductRating(review.Rating);
         }
+
+        // Delete review
         public void DeleteReview(int rid)
         {
             var review = _reviewRepo.GetReviewById(rid);
