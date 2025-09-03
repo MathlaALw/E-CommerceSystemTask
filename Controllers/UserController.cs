@@ -43,7 +43,7 @@ namespace E_CommerceSystem.Controllers
         {
             try
             {
-                if(InputUser == null)
+                if(user == null)
                     return BadRequest("User data is required");
 
                 //var user = new User

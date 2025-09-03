@@ -1,12 +1,15 @@
 ﻿using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.DataProtection;
 
 
 namespace E_CommerceSystem.Services
@@ -15,11 +18,13 @@ namespace E_CommerceSystem.Services
     {
         // A private field to hold the application's configuration settings.
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
         // Constructor for the TokenService, injecting the IConfiguration dependency.
-        public TokenService(IConfiguration configuration)
+        public TokenService(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
         }
         // Method to generate a JWT token.
         public string GenerateJwtToken(User user)
@@ -104,11 +109,7 @@ namespace E_CommerceSystem.Services
                 HttpOnly = true,
                 // Sets the cookie expiration to match the JWT expiration.
                 Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:ExpiryInMinutes"])),
-
-                // Sets the Secure flag, which ensures the cookie is sent only over HTTPS.
-                Secure = true, // Use Secure in production
-
-                // Prevents the browser from sending the cookie with cross-site requests.
+                Secure = !_env.IsDevelopment(), // Use Secure in production
                 SameSite = SameSiteMode.Strict
             };
 

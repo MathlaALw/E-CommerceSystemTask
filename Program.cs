@@ -82,6 +82,8 @@ namespace E_CommerceSystem
                                 // Try to get token from cookie first
                                 context.Token = context.Request.Cookies["accessToken"];
 
+                                return Task.CompletedTask;
+
                             }
                         };
                     });
