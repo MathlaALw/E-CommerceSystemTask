@@ -40,7 +40,7 @@ namespace E_CommerceSystem.Controllers
 
         [HttpGet("RevenueReport")] // Endpoint to get revenue report
         public IActionResult GetRevenueReport( // Get revenue report within a date range
-            [FromQuery] DateTime startDate,
+            [FromQuery] DateTime startDate, // Start date from query parameters
             [FromQuery] DateTime endDate,
             [FromQuery] string periodType = "daily")
         {
