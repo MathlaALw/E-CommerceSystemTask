@@ -108,7 +108,7 @@ namespace E_CommerceSystem.Repositories
         {
             try // Try-catch block to handle potential exceptions
             {
-                if (!string.IsNullOrEmpty(imageUrl) && File.Exists(imageUrl))
+                if (!string.IsNullOrEmpty(imageUrl) && File.Exists(imageUrl)) // Check if the file exists
                 {
                     File.Delete(imageUrl);
                 }
