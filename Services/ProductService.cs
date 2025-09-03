@@ -123,7 +123,7 @@ namespace E_CommerceSystem.Services
             {
                 var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products"); // Save image and get URL
 
-                var mainImage = new ProductImage
+                var mainImage = new ProductImage // Create ProductImage entity
                 {
                     PID = product.PID,
                     ImageUrl = imageUrl,
