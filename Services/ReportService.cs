@@ -59,6 +59,23 @@ namespace E_CommerceSystem.Services
                     .ToList(); // Execute the query and return the list
             }
 
+            else // monthly
+            {
+                return orders // Query to group by month
+                    .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
+                    .Select(g => new RevenueReportDTO
+                    {
+                        Period = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        PeriodType = "Monthly",
+                        TotalOrders = g.Count(),
+                        TotalRevenue = g.Sum(o => o.TotalAmount),
+                        AverageOrderValue = g.Average(o => o.TotalAmount)
+                    })
+                    .OrderBy(r => r.Period)
+                    .ToList();
+            }
+
+
 
 
 
