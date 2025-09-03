@@ -86,6 +86,8 @@ namespace E_CommerceSystem.Services
                     Token = Convert.ToBase64String(randomBytes),
                     // Sets the token's expiration to 7 days from the current UTC time.
                     Expires = DateTime.UtcNow.AddDays(7),
+                    // Records the creation time of the token in UTC.
+                    Created = DateTime.UtcNow,
                 }
 
 }
