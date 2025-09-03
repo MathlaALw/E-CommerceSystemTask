@@ -9,7 +9,7 @@ namespace E_CommerceSystem.Controllers
 {
     [Authorize(Roles = "admin")] // Only admin can access these endpoints
     [ApiController] // Marks this class as an API controller
-    [Route("api/[Controller]")]
+    [Route("api/[Controller]")] // Base route for the controller
 
     public class ReportController
     {
