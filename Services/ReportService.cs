@@ -105,7 +105,7 @@ namespace E_CommerceSystem.Services
                     UserName = g.Key.UName, // User Name
                     Email = g.Key.Email, // User Email
                     OrderCount = g.Count(), // Number of Orders
-                    TotalSpent = g.Sum(o => o.TotalAmount)
+                    TotalSpent = g.Sum(o => o.TotalAmount) // Total Amount Spent
                 })
                 .OrderByDescending(c => c.TotalSpent)
                 .ThenByDescending(c => c.OrderCount)
