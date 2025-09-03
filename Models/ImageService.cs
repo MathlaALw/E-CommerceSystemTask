@@ -1,6 +1,6 @@
 ﻿namespace E_CommerceSystem.Models
 {
-    public class ImageService
+    public class ImageService : IImageService
     {
         private readonly IWebHostEnvironment _environment; // To access web hosting environment details
         private readonly IConfiguration _configuration; // To access configuration settings
@@ -73,14 +73,17 @@
             if (!allowedContentTypes.Contains(imageFile.ContentType.ToLower())) // Check if the content type is allowed
                 return false;
 
-
-
-
-
-
-
-
-
-
+            return true; // If all checks pass, the image is valid
         }
     }
+
+
+
+
+
+
+
+
+
+}
+    
