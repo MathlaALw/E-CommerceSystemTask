@@ -109,7 +109,7 @@ namespace E_CommerceSystem.Services
                 })
                 .OrderByDescending(c => c.TotalSpent) // Order by total spent descending
                 .ThenByDescending(c => c.OrderCount) // Then by order count descending
-                .Take(limit)
+                .Take(limit) // Limit the number of results
                 .ToList();
         }
     }
