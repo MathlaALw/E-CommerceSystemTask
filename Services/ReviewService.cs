@@ -61,6 +61,7 @@ namespace E_CommerceSystem.Services
         {
             return _reviewRepo.GetReviewByProductId(pid);
         }
+        // Add review
         public void AddReview(int uid, int pid, ReviewDTO reviewDTO)
         {
             // Get all orders for the user
@@ -74,8 +75,8 @@ namespace E_CommerceSystem.Services
                     if (product != null && product.PID == pid)
                     {
                         // Check if the user has already added a review for this product
-                        var existingReview = GetReviewsByProductIdAndUserId(pid,uid);
-                        
+                        var existingReview = GetReviewsByProductIdAndUserId(pid, uid);
+
                         if (existingReview != null)
                             throw new InvalidOperationException($"You have already reviewed this product.");
 
@@ -88,7 +89,7 @@ namespace E_CommerceSystem.Services
                         //    Rating = reviewDTO.Rating,
                         //    ReviewDate = DateTime.Now
                         //};
-                        
+
                         // Using AutoMapper to map DTO to Entity
                         // _add review to database
                         var review = _mapper.Map<Review>(reviewDTO);
@@ -103,6 +104,7 @@ namespace E_CommerceSystem.Services
                 }
             }
         }
+
         public void UpdateReview(int rid, ReviewDTO reviewDTO)
         {
             var review = GetReviewById(rid);
