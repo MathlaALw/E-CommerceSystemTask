@@ -44,7 +44,7 @@ namespace E_CommerceSystem.Repositories
         {
             try // Try-catch block to handle potential exceptions
             {
-                return _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId);
+                return _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId); // Retrieve the image from the database
             }
 
 
