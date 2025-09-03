@@ -39,6 +39,10 @@ namespace E_CommerceSystem.Services
 
         public IEnumerable<RevenueReportDTO> GetRevenueReport(DateTime startDate, DateTime endDate, string periodType = "daily") // Get revenue report within a date range
         {
+            var orders = _context.Orders // Query to get orders
+               .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled)
+               .ToList();
+
 
 
 
