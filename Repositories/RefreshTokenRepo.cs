@@ -41,6 +41,7 @@ namespace E_CommerceSystem.Repositories
         public void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
         {
             token.Revoked = DateTime.UtcNow;              // Set revocation timestamp
+            token.RevokedByIp = ipAddress;                // Store IP address of revoker
 
 
 
