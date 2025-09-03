@@ -46,6 +46,10 @@ namespace E_CommerceSystem.Services
              // Adds a unique JWT ID ('jti') to prevent token replay attacks.
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
+            // Creates a cryptographic key from the secret string using UTF8 encoding.
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+
         }
 
 }
