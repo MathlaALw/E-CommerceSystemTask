@@ -56,6 +56,7 @@ namespace E_CommerceSystem.Services
             return review;
         }
 
+        // Get reviews by product id
         public IEnumerable<Review> GetReviewByProductId(int pid)
         {
             return _reviewRepo.GetReviewByProductId(pid);
