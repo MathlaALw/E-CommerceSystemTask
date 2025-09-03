@@ -44,6 +44,9 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ITokenService, TokenService>(); // Registers ITokenService and its concrete implementation, TokenService, with the dependency injection container.
                                                                        // 'AddScoped' ensures that a single instance of TokenService is shared throughout the lifetime of a single request.
 
+            // Add HTTP context accessor for getting IP address
+            builder.Services.AddHttpContextAccessor();
+
 
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
