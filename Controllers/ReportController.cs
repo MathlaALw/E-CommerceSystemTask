@@ -99,7 +99,7 @@ namespace E_CommerceSystem.Controllers
         {
             try // Try-catch block for error handling
             {
-                var today = DateTime.Today;
+                var today = DateTime.Today; // Today's date
                 var monthStart = new DateTime(today.Year, today.Month, 1);
                 var monthEnd = monthStart.AddMonths(1).AddDays(-1);
 
