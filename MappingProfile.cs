@@ -16,6 +16,8 @@ namespace E_CommerceSystem
             CreateMap<Models.ProductDTO, Models.Product>();
             CreateMap<Models.Product, Models.ProductDTO>();
 
+            CreateMap<Models.SupplierDTO, Models.Supplier>();
+            CreateMap<Models.Supplier, Models.SupplierDTO>();
 
 
         }
