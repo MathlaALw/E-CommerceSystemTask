@@ -83,7 +83,7 @@ namespace E_CommerceSystem.Services
                 .Select(p => new TopRatedProductDTO // Select into DTO
                 {
                     ProductId = p.PID, // Product ID
-                    ProductName = p.ProductName,
+                    ProductName = p.ProductName, // Product Name
                     AverageRating = p.OverallRating,
                     ReviewCount = p.Reviews.Count
                 })
