@@ -79,7 +79,7 @@ namespace E_CommerceSystem.Services
         public IEnumerable<TopRatedProductDTO> GetTopRatedProducts(int limit = 10) 
         {
             return _context.Products // Query to get products
-                .Where(p => p.Reviews.Count > 0)
+                .Where(p => p.Reviews.Count > 0) // Filter products with at least one review
                 .Select(p => new TopRatedProductDTO
                 {
                     ProductId = p.PID,
