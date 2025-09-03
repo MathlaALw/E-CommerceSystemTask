@@ -113,7 +113,7 @@ namespace E_CommerceSystem.Services
 
         public async Task AddProductWithImages(ProductDTO productDTO) // Add product with images
         {
-            var product = _mapper.Map<Product>(productDTO);
+            var product = _mapper.Map<Product>(productDTO); // Map DTO to entity
 
             // Add the product first
             _productRepo.AddProduct(product);
