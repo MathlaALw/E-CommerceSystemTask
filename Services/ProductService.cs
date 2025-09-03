@@ -138,7 +138,7 @@ namespace E_CommerceSystem.Services
                 _productRepo.UpdateProduct(product); // Update product to save main image URL
             }
             // Handle additional images
-            if (productDTO.AdditionalImages != null && productDTO.AdditionalImages.Any())
+            if (productDTO.AdditionalImages != null && productDTO.AdditionalImages.Any()) // Check if there are additional images
             {
                 int order = 1;
                 foreach (var additionalImage in productDTO.AdditionalImages)
