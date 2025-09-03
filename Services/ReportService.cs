@@ -101,8 +101,8 @@ namespace E_CommerceSystem.Services
                 .GroupBy(o => new { o.UID, o.user.UName, o.user.Email }) // Group by user ID, name, and email
                 .Select(g => new ActiveCustomerDTO // Select into DTO
                 {
-                    UserId = g.Key.UID,
-                    UserName = g.Key.UName,
+                    UserId = g.Key.UID, // User ID
+                    UserName = g.Key.UName, //
                     Email = g.Key.Email,
                     OrderCount = g.Count(),
                     TotalSpent = g.Sum(o => o.TotalAmount)
