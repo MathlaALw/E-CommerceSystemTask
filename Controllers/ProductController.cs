@@ -67,7 +67,7 @@ namespace E_CommerceSystem.Controllers
         [HttpPut("UpdateProduct/{productId}")] // Update product with images
         public async Task<IActionResult> UpdateProduct(int productId, [FromForm] ProductDTO productInput) // Update product with images
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 // Authorization check
                 var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
