@@ -4,18 +4,18 @@ using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         // inject repository
         private readonly IUserRepo _userRepo;
 
         // AutoMapper
-        private readonly IMapper _mapper; 
+        private readonly IMapper _mapper;
 
         public UserService(IUserRepo userRepo, IMapper mapper) // constructor injection
         {
             _userRepo = userRepo;
-            _mapper=mapper;
+            _mapper = mapper;
         }
 
         // Add User
