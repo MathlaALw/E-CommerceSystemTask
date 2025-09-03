@@ -103,6 +103,10 @@ namespace E_CommerceSystem.Controllers
                 var monthStart = new DateTime(today.Year, today.Month, 1); // First day of the month
                 var monthEnd = monthStart.AddMonths(1).AddDays(-1); // Last day of the month
 
+                // Today's revenue
+                var todayRevenue = _reportService.GetRevenueReport(today, today, "daily")
+                    .FirstOrDefault()?.TotalRevenue ?? 0;
+
 
 
 
