@@ -24,6 +24,9 @@ namespace E_CommerceSystem.Services
         // Method to generate a JWT token.
         public string GenerateJwtToken(User user)
         {
+
+            // Retrieves the "JwtSettings" section from the application's configuration.
+            var jwtSettings = _configuration.GetSection("JwtSettings");
         }
 
 }
