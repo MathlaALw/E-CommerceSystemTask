@@ -36,6 +36,108 @@ namespace E_CommerceSystem.Controllers
                                           // It ensures that only authenticated users can access the resource.
                                           // The Policy = "AdminOnly" part specifies that the authenticated user must also
                                           // have the "AdminOnly" policy applied to their account, which typically means they have the 'Admin' role.
+
+        public async Task<IActionResult> AddNewProduct([FromForm] ProductDTO productInput) // Add product with images
+        {
+            try // Try-catch block to handle potential exceptions
+            {
+                // Authorization check
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); // Retrieve the Authorization header from the request
+                var userRole = GetUserRoleFromToken(token); // Decode the token to check user role
+
+                if (userRole != "admin") // Only allow Admin users to add products
+                {
+                    return BadRequest("You are not authorized to perform this action."); // Return a 400 Bad Request response if the user is not authorized
+                }
+
+                if (productInput == null) // Check if input data is null
+                {
+                    return BadRequest("Product data is required."); // Return a 400 Bad Request response if the product data is null
+                }
+
+                await _productService.AddProductWithImages(productInput); // Add the new product to the database/service layer
+                return Ok("Product added successfully.");
+            }
+            catch (Exception ex) // Catch any exceptions that occur during the process
+            {
+                return StatusCode(500, $"An error occurred while adding the product: {ex.Message}");
+            }
+        }
+
+        [HttpPut("UpdateProduct/{productId}")] // Update product with images
+        public async Task<IActionResult> UpdateProduct(int productId, [FromForm] ProductDTO productInput) // Update product with images
+        {
+            try // Try-catch block to handle potential exceptions
+            {
+                // Authorization check
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); // Retrieve the Authorization header from the request
+                var userRole = GetUserRoleFromToken(token); // Decode the token to check user role
+
+                if (userRole != "admin") // Only allow Admin users to add products
+                {
+                    return BadRequest("You are not authorized to perform this action."); // Return a 400 Bad Request response if the user is not authorized
+                }
+
+                if (productInput == null) // Check if input data is null
+                    return BadRequest("Product data is required.");
+
+                await _productService.UpdateProductWithImages(productId, productInput); 
+                return Ok("Product updated successfully.");
+            }
+            catch (Exception ex) // Catch any exceptions that occur during the process
+            {
+                return StatusCode(500, $"An error occurred while updating product. {(ex.Message)}");
+            }
+        }
+
+        [HttpGet("GetProductImages/{productId}")] // Get images for a specific product
+        [AllowAnonymous]
+        public IActionResult GetProductImages(int productId) // Get images for a specific product
+        {
+            try // Try-catch block to handle potential exceptions
+            {
+                var images = _productService.GetProductImages(productId);
+                return Ok(images);
+            }
+            catch (Exception ex) // Catch any exceptions that occur during the process
+            {
+                return StatusCode(500, $"An error occurred while retrieving product images. {ex.Message}");
+            }
+        }
+
+        [HttpPost("SetMainImage/{productId}/{imageId}")] // Set main image for a product
+        [Authorize(Roles = "admin")] // Only admin can set main image
+        public IActionResult SetMainImage(int productId, int imageId) // Set main image for a product
+        {
+            try // Try-catch block to handle potential exceptions
+            {
+                _productService.SetMainProductImage(productId, imageId); // Set the main image using the service
+                return Ok("Main image set successfully."); // Return a success response
+            }
+            catch (Exception ex) // Catch any exceptions that occur during the process
+            {
+                return StatusCode(500, $"An error occurred while setting main image. {ex.Message}");
+            }
+        }
+
+
+        [HttpDelete("DeleteImage/{imageId}")] // Delete an image by its ID
+        [Authorize(Roles = "admin")] // Only admin can delete images
+        public IActionResult DeleteImage(int imageId) // Delete an image by its ID
+        {
+            try // Try-catch block to handle potential exceptions
+            {
+                _productService.DeleteProductImage(imageId);
+                return Ok("Image deleted successfully.");
+            }
+            catch (Exception ex) // Catch any exceptions that occur during the process
+            {
+                return StatusCode(500, $"An error occurred while deleting image. {ex.Message}");
+            }
+        }
+
+
+
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
             try
@@ -85,43 +187,43 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
-        [HttpPut("UpdateProduct/{productId}")]
-        public IActionResult UpdateProduct(int productId, ProductDTO productInput)
-        {
-            try
-            {
-                // Retrieve the Authorization header from the request
-                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+        //[HttpPut("UpdateProduct/{productId}")]
+        //public IActionResult UpdateProduct(int productId, ProductDTO productInput)
+        //{
+        //    try
+        //    {
+        //        // Retrieve the Authorization header from the request
+        //        var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-                // Decode the token to check user role
-                var userRole = GetUserRoleFromToken(token);
+        //        // Decode the token to check user role
+        //        var userRole = GetUserRoleFromToken(token);
 
-                // Only allow Admin users to add products
-                if (userRole != "admin")
-                {
-                    return BadRequest("You are not authorized to perform this action.");
-                }
+        //        // Only allow Admin users to add products
+        //        if (userRole != "admin")
+        //        {
+        //            return BadRequest("You are not authorized to perform this action.");
+        //        }
 
-                if (productInput == null)
-                    return BadRequest("Product data is required.");
+        //        if (productInput == null)
+        //            return BadRequest("Product data is required.");
 
-                //var product = _productService.GetProductById(productId);
+        //        //var product = _productService.GetProductById(productId);
                 
-                //product.ProductName = productInput.ProductName;
-                //product.Price = productInput.Price;
-                //product.Description = productInput.Description;
-                //product.Stock = productInput.Stock;
+        //        //product.ProductName = productInput.ProductName;
+        //        //product.Price = productInput.Price;
+        //        //product.Description = productInput.Description;
+        //        //product.Stock = productInput.Stock;
                  
-                _productService.UpdateProduct(productId , productInput);
+        //        _productService.UpdateProduct(productId , productInput);
 
-                return Ok("Product updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Return a generic error response
-                return StatusCode(500, $"An error occurred while updte product. {(ex.Message)}");
-            }
-        }
+        //        return Ok("Product updated successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Return a generic error response
+        //        return StatusCode(500, $"An error occurred while updte product. {(ex.Message)}");
+        //    }
+        //}
 
        
         [AllowAnonymous]
