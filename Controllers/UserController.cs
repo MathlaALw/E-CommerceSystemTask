@@ -176,6 +176,8 @@ namespace E_CommerceSystem.Controllers
                     var storedToken = _refreshTokenRepo.GetRefreshToken(refreshToken);  // Gets the refresh token record from the repository based on the token string.
                     if (storedToken != null) // Checks if a matching token was found in the repository
                     {
+                        // Revokes the refresh token, marking it as invalid in the database.
+                        // It also records the IP address and the reason for revocation ("Logout").
                         _refreshTokenRepo.RevokeRefreshToken(storedToken, GetIpAddress(), "Logout");
                     }
                 }
