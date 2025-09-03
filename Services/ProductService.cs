@@ -137,8 +137,31 @@ namespace E_CommerceSystem.Services
                 product.MainImageUrl = imageUrl; // Update main image URL
                 _productRepo.UpdateProduct(product); // Update product to save main image URL
             }
+            // Handle additional images
+            if (productDTO.AdditionalImages != null && productDTO.AdditionalImages.Any())
+            {
+                int order = 1;
+                foreach (var additionalImage in productDTO.AdditionalImages)
+                {
+                    if (_imageService.IsValidImage(additionalImage))
+                    {
+                        var imageUrl = await _imageService.SaveImageAsync(additionalImage, "products");
+
+                        var productImage = new ProductImage
+                        {
+                            PID = product.PID,
+                            ImageUrl = imageUrl,
+                            IsMain = false,
+                            DisplayOrder = order++
+                        };
+
+                        _productImageRepo.AddProductImage(productImage);
+                    }
+                }
+            }
 
         }
 
 
     }
+}
