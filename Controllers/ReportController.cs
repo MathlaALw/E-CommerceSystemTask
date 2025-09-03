@@ -54,6 +54,12 @@ namespace E_CommerceSystem.Controllers
                 var result = _reportService.GetRevenueReport(startDate, endDate, periodType); // Call the service method
                 return Ok(result);
             }
+            catch (Exception ex) // Catch any exceptions
+           
+            {
+                return StatusCode(500, $"An error occurred while retrieving revenue report: {ex.Message}");
+            }
+
 
 
 
