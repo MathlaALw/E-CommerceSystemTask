@@ -125,7 +125,7 @@ namespace E_CommerceSystem.Services
 
                 var mainImage = new ProductImage // Create ProductImage entity
                 {
-                    PID = product.PID,
+                    PID = product.PID, // Associate with the newly created product
                     ImageUrl = imageUrl,
                     IsMain = true,
                     DisplayOrder = 0
