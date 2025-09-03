@@ -71,7 +71,7 @@ namespace E_CommerceSystem.Controllers
             {
                 // Authorization check
                 var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); // Retrieve the Authorization header from the request
-                var userRole = GetUserRoleFromToken(token);
+                var userRole = GetUserRoleFromToken(token); // Decode the token to check user role
 
                 if (userRole != "admin")
                 {
