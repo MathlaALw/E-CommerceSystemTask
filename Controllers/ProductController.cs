@@ -114,7 +114,7 @@ namespace E_CommerceSystem.Controllers
                 _productService.SetMainProductImage(productId, imageId); // Set the main image using the service
                 return Ok("Main image set successfully."); // Return a success response
             }
-            catch (Exception ex)
+            catch (Exception ex) // Catch any exceptions that occur during the process
             {
                 return StatusCode(500, $"An error occurred while setting main image. {ex.Message}");
             }
