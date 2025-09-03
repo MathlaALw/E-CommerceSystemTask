@@ -34,6 +34,8 @@ namespace E_CommerceSystem.Services
             // Creates an array of claims to be included in the token.
             var claims = new[]
             {
+                 // Adds the user's unique identifier (UID) as the 'sub' (subject) claim.
+            new Claim(JwtRegisteredClaimNames.Sub, user.UID.ToString()),
 
         }
 
