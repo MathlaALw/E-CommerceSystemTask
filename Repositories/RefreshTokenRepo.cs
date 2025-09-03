@@ -18,5 +18,6 @@ namespace E_CommerceSystem.Repositories
         public void AddRefreshToken(RefreshToken refreshToken)
         {
             _context.RefreshTokens.Add(refreshToken);   // Add entity to DbSet
+            _context.SaveChanges();                     // Save changes to database
         }
 }
