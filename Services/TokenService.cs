@@ -88,7 +88,10 @@ namespace E_CommerceSystem.Services
                     Expires = DateTime.UtcNow.AddDays(7),
                     // Records the creation time of the token in UTC.
                     Created = DateTime.UtcNow,
-                }
+                    // Stores the IP address from which the token was created.
+                    CreatedByIp = ipAddress
+                };
+            }
 
 }
 }
