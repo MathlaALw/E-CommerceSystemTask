@@ -194,7 +194,7 @@ namespace E_CommerceSystem.Controllers
 
         private string GetIpAddress() // A private helper method to get the client's IP address
         {
-            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))  // Checks if the "X-Forwarded-For" header is present. This is common when using proxies or load balancers.
             {
                 return Request.Headers["X-Forwarded-For"];
             }
