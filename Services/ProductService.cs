@@ -121,7 +121,7 @@ namespace E_CommerceSystem.Services
             // Handle main image
             if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
             {
-                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products");
+                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products"); // Save image and get URL
 
                 var mainImage = new ProductImage
                 {
