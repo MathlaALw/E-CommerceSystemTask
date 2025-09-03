@@ -10,11 +10,11 @@ namespace E_CommerceSystem.Models
         public int ImageId { get; set; } // Unique identifier for each image
 
         [Required] // URL or path to the image
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } // Image URL or path
 
-        public bool IsMain { get; set; }
+        public bool IsMain { get; set; } // Indicates if this is the main image for the product
 
-        public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; } // Order of display if multiple images exist
 
         [ForeignKey("Product")]
         public int PID { get; set; }
