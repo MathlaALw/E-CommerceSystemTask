@@ -26,4 +26,6 @@ namespace E_CommerceSystem.Repositories
         {
             return _context.RefreshTokens
                   .Include(rt => rt.User)                 // Eager load related User entity
-}
+                  .FirstOrDefault(rt => rt.Token == token); // Find first token that matches
+        }
+    }
