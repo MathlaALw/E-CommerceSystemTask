@@ -11,7 +11,7 @@ namespace E_CommerceSystem.Controllers
     [ApiController] // Marks this class as an API controller
     [Route("api/[Controller]")] // Base route for the controller
 
-    public class ReportController
+    public class ReportController : ControllerBase // Inherits from ControllerBase
     {
     }
 }
