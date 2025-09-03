@@ -203,6 +203,17 @@ namespace E_CommerceSystem.Services
             _productRepo.UpdateProduct(existingProduct); // Update product details
         }
 
+        public void DeleteProductImages(int productId) // Delete all images associated with a product
+        {
+            var images = _productImageRepo.GetProductImages(productId);
+            foreach (var image in images)
+            {
+                _imageService.DeleteImage(image.ImageUrl);
+                _productImageRepo.DeleteProductImage(image.ImageId);
+            }
+        }
+
+
 
 
     }
