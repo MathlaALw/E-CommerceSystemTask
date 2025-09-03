@@ -49,15 +49,22 @@
 
             if (File.Exists(physicalPath)) // Check if the file exists
             {
-                File.Delete(physicalPath);
+                File.Delete(physicalPath); // Delete the file
             }
         }
 
+        public bool IsValidImage(IFormFile imageFile) // Method to validate image file types
+        {
+            if (imageFile == null)
+                return false;
 
 
 
 
 
 
+
+
+
+        }
     }
-}
