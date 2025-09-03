@@ -102,7 +102,7 @@ namespace E_CommerceSystem.Services
                 .Select(g => new ActiveCustomerDTO // Select into DTO
                 {
                     UserId = g.Key.UID, // User ID
-                    UserName = g.Key.UName, //
+                    UserName = g.Key.UName, // User Name
                     Email = g.Key.Email,
                     OrderCount = g.Count(),
                     TotalSpent = g.Sum(o => o.TotalAmount)
