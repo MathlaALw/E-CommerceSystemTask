@@ -9,7 +9,7 @@ namespace E_CommerceSystem.Models
         [Key] // Primary Key
         public int ImageId { get; set; } // Unique identifier for each image
 
-        [Required]
+        [Required] // URL or path to the image
         public string ImageUrl { get; set; }
 
         public bool IsMain { get; set; }
