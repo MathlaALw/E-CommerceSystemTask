@@ -22,7 +22,7 @@ namespace E_CommerceSystem.Services
                return _context.OrderProducts // Query to get best-selling products
                 .Include(op => op.product) // Include product details
                 .Include(op => op.Order) // Include order details
-                .Where(op => op.Order.OrderDate >= startDate && op.Order.OrderDate <= endDate)
+                .Where(op => op.Order.OrderDate >= startDate && op.Order.OrderDate <= endDate) // Filter by date range
                 .GroupBy(op => new { op.PID, op.product.ProductName })
                 .Select(g => new BestSellingProductDTO
 
