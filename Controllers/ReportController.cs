@@ -23,7 +23,7 @@ namespace E_CommerceSystem.Controllers
         [HttpGet("BestSellingProducts")] // Endpoint to get best-selling products
         public IActionResult GetBestSellingProducts( // Get best-selling products within a date range
           [FromQuery] DateTime startDate, // Start date from query parameters
-          [FromQuery] DateTime endDate,
+          [FromQuery] DateTime endDate, // End date from query parameters
           [FromQuery] int limit = 10)
 
 
