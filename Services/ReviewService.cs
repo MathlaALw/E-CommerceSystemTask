@@ -14,6 +14,8 @@ namespace E_CommerceSystem.Services
         public IProductService _productService;
         public IOrderService _orderService;
         public IOrderProductsService _orderProductsService;
+
+        // AutoMapper
         private readonly IMapper _mapper;
         public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IOrderService orderService, IMapper mapper)
         {
