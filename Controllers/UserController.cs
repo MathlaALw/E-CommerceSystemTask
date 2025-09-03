@@ -192,7 +192,7 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
-        private string GetIpAddress()
+        private string GetIpAddress() // A private helper method to get the client's IP address
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))
             {
