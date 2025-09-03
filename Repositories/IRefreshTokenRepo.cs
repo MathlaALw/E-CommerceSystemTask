@@ -4,7 +4,7 @@ namespace E_CommerceSystem.Repositories
 {
     public interface IRefreshTokenRepo
     {
-        void AddRefreshToken(RefreshToken refreshToken);
+        void AddRefreshToken(RefreshToken refreshToken); // Adds a new refresh token to the repository.
         RefreshToken GetRefreshToken(string token);
         void RevokeDescendantRefreshTokens(RefreshToken refreshToken, string ipAddress, string reason);
         void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null);
