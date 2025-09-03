@@ -78,11 +78,23 @@ namespace E_CommerceSystem.Repositories
             }
         }
 
+        public void SetMainImage(int productId, int imageId) // Method to set a specific image as the main image for a product
+        {
+            try
+            {
+                // Reset all images as not main
+                var images = _context.ProductImages.Where(pi => pi.PID == productId).ToList();
+                foreach (var image in images)
+                {
+                    image.IsMain = (image.ImageId == imageId);
+                }
 
 
 
 
 
 
-    }
+
+
+            }
 }
