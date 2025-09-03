@@ -13,5 +13,6 @@ namespace E_CommerceSystem.Controllers
 
     public class ReportController : ControllerBase // Inherits from ControllerBase
     {
+        private readonly IReportService _reportService; // Report service dependency
     }
 }
