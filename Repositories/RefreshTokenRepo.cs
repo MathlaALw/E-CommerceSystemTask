@@ -34,5 +34,6 @@ namespace E_CommerceSystem.Repositories
         public void UpdateRefreshToken(RefreshToken refreshToken)
         {
             _context.RefreshTokens.Update(refreshToken); // Mark entity as modified
+            _context.SaveChanges();                      // Commit changes
         }
 }
