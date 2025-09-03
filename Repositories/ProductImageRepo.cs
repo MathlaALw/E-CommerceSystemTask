@@ -28,7 +28,7 @@ namespace E_CommerceSystem.Repositories
                 var image = GetProductImageById(imageId); // Retrieve the image from the database
                 if (image != null)
                 {
-                    _context.ProductImages.Remove(image);
+                    _context.ProductImages.Remove(image); // Remove the image from the context
                     _context.SaveChanges();
 
                     // Delete the physical file
