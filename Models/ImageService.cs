@@ -58,6 +58,10 @@
             if (imageFile == null) // Check if the file is null
                 return false;
 
+            // Check file size (max 5MB)
+            if (imageFile.Length > 5 * 1024 * 1024)
+                return false;
+
 
 
 
