@@ -183,7 +183,7 @@ namespace E_CommerceSystem.Controllers
                 }
 
                 _tokenService.RemoveTokenCookies(Response); // Deletes both the access token and refresh token cookies from the user's browser.
-                return Ok(new { message = "Logout successful" });
+                return Ok(new { message = "Logout successful" }); // Returns a 200 OK status with a success message
             }
             catch (Exception ex)
             {
