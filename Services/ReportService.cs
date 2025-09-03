@@ -29,7 +29,7 @@ namespace E_CommerceSystem.Services
                     ProductId = g.Key.PID, // Product ID
                     ProductName = g.Key.ProductName, // Product Name
                     TotalQuantitySold = g.Sum(op => op.Quantity), // Total Quantity Sold
-                    TotalRevenue = g.Sum(op => op.Quantity * op.product.Price)
+                    TotalRevenue = g.Sum(op => op.Quantity * op.product.Price) // Total Revenue
                 })
 
                 
