@@ -21,7 +21,10 @@ namespace E_CommerceSystem.Services
         {
             _configuration = configuration;
         }
-    }
+        // Method to generate a JWT token.
+        public string GenerateJwtToken(User user)
+        {
+        }
 
 }
 }
