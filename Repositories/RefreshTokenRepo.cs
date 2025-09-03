@@ -52,9 +52,13 @@ namespace E_CommerceSystem.Repositories
             // Check if this token has a replacement (child token)
             if (!string.IsNullOrEmpty(refreshToken.ReplacedByToken))
             {
+                var childToken = GetRefreshToken(refreshToken.ReplacedByToken); // Fetch child
+
+                if (childToken != null && childToken.IsActive)
+                {
 
 
-            }
+                }
 
 
 
