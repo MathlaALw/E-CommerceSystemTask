@@ -171,7 +171,7 @@ namespace E_CommerceSystem.Controllers
             try
             {
                 var refreshToken = Request.Cookies["refreshToken"];   // Tries to retrieve the "refreshToken" from the incoming request's cookies
-                if (!string.IsNullOrEmpty(refreshToken))
+                if (!string.IsNullOrEmpty(refreshToken)) // Checks if the refresh token cookie exists and is not empty
                 {
                     var storedToken = _refreshTokenRepo.GetRefreshToken(refreshToken);
                     if (storedToken != null)
