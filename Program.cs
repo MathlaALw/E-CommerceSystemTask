@@ -38,6 +38,9 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+            builder.Services.AddScoped<ISupplierRepo, SupplierRepo>();
+            builder.Services.AddScoped<ISupplierService, SupplierService>();
+
 
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));

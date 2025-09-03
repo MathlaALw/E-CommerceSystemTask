@@ -20,6 +20,8 @@ namespace E_CommerceSystem
             CreateMap<Models.Supplier, Models.SupplierDTO>();
 
 
+
+
         }
     }
 }

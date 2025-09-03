@@ -3,11 +3,11 @@ using AutoMapper;
 using E_CommerceSystem.Models;
 namespace E_CommerceSystem.Services
 {
-    public class SupplierService
+    public class SupplierService : ISupplierService
     {
         private readonly ISupplierRepo _supplierRepo;
         private readonly IMapper _mapper;
-        public SupplierService(ISupplierRepo supplierRepo,IMapper mapper)
+        public SupplierService(ISupplierRepo supplierRepo, IMapper mapper)
         {
             _supplierRepo = supplierRepo;
             _mapper = mapper;
