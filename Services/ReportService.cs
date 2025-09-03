@@ -84,7 +84,7 @@ namespace E_CommerceSystem.Services
                 {
                     ProductId = p.PID, // Product ID
                     ProductName = p.ProductName, // Product Name
-                    AverageRating = p.OverallRating,
+                    AverageRating = p.OverallRating, // Average Rating
                     ReviewCount = p.Reviews.Count
                 })
                 .OrderByDescending(p => p.AverageRating)
