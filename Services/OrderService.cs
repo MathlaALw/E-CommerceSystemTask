@@ -9,20 +9,22 @@ using System.Security.Cryptography;
 
 namespace E_CommerceSystem.Services
 {
-    public class OrderService : IOrderService
+    public class OrderService 
     {
         private readonly IOrderRepo _orderRepo;
         private readonly IProductService _productService;
         private readonly IOrderProductsService _orderProductsService;
+        private readonly IUserService _userService;
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService)
         {
             _orderRepo = orderRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
             _mapper = mapper;
+            _userService = userService;
         }
 
         //get all orders for login user
@@ -171,5 +173,57 @@ namespace E_CommerceSystem.Services
             UpdateOrder(order);
 
         }
+
+        // Cancel Order
+        public void CancelOrder(int orderId, int userId)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+
+            if (order.UID != userId)
+                throw new UnauthorizedAccessException("You can only cancel your own orders.");
+
+            if (order.Status == OrderStatus.Shipped || order.Status == OrderStatus.Delivered)
+                throw new InvalidOperationException("Cannot cancel order that has already been shipped or delivered.");
+
+            // Restore stock for all products in the order
+            var orderProducts = _orderProductsService.GetOrdersByOrderId(orderId);
+            foreach (var op in orderProducts)
+            {
+                var product = _productService.GetProductById(op.PID);
+                product.Stock += op.Quantity;
+                _productService.UpdateProduct(product);
+            }
+
+            // Update order status
+            order.Status = OrderStatus.Cancelled;
+            _orderRepo.UpdateOrder(order);
+
+           
+        }
+
+        // Update order status
+        public void UpdateOrderStatus(int orderId, OrderStatus status, int userId)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+
+            // Check if user is admin or the order owner
+            var user = _userService.GetUserById(userId);
+            if (order.UID != userId && user.Role != "admin")
+                throw new UnauthorizedAccessException("You can only update status of your own orders.");
+
+            order.Status = status;
+            _orderRepo.UpdateOrder(order);
+
+            
+        }
+
+
+
     }
 }
