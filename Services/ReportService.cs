@@ -48,11 +48,10 @@ namespace E_CommerceSystem.Services
                 return orders // Query to group by day
                     .GroupBy(o => o.OrderDate.Date) // Group by order date (day)
                     .Select(g => new RevenueReportDTO // Select into DTO
-                    
                     {
-                        Period = g.Key,
+                        Period = g.Key, // Period (day)
                         PeriodType = "Daily",
-                        TotalOrders = g.Count(),
+                        TotalOrders = g.Count(), // Total number of orders
                         TotalRevenue = g.Sum(o => o.TotalAmount),
                         AverageOrderValue = g.Average(o => o.TotalAmount)
                     })
