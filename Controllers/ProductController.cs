@@ -105,6 +105,21 @@ namespace E_CommerceSystem.Controllers
             }
         }
 
+        [HttpPost("SetMainImage/{productId}/{imageId}")] // Set main image for a product
+        [Authorize(Roles = "admin")]
+        public IActionResult SetMainImage(int productId, int imageId)
+        {
+            try
+            {
+                _productService.SetMainProductImage(productId, imageId);
+                return Ok("Main image set successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while setting main image. {ex.Message}");
+            }
+        }
+
 
 
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
