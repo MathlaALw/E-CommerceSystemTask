@@ -120,6 +120,10 @@ namespace E_CommerceSystem.Services
 
             // Appends the refresh token to the response cookies.
             response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+
+            // Method to remove the token cookies from the HTTP response.
+    public void RemoveTokenCookies(HttpResponse response)
+        {
         }
     }
 }
