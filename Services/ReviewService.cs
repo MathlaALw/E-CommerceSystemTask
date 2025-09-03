@@ -1,4 +1,5 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper; 
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Security.Cryptography;
@@ -8,10 +9,13 @@ namespace E_CommerceSystem.Services
 {
     public class ReviewService : IReviewService
     {
+        // Dependencies
         public IReviewRepo _reviewRepo;
         public IProductService _productService;
         public IOrderService _orderService;
         public IOrderProductsService _orderProductsService;
+
+        // AutoMapper
         private readonly IMapper _mapper;
         public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IOrderService orderService, IMapper mapper)
         {
@@ -21,6 +25,8 @@ namespace E_CommerceSystem.Services
             _orderService = orderService;
             _mapper = mapper;
         }
+
+        // Get all reviews with pagination
         public IEnumerable<Review> GetAllReviews(int pageNumber, int pageSize,int pid)
         {
             // Base query
@@ -35,10 +41,13 @@ namespace E_CommerceSystem.Services
             return pagedProducts;
         }
 
+        // Get review by product id and user id
         public Review GetReviewsByProductIdAndUserId(int pid, int uid)
         {
             return _reviewRepo.GetReviewsByProductIdAndUserId(pid,uid);
         }
+
+        // Get review by id
         public Review GetReviewById(int rid)
         {
             var review = _reviewRepo.GetReviewById(rid);
@@ -47,10 +56,12 @@ namespace E_CommerceSystem.Services
             return review;
         }
 
+        // Get reviews by product id
         public IEnumerable<Review> GetReviewByProductId(int pid)
         {
             return _reviewRepo.GetReviewByProductId(pid);
         }
+        // Add review
         public void AddReview(int uid, int pid, ReviewDTO reviewDTO)
         {
             // Get all orders for the user
@@ -64,8 +75,8 @@ namespace E_CommerceSystem.Services
                     if (product != null && product.PID == pid)
                     {
                         // Check if the user has already added a review for this product
-                        var existingReview = GetReviewsByProductIdAndUserId(pid,uid);
-                        
+                        var existingReview = GetReviewsByProductIdAndUserId(pid, uid);
+
                         if (existingReview != null)
                             throw new InvalidOperationException($"You have already reviewed this product.");
 
@@ -78,7 +89,7 @@ namespace E_CommerceSystem.Services
                         //    Rating = reviewDTO.Rating,
                         //    ReviewDate = DateTime.Now
                         //};
-                        
+
                         // Using AutoMapper to map DTO to Entity
                         // _add review to database
                         var review = _mapper.Map<Review>(reviewDTO);
@@ -93,6 +104,7 @@ namespace E_CommerceSystem.Services
                 }
             }
         }
+        // Update review
         public void UpdateReview(int rid, ReviewDTO reviewDTO)
         {
             var review = GetReviewById(rid);
@@ -107,6 +119,8 @@ namespace E_CommerceSystem.Services
             
             RecalculateProductRating(review.Rating);
         }
+
+        // Delete review
         public void DeleteReview(int rid)
         {
             var review = _reviewRepo.GetReviewById(rid);
@@ -117,6 +131,7 @@ namespace E_CommerceSystem.Services
             RecalculateProductRating(review.PID);
         }
 
+        // Helper method to recalculate and update product rating
         private void RecalculateProductRating(int pid)
         {
             // get all reviews for the product
