@@ -12,9 +12,10 @@ namespace E_CommerceSystem.Services
         // AutoMapper
         private readonly IMapper _mapper; 
 
-        public UserService(IUserRepo userRepo)
+        public UserService(IUserRepo userRepo, IMapper mapper) // constructor injection
         {
             _userRepo = userRepo;
+            _mapper=mapper;
         }
 
         public void AddUser(User user)
