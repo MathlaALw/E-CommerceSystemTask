@@ -42,6 +42,8 @@ namespace E_CommerceSystem
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+            // Email Service
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

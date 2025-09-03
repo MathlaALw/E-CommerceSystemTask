@@ -17,6 +17,9 @@ namespace E_CommerceSystem.Models
         public int UID { get; set; }
         public User user { get; set; }
 
+        // Add order status
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+
         [JsonIgnore]
         public virtual ICollection <OrderProducts> OrderProducts { get; set; }
     }

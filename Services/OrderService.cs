@@ -14,15 +14,19 @@ namespace E_CommerceSystem.Services
         private readonly IOrderRepo _orderRepo;
         private readonly IProductService _productService;
         private readonly IOrderProductsService _orderProductsService;
+        private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService, IEmailService emailService)
         {
             _orderRepo = orderRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
             _mapper = mapper;
+            _userService = userService;
+            _emailService = emailService;
         }
 
         //get all orders for login user
@@ -142,7 +146,8 @@ namespace E_CommerceSystem.Services
             var order = _mapper.Map<Order>(existingProduct);
             _orderRepo.AddOrder(order);
             //AddOrder(order); // Save the order to the database
-
+            // Send order confirmation email
+            _emailService.SendOrderConfirmationEmail(order);
             // Process each item in the order
             foreach (var item in items)
             {
@@ -171,5 +176,65 @@ namespace E_CommerceSystem.Services
             UpdateOrder(order);
 
         }
+
+        // Cancel Order
+        public void CancelOrder(int orderId, int userId)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+
+            if (order.UID != userId)
+                throw new UnauthorizedAccessException("You can only cancel your own orders.");
+
+            if (order.Status == OrderStatus.Shipped || order.Status == OrderStatus.Delivered)
+                throw new InvalidOperationException("Cannot cancel order that has already been shipped or delivered.");
+
+            // Restore stock for all products in the order
+            var orderProducts = _orderProductsService.GetOrdersByOrderId(orderId);
+            foreach (var op in orderProducts)
+            {
+                var product = _productService.GetProductById(op.PID);
+                product.Stock += op.Quantity;
+                _productService.UpdateProduct(product);
+            }
+
+            // Update order status
+            order.Status = OrderStatus.Cancelled;
+            _orderRepo.UpdateOrder(order);
+
+            // Send cancellation email
+            _emailService.SendOrderCancellationEmail(order);
+
+
+        }
+
+        // Update order status
+        public void UpdateOrderStatus(int orderId, OrderStatus status, int userId)
+        {
+            var order = _orderRepo.GetOrderById(orderId);
+
+            if (order == null)
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+
+            // Check if user is admin or the order owner
+            var user = _userService.GetUserById(userId);
+            if (order.UID != userId && user.Role != "admin")
+                throw new UnauthorizedAccessException("You can only update status of your own orders.");
+
+            order.Status = status;
+            _orderRepo.UpdateOrder(order);
+
+            // Send status update email
+            if (status == OrderStatus.Shipped || status == OrderStatus.Delivered)
+            {
+                _emailService.SendOrderStatusUpdateEmail(order, status);
+            }
+
+        }
+
+
+
     }
 }
