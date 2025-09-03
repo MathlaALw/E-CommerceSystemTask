@@ -6,5 +6,7 @@
 
         public string ProductName { get; set; } // Product Name
 
+        public int TotalQuantitySold { get; set; } // Total Quantity Sold
+
     }
 }
