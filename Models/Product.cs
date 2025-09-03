@@ -27,6 +27,9 @@ namespace E_CommerceSystem.Models
         // Add image support
         public string MainImageUrl { get; set; }
 
+        [JsonIgnore] // To prevent circular references during serialization
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<OrderProducts> OrderProducts { get; set; }
 
