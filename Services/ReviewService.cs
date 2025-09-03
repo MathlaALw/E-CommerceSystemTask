@@ -46,6 +46,8 @@ namespace E_CommerceSystem.Services
         {
             return _reviewRepo.GetReviewsByProductIdAndUserId(pid,uid);
         }
+
+        // Get review by id
         public Review GetReviewById(int rid)
         {
             var review = _reviewRepo.GetReviewById(rid);
