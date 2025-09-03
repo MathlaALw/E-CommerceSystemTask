@@ -20,6 +20,12 @@ namespace E_CommerceSystem.Controllers
             _reportService = reportService;
         }
 
+        [HttpGet("BestSellingProducts")] // Endpoint to get best-selling products
+        public IActionResult GetBestSellingProducts(
+          [FromQuery] DateTime startDate,
+          [FromQuery] DateTime endDate,
+          [FromQuery] int limit = 10)
+
 
     }
 }
