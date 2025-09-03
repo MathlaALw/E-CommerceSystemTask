@@ -140,5 +140,7 @@ namespace E_CommerceSystem.Controllers
                     // Converts the random bytes to a URL-safe Base64 string for the token value.
                     Token = Convert.ToBase64String(randomBytes),
 
+                    // Sets the token's expiration date to 7 days from the current UTC time.
+                    Expires = DateTime.UtcNow.AddDays(7),
                 }
         }
