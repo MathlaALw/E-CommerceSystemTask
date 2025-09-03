@@ -104,5 +104,7 @@ namespace E_CommerceSystem.Services
                 HttpOnly = true,
                 // Sets the cookie expiration to match the JWT expiration.
                 Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:ExpiryInMinutes"])),
+                // Sets the Secure flag, which ensures the cookie is sent only over HTTPS.
+                Secure = true, // Use Secure in production
             }
 }
