@@ -4,7 +4,7 @@ using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         // inject repository
         private readonly IUserRepo _userRepo;
@@ -19,10 +19,13 @@ namespace E_CommerceSystem.Services
         }
 
         // Add User
-        public void AddUser(UserDTO userDTO)
+        public void AddUser(User user)
         {
-            // Map DTO to Entity
-            var user = _mapper.Map<User>(userDTO);
+            // Validate role
+            var validRoles = new[] { "admin", "customer", "manager" };
+            if (!validRoles.Contains(user.Role.ToLower()))
+                throw new ArgumentException("Invalid role. Valid roles are: admin, customer, manager");
+
             _userRepo.AddUser(user);
         }
 
