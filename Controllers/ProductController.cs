@@ -81,10 +81,10 @@ namespace E_CommerceSystem.Controllers
                 if (productInput == null) // Check if input data is null
                     return BadRequest("Product data is required.");
 
-                await _productService.UpdateProductWithImages(productId, productInput);
+                await _productService.UpdateProductWithImages(productId, productInput); 
                 return Ok("Product updated successfully.");
             }
-            catch (Exception ex)
+            catch (Exception ex) // Catch any exceptions that occur during the process
             {
                 return StatusCode(500, $"An error occurred while updating product. {(ex.Message)}");
             }
