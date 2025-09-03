@@ -72,6 +72,9 @@ namespace E_CommerceSystem
             {
                 OnMessageReceived = context =>
                 {
+                    // Try to get token from cookie first
+                    context.Token = context.Request.Cookies["accessToken"];
+
 
                     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                     builder.Services.AddEndpointsApiExplorer();
