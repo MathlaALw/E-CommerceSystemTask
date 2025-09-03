@@ -70,7 +70,7 @@ namespace E_CommerceSystem.Controllers
             try // Try-catch block to handle potential exceptions
             {
                 // Authorization check
-                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", ""); // Retrieve the Authorization header from the request
                 var userRole = GetUserRoleFromToken(token);
 
                 if (userRole != "admin")
