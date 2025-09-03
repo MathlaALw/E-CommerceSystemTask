@@ -49,6 +49,9 @@ namespace E_CommerceSystem.Services
             // Creates a cryptographic key from the secret string using UTF8 encoding.
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
+            // Creates signing credentials using the key and the HMAC SHA256 algorithm.
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
 
         }
 
