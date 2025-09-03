@@ -152,7 +152,7 @@ namespace E_CommerceSystem.Services
                             PID = product.PID, // Associate with the newly created product
                             ImageUrl = imageUrl, // Set image URL
                             IsMain = false, // Not the main image
-                            DisplayOrder = order++
+                            DisplayOrder = order++ // Increment display order
                         };
 
                         _productImageRepo.AddProductImage(productImage);
