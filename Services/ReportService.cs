@@ -53,7 +53,7 @@ namespace E_CommerceSystem.Services
                         PeriodType = "Daily",
                         TotalOrders = g.Count(), // Total number of orders
                         TotalRevenue = g.Sum(o => o.TotalAmount), // Total revenue
-                        AverageOrderValue = g.Average(o => o.TotalAmount)
+                        AverageOrderValue = g.Average(o => o.TotalAmount) // Average order value
                     })
                     .OrderBy(r => r.Period)
                     .ToList();
