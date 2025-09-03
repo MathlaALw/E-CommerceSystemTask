@@ -97,6 +97,9 @@ namespace E_CommerceSystem.Services
         // Method to set the access and refresh tokens as cookies in the HTTP response.
         public void SetTokenCookies(HttpResponse response, string jwtToken, RefreshToken refreshToken)
         {
+            // Creates a new CookieOptions object to configure the cookies.
+            var cookieOptions = new CookieOptions
+            {
 
-        }
+            }
 }
