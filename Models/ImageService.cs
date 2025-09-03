@@ -7,7 +7,7 @@
 
         public ImageService(IWebHostEnvironment environment, IConfiguration configuration) // Constructor with dependency injection
         {
-            _environment = environment;
+            _environment = environment; // Access to web hosting environment
             _configuration = configuration;
         }
 
