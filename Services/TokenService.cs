@@ -82,7 +82,8 @@ namespace E_CommerceSystem.Services
                 // Creates and returns a new RefreshToken object.
                 return new RefreshToken
                 {
-
+                    // Converts the random bytes to a Base64 string for the token value.
+                    Token = Convert.ToBase64String(randomBytes),
                 }
 
 }
