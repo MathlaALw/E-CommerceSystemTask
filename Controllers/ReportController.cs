@@ -117,7 +117,7 @@ namespace E_CommerceSystem.Controllers
 
                 // Total orders this month
                 var monthOrders = _context.Orders // Query to get orders
-                    .Count(o => o.OrderDate >= monthStart && o.OrderDate <= monthEnd && o.Status != OrderStatus.Cancelled);
+                    .Count(o => o.OrderDate >= monthStart && o.OrderDate <= monthEnd && o.Status != OrderStatus.Cancelled); // Count orders in the month excluding cancelled
 
 
 
