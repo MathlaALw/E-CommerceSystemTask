@@ -10,6 +10,7 @@ using AutoMapper;
 using System.Security.Cryptography;
 using E_CommerceSystem.Repositories;
 
+
 namespace E_CommerceSystem.Controllers
 {
     [Authorize]
@@ -26,11 +27,14 @@ namespace E_CommerceSystem.Controllers
                                                       // This is used to call methods for generating, setting, or removing tokens.
 
 
-        public UserController(IUserService userService, IConfiguration configuration, IMapper mapper)
+        public UserController(IUserService userService, IConfiguration configuration, IMapper mapper, IRefreshTokenRepo refreshTokenRepo,ITokenService tokenService)
         {
             _userService = userService;
             _configuration = configuration;
             _mapper = mapper;
+            _refreshTokenRepo = refreshTokenRepo; // Assigns the injected IRefreshTokenRepo instance to the private, read-only field.
+            _tokenService = tokenService;
+
         }
 
         [AllowAnonymous]
