@@ -6,6 +6,7 @@ namespace E_CommerceSystem.Services
 {
     public class UserService : IUserService
     {
+        // inject repository
         private readonly IUserRepo _userRepo;
 
         public UserService(IUserRepo userRepo)
