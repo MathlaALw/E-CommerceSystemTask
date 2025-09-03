@@ -143,7 +143,7 @@ namespace E_CommerceSystem.Services
                 int order = 1; // Start display order from 1 (0 is for main image)
                 foreach (var additionalImage in productDTO.AdditionalImages) // Loop through each additional image
                 {
-                    if (_imageService.IsValidImage(additionalImage))
+                    if (_imageService.IsValidImage(additionalImage)) // Validate the image
                     {
                         var imageUrl = await _imageService.SaveImageAsync(additionalImage, "products");
 
