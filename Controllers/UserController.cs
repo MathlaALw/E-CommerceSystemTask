@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using System.Security.Cryptography;
 
 namespace E_CommerceSystem.Controllers
 {
@@ -124,7 +125,10 @@ namespace E_CommerceSystem.Controllers
         [NonAction]
         public RefreshToken GenerateRefreshToken(string ipAddress)
         {
+            // A secure way to generate cryptographic random numbers.
+            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            {
 
 
-        }
+            }
 }
