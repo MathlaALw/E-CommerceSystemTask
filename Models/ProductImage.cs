@@ -7,7 +7,7 @@ namespace E_CommerceSystem.Models
     public class ProductImage
     {
         [Key] // Primary Key
-        public int ImageId { get; set; }
+        public int ImageId { get; set; } // Unique identifier for each image
 
         [Required]
         public string ImageUrl { get; set; }
