@@ -200,7 +200,7 @@ namespace E_CommerceSystem.Services
                 existingProduct.MainImageUrl = imageUrl;
             }
 
-            _productRepo.UpdateProduct(existingProduct);
+            _productRepo.UpdateProduct(existingProduct); // Update product details
         }
 
 
