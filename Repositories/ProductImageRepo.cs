@@ -21,8 +21,23 @@ namespace E_CommerceSystem.Repositories
                 throw new InvalidOperationException($"Database error: {ex.Message}");
             }
         }
+        public void DeleteProductImage(int imageId) // Method to delete a product image by its ID
+        {
+            try
+            {
+                var image = GetProductImageById(imageId);
+                if (image != null)
+                {
+                    _context.ProductImages.Remove(image);
+                    _context.SaveChanges();
+
+                    // Delete the physical file
+                    DeleteImageFile(image.ImageUrl);
+                }
+            }
+
 
 
 
     }
-}
+    }
