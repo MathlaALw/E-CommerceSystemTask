@@ -78,7 +78,7 @@ namespace E_CommerceSystem.Controllers
                     return BadRequest("You are not authorized to perform this action."); // Return a 400 Bad Request response if the user is not authorized
                 }
 
-                if (productInput == null)
+                if (productInput == null) // Check if input data is null
                     return BadRequest("Product data is required.");
 
                 await _productService.UpdateProductWithImages(productId, productInput);
