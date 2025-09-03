@@ -76,9 +76,9 @@ namespace E_CommerceSystem.Services
             }
         }
         // Get top-rated products
-        public IEnumerable<TopRatedProductDTO> GetTopRatedProducts(int limit = 10)
+        public IEnumerable<TopRatedProductDTO> GetTopRatedProducts(int limit = 10) 
         {
-            return _context.Products
+            return _context.Products // Query to get products
                 .Where(p => p.Reviews.Count > 0)
                 .Select(p => new TopRatedProductDTO
                 {
