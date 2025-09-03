@@ -119,6 +119,8 @@ namespace E_CommerceSystem.Controllers
                 var monthOrders = _context.Orders // Query to get orders
                     .Count(o => o.OrderDate >= monthStart && o.OrderDate <= monthEnd && o.Status != OrderStatus.Cancelled); // Count orders in the month excluding cancelled
 
+                // Best selling products this month
+                var bestSellers = _reportService.GetBestSellingProducts(monthStart, monthEnd, 5);
 
 
 
