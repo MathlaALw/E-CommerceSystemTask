@@ -16,7 +16,13 @@ namespace E_CommerceSystem.Repositories
                 _context.ProductImages.Add(productImage); // Add the product image to the context
                 _context.SaveChanges();
             }
+            catch (Exception ex) // Catch any exceptions that occur during the database operation
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
+
 
 
     }
-    }
+}
