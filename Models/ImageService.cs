@@ -44,7 +44,7 @@
 
             // Convert URL to physical path
             var physicalPath = imageUrl.StartsWith("/") // Check if the URL is relative
-                ? Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/'))
+                ? Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/')) // Trim leading slash for correct path
                 : imageUrl;
             if (File.Exists(physicalPath))
             {
