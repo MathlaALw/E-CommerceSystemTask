@@ -68,7 +68,10 @@ namespace E_CommerceSystem.Services
             var user = _userRepo.GetUserById(uid);
             if (user == null)
                 throw new KeyNotFoundException($"User with ID {uid} not found.");
-           
+            // Map updated fields from DTO to Entity
+            _mapper.Map(userDTO, user);
+            _userRepo.UpdateUser(user);
+
         }
 
     }
