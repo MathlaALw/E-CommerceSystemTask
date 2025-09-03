@@ -17,11 +17,12 @@ namespace E_CommerceSystem.Services
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService , IMapper mapper)
         {
             _orderRepo = orderRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
+            _mapper = mapper; 
         }
 
         //get all orders for login user
