@@ -105,7 +105,7 @@ namespace E_CommerceSystem.Controllers
 
                 // Today's revenue
                 var todayRevenue = _reportService.GetRevenueReport(today, today, "daily") // Call the service method
-                    .FirstOrDefault()?.TotalRevenue ?? 0;
+                    .FirstOrDefault()?.TotalRevenue ?? 0; // Get the total revenue or 0 if null
 
 
 
