@@ -8,7 +8,8 @@ namespace E_CommerceSystem.Services
                                             // It takes a User object and returns the generated JWT as a string
         RefreshToken GenerateRefreshToken(string ipAddress);  // Declares a method to generate a new RefreshToken.
                                                               // It takes the IP address of the client and returns a RefreshToken object
-        void RemoveTokenCookies(HttpResponse response);
+        void RemoveTokenCookies(HttpResponse response);// Declares a method to remove the token cookies from the HTTP response.
+                                                       // This is typically used during logout.
         void SetTokenCookies(HttpResponse response, string jwtToken, RefreshToken refreshToken);
     }
 }
