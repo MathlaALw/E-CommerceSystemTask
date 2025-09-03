@@ -49,10 +49,12 @@ namespace E_CommerceSystem.Repositories
         // Revokes all descendant tokens in a token chain (rotation scenario)
          public void RevokeDescendantRefreshTokens(RefreshToken refreshToken, string ipAddress, string reason)
         {
+            // Check if this token has a replacement (child token)
+            if (!string.IsNullOrEmpty(refreshToken.ReplacedByToken))
+            {
 
 
-
-        }
+            }
 
 
 
