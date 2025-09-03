@@ -20,8 +20,8 @@ namespace E_CommerceSystem
             builder.Services.AddControllers();
 
             // Add services to the container.
-            builder.Services.AddScoped<IUserRepo,UserRepo>();
-            builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
@@ -66,18 +66,23 @@ namespace E_CommerceSystem
                             ValidateIssuerSigningKey = true, // Ensures the token is properly signed.
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) // Match with your token generation key.
                         };
+
+                        // Extract token from cookie or header
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                // Try to get token from cookie first
+                                context.Token = context.Request.Cookies["accessToken"];
+
+                            }
+                        };
                     });
-            // Extract token from cookie or header
-            options.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = context =>
-                {
-                    // Try to get token from cookie first
-                    context.Token = context.Request.Cookies["accessToken"];
 
 
-                    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-                    builder.Services.AddEndpointsApiExplorer();
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen(c =>
             {
