@@ -73,7 +73,8 @@ namespace E_CommerceSystem.Services
             // Uses a secure random number generator. Note: RNGCryptoServiceProvider is obsolete.
             using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
             {
-
+                // Creates a byte array to hold the random token data.
+                var randomBytes = new byte[64];
             }
 
 }
