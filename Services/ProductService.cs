@@ -140,7 +140,7 @@ namespace E_CommerceSystem.Services
             // Handle additional images
             if (productDTO.AdditionalImages != null && productDTO.AdditionalImages.Any()) // Check if there are additional images
             {
-                int order = 1;
+                int order = 1; // Start display order from 1 (0 is for main image)
                 foreach (var additionalImage in productDTO.AdditionalImages)
                 {
                     if (_imageService.IsValidImage(additionalImage))
