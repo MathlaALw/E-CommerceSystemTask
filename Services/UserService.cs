@@ -61,6 +61,8 @@ namespace E_CommerceSystem.Services
                 throw new KeyNotFoundException($"User with ID {uid} not found.");
             return user;
         }
+
+        // Update User
         public void UpdateUser(User user)
         {
             var existingUser = _userRepo.GetUserById(user.UID);
