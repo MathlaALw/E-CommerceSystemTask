@@ -69,6 +69,11 @@ namespace E_CommerceSystem.Controllers
                 var result = _reportService.GetTopRatedProducts(limit);
                 return Ok(result);
             }
+            catch (Exception ex) // Catch any exceptions
+            {
+                return StatusCode(500, $"An error occurred while retrieving top rated products: {ex.Message}");
+            }
+
 
 
         }
