@@ -137,6 +137,7 @@ namespace E_CommerceSystem.Controllers
 
         // Update Order Status - Admin only
         [HttpPost("UpdateOrderStatus/{orderId}")]
+        [Authorize(Policy = "AdminOrManager")]
         [Authorize(Roles = "admin")]
         public IActionResult UpdateOrderStatus(int orderId, [FromBody] OrderStatus status)
         {
