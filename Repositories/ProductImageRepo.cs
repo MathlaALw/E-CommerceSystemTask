@@ -65,10 +65,18 @@ namespace E_CommerceSystem.Repositories
                 throw new InvalidOperationException($"Database error: {ex.Message}");
             }
         }
+        public void UpdateProductImage(ProductImage productImage) // Method to update an existing product image
+        {
+            try
+            {
+                _context.ProductImages.Update(productImage);
+                _context.SaveChanges();
+            }
+
 
 
 
 
 
     }
-}
+    }
