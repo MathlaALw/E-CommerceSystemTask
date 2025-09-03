@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 
 namespace E_CommerceSystem.Services
 {
-    public class OrderService 
+    public class OrderService : IOrderService
     {
         private readonly IOrderRepo _orderRepo;
         private readonly IProductService _productService;
@@ -201,7 +201,7 @@ namespace E_CommerceSystem.Services
             order.Status = OrderStatus.Cancelled;
             _orderRepo.UpdateOrder(order);
 
-           
+
         }
 
         // Update order status
@@ -220,7 +220,7 @@ namespace E_CommerceSystem.Services
             order.Status = status;
             _orderRepo.UpdateOrder(order);
 
-            
+
         }
 
 
