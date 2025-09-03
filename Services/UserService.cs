@@ -1,21 +1,32 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper; 
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
 {
     public class UserService : IUserService
     {
+        // inject repository
         private readonly IUserRepo _userRepo;
 
-        public UserService(IUserRepo userRepo)
+        // AutoMapper
+        private readonly IMapper _mapper; 
+
+        public UserService(IUserRepo userRepo, IMapper mapper) // constructor injection
         {
             _userRepo = userRepo;
+            _mapper=mapper;
         }
 
-        public void AddUser(User user)
+        // Add User
+        public void AddUser(UserDTO userDTO)
         {
+            // Map DTO to Entity
+            var user = _mapper.Map<User>(userDTO);
             _userRepo.AddUser(user);
         }
+
+        // Delete User
         public void DeleteUser(int uid)
         {
             var user = _userRepo.GetUserById(uid);
@@ -24,10 +35,14 @@ namespace E_CommerceSystem.Services
 
             _userRepo.DeleteUser(uid);
         }
+
+        // Get All Users
         public IEnumerable<User> GetAllUsers()
         {
             return _userRepo.GetAllUsers();
         }
+
+        // Get User by Email and Password
         public User GetUSer(string email, string password)
         {
             var user = _userRepo.GetUSer(email, password);
@@ -37,6 +52,8 @@ namespace E_CommerceSystem.Services
             }
             return user;
         }
+
+        // Get User by Id
         public User GetUserById(int uid)
         {
             var user = _userRepo.GetUserById(uid);
@@ -44,14 +61,19 @@ namespace E_CommerceSystem.Services
                 throw new KeyNotFoundException($"User with ID {uid} not found.");
             return user;
         }
-        public void UpdateUser(User user)
-        {
-            var existingUser = _userRepo.GetUserById(user.UID);
-            if (existingUser == null)
-                throw new KeyNotFoundException($"User with ID {user.UID} not found.");
 
+        // Update User
+        public void UpdateUser(int uid, UserDTO userDTO)
+        {
+            var user = _userRepo.GetUserById(uid);
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {uid} not found.");
+            // Map updated fields from DTO to Entity
+            _mapper.Map(userDTO, user);
             _userRepo.UpdateUser(user);
+
         }
+
     }
 
 }
