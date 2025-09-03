@@ -168,7 +168,7 @@ namespace E_CommerceSystem.Services
             if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {productId} not found.");
 
-            _mapper.Map(productDTO, existingProduct);
+            _mapper.Map(productDTO, existingProduct); // Map updated fields from DTO to entity
 
             // Handle new main image
             if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
