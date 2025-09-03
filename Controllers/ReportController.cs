@@ -104,7 +104,7 @@ namespace E_CommerceSystem.Controllers
                 var monthEnd = monthStart.AddMonths(1).AddDays(-1); // Last day of the month
 
                 // Today's revenue
-                var todayRevenue = _reportService.GetRevenueReport(today, today, "daily")
+                var todayRevenue = _reportService.GetRevenueReport(today, today, "daily") // Call the service method
                     .FirstOrDefault()?.TotalRevenue ?? 0;
 
 
