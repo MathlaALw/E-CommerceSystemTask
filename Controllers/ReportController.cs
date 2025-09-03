@@ -84,7 +84,7 @@ namespace E_CommerceSystem.Controllers
         {
             try // Try-catch block for error handling
             {
-                var result = _reportService.GetMostActiveCustomers(startDate, endDate, limit);
+                var result = _reportService.GetMostActiveCustomers(startDate, endDate, limit); // Call the service method
                 return Ok(result);
             }
 
