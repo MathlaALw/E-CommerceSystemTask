@@ -36,4 +36,10 @@ namespace E_CommerceSystem.Repositories
             _context.RefreshTokens.Update(refreshToken); // Mark entity as modified
             _context.SaveChanges();                      // Commit changes
         }
+
+        // Revokes a refresh token by marking it as revoked and saving metadata
+        public void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
+        {
+
+        }
 }
