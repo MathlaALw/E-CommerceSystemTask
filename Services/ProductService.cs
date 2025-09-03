@@ -208,7 +208,7 @@ namespace E_CommerceSystem.Services
             var images = _productImageRepo.GetProductImages(productId); // Get all images for the product
             foreach (var image in images) // Loop through each image
             {
-                _imageService.DeleteImage(image.ImageUrl);
+                _imageService.DeleteImage(image.ImageUrl); // Delete physical file
                 _productImageRepo.DeleteProductImage(image.ImageId);
             }
         }
