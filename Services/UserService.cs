@@ -9,6 +9,9 @@ namespace E_CommerceSystem.Services
         // inject repository
         private readonly IUserRepo _userRepo;
 
+        // AutoMapper
+        private readonly IMapper _mapper; 
+
         public UserService(IUserRepo userRepo)
         {
             _userRepo = userRepo;
