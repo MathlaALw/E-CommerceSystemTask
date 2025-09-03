@@ -25,7 +25,7 @@ namespace E_CommerceSystem.Repositories
         {
             try
             {
-                var image = GetProductImageById(imageId);
+                var image = GetProductImageById(imageId); // Retrieve the image from the database
                 if (image != null)
                 {
                     _context.ProductImages.Remove(image);
