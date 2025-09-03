@@ -82,7 +82,7 @@ namespace E_CommerceSystem.Services
                 .Where(p => p.Reviews.Count > 0) // Filter products with at least one review
                 .Select(p => new TopRatedProductDTO // Select into DTO
                 {
-                    ProductId = p.PID,
+                    ProductId = p.PID, // Product ID
                     ProductName = p.ProductName,
                     AverageRating = p.OverallRating,
                     ReviewCount = p.Reviews.Count
