@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace E_CommerceSystem.Controllers
 {
     [Authorize(Roles = "admin")] // Only admin can access these endpoints
-    [ApiController]
+    [ApiController] // Marks this class as an API controller
     [Route("api/[Controller]")]
 
     public class ReportController
