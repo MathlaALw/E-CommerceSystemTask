@@ -111,5 +111,8 @@ namespace E_CommerceSystem.Services
                 // Prevents the browser from sending the cookie with cross-site requests.
                 SameSite = SameSiteMode.Strict
             };
+
+            // Appends the access token to the response cookies with the defined options.
+            response.Cookies.Append("accessToken", jwtToken, cookieOptions);
         }
 }
