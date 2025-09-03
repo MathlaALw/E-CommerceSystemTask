@@ -65,13 +65,13 @@ namespace E_CommerceSystem.Services
                     .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month }) // Group by year and month
                     .Select(g => new RevenueReportDTO // Select into DTO
                     {
-                        Period = new DateTime(g.Key.Year, g.Key.Month, 1),
+                        Period = new DateTime(g.Key.Year, g.Key.Month, 1), 
                         PeriodType = "Monthly",
-                        TotalOrders = g.Count(),
+                        TotalOrders = g.Count(), 
                         TotalRevenue = g.Sum(o => o.TotalAmount),
                         AverageOrderValue = g.Average(o => o.TotalAmount)
                     })
-                    .OrderBy(r => r.Period)
+                    .OrderBy(r => r.Period) // Order by period
                     .ToList();
             }
 
