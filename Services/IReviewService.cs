@@ -10,6 +10,7 @@ namespace E_CommerceSystem.Services
         Review GetReviewById(int rid);
         IEnumerable<Review> GetReviewByProductId(int pid);
         Review GetReviewsByProductIdAndUserId(int pid, int uid);
+        bool HasUserPurchasedProduct(int userId, int productId);
         void UpdateReview(int rid, ReviewDTO reviewDTO);
     }
 }

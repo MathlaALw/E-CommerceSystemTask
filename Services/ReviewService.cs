@@ -27,7 +27,7 @@ namespace E_CommerceSystem.Services
         }
 
         // Get all reviews with pagination
-        public IEnumerable<Review> GetAllReviews(int pageNumber, int pageSize,int pid)
+        public IEnumerable<Review> GetAllReviews(int pageNumber, int pageSize, int pid)
         {
             // Base query
             var query = _reviewRepo.GetReviewByProductId(pid);
@@ -44,7 +44,7 @@ namespace E_CommerceSystem.Services
         // Get review by product id and user id
         public Review GetReviewsByProductIdAndUserId(int pid, int uid)
         {
-            return _reviewRepo.GetReviewsByProductIdAndUserId(pid,uid);
+            return _reviewRepo.GetReviewsByProductIdAndUserId(pid, uid);
         }
 
         // Get review by id
@@ -64,46 +64,48 @@ namespace E_CommerceSystem.Services
         // Add review
         public void AddReview(int uid, int pid, ReviewDTO reviewDTO)
         {
-            // Get all orders for the user
+            // Check if the user has already added a review for this product
+            var existingReview = GetReviewsByProductIdAndUserId(pid, uid);
+
+            if (existingReview != null)
+                throw new InvalidOperationException($"You have already reviewed this product.");
+
+            // Check if the user has purchased this product
+            bool hasPurchased = false;
             var orders = _orderService.GetOrderByUserId(uid);
+
             foreach (var order in orders)
             {
-                // Check if the product exists in any of the user's orders
-                var products = _orderProductsService.GetOrdersByOrderId(order.OID);
-                foreach (var product in products)
+                // Only consider delivered orders for reviews
+                if (order.Status != OrderStatus.Delivered)
+                    continue;
+
+                var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
+                if (orderProducts.Any(op => op.PID == pid))
                 {
-                    if (product != null && product.PID == pid)
-                    {
-                        // Check if the user has already added a review for this product
-                        var existingReview = GetReviewsByProductIdAndUserId(pid, uid);
-
-                        if (existingReview != null)
-                            throw new InvalidOperationException($"You have already reviewed this product.");
-
-                        ////add review
-                        //var review = new Review
-                        //{
-                        //    PID = pid,
-                        //    UID = uid,
-                        //    Comment = reviewDTO.Comment,
-                        //    Rating = reviewDTO.Rating,
-                        //    ReviewDate = DateTime.Now
-                        //};
-
-                        // Using AutoMapper to map DTO to Entity
-                        // _add review to database
-                        var review = _mapper.Map<Review>(reviewDTO);
-                        _reviewRepo.AddReview(review);
-
-                        // Recalculate and update the product's overall rating
-                        RecalculateProductRating(pid);
-                    }
-                    //else
-                    //    throw new KeyNotFoundException($"You have not ordered this product");
-
+                    hasPurchased = true;
+                    break;
                 }
             }
+
+            if (!hasPurchased)
+                throw new InvalidOperationException("You can only review products you've purchased and received.");
+
+            // Add review
+            var review = new Review
+            {
+                PID = pid,
+                UID = uid,
+                Comment = reviewDTO.Comment,
+                Rating = reviewDTO.Rating,
+                ReviewDate = DateTime.Now
+            };
+            _reviewRepo.AddReview(review);
+
+            // Recalculate and update the product's overall rating
+            RecalculateProductRating(pid);
         }
+
         // Update review
         public void UpdateReview(int rid, ReviewDTO reviewDTO)
         {
@@ -116,7 +118,7 @@ namespace E_CommerceSystem.Services
                 throw new KeyNotFoundException($"Review with ID {rid} not found.");
             _mapper.Map(reviewDTO, review);
             _reviewRepo.UpdateReview(review);
-            
+
             RecalculateProductRating(review.Rating);
         }
 
@@ -136,7 +138,7 @@ namespace E_CommerceSystem.Services
         {
             // get all reviews for the product
             var reviews = _reviewRepo.GetAllReviews();
-            
+
             var product = _productService.GetProductById(pid);
 
             // Calculate the average rating
@@ -148,5 +150,30 @@ namespace E_CommerceSystem.Services
             // Save the updated product
             _productService.UpdateProduct(product);
         }
+
+
+        // Helper Method to check if the user have purchased the product
+        public bool HasUserPurchasedProduct(int userId, int productId)
+        {
+            var orders = _orderService.GetOrderByUserId(userId);
+
+            foreach (var order in orders)
+            {
+                // Only consider completed orders (delivered)
+                if (order.Status == OrderStatus.Delivered)
+                {
+                    var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
+                    if (orderProducts.Any(op => op.PID == productId))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+
     }
 }
