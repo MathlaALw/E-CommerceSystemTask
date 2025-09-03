@@ -91,7 +91,7 @@ namespace E_CommerceSystem.Repositories
 
                 // Update product's main image URL
                 var product = _context.Products.Find(productId); // Retrieve the product from the database
-                var mainImage = _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId);
+                var mainImage = _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId); // Retrieve the main image
                 if (product != null && mainImage != null)
                 {
                     product.MainImageUrl = mainImage.ImageUrl;
