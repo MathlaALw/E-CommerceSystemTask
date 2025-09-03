@@ -15,5 +15,8 @@ namespace E_CommerceSystem.Services
     {
         // Declares a method to generate a new JWT (JSON Web Token) for a given user.
         string GenerateJwtToken(User user);
+
+        // Declares a method to generate a new RefreshToken.
+        RefreshToken GenerateRefreshToken(string ipAddress);
     }
 }
