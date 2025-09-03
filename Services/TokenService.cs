@@ -102,5 +102,7 @@ namespace E_CommerceSystem.Services
             {
                 // Ensures the cookie is only accessible via HTTP requests, not client-side scripts.
                 HttpOnly = true,
+                // Sets the cookie expiration to match the JWT expiration.
+                Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["JwtSettings:ExpiryInMinutes"])),
             }
 }
