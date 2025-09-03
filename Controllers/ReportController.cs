@@ -81,6 +81,14 @@ namespace E_CommerceSystem.Controllers
          [FromQuery] DateTime startDate, // Start date from query parameters
          [FromQuery] DateTime endDate, // End date from query parameters
          [FromQuery] int limit = 10) // Limit the number of results
+        {
+            try // Try-catch block for error handling
+            {
+                var result = _reportService.GetMostActiveCustomers(startDate, endDate, limit);
+                return Ok(result);
+            }
+
+        }
 
     }
 }
