@@ -174,7 +174,7 @@ namespace E_CommerceSystem.Services
             if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image)) // New main image provided
             {
                 // Delete old main image if exists
-                var oldMainImage = _productImageRepo.GetProductImages(productId)
+                var oldMainImage = _productImageRepo.GetProductImages(productId) // Get existing images
                     .FirstOrDefault(pi => pi.IsMain);
 
                 if (oldMainImage != null)
