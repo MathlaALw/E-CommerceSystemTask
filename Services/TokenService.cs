@@ -15,6 +15,12 @@ namespace E_CommerceSystem.Services
     {
         // A private field to hold the application's configuration settings.
         private readonly IConfiguration _configuration;
+
+        // Constructor for the TokenService, injecting the IConfiguration dependency.
+        public TokenService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
     }
 
 }
