@@ -13,7 +13,7 @@
 
         public async Task<string> SaveImageAsync(IFormFile imageFile, string subFolder = "") // Method to save an image file asynchronously
         {
-            if (imageFile == null || imageFile.Length == 0)
+            if (imageFile == null || imageFile.Length == 0) // Check if the file is null or empty
                 throw new ArgumentException("No image file provided");
 
             if (!IsValidImage(imageFile))
