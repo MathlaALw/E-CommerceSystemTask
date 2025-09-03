@@ -126,6 +126,8 @@ namespace E_CommerceSystem.Services
         {
             // Deletes the access token cookie.
             response.Cookies.Delete("accessToken");
+            // Deletes the refresh token cookie.
+            response.Cookies.Delete("refreshToken");
         }
     }
 }
