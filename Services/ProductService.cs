@@ -188,13 +188,13 @@ namespace E_CommerceSystem.Services
 
                 var mainImage = new ProductImage // Create new ProductImage entity
                 {
-                    PID = productId,
-                    ImageUrl = imageUrl,
-                    IsMain = true,
-                    DisplayOrder = 0
+                    PID = productId, // Associate with the product
+                    ImageUrl = imageUrl, // Set image URL
+                    IsMain = true, // Set as main image
+                    DisplayOrder = 0 // Set display order
                 };
 
-                _productImageRepo.AddProductImage(mainImage);
+                _productImageRepo.AddProductImage(mainImage); // Add new main image to the repository
 
                 // Update product's main image URL
                 existingProduct.MainImageUrl = imageUrl;
