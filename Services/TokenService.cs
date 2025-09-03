@@ -92,6 +92,11 @@ namespace E_CommerceSystem.Services
                     CreatedByIp = ipAddress
                 };
             }
+        }
 
-}
+        // Method to set the access and refresh tokens as cookies in the HTTP response.
+        public void SetTokenCookies(HttpResponse response, string jwtToken, RefreshToken refreshToken)
+        {
+
+        }
 }
