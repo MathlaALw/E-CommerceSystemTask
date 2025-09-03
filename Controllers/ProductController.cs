@@ -122,7 +122,7 @@ namespace E_CommerceSystem.Controllers
 
 
         [HttpDelete("DeleteImage/{imageId}")] // Delete an image by its ID
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")] // Only admin can delete images
         public IActionResult DeleteImage(int imageId)
         {
             try
