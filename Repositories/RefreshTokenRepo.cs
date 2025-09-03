@@ -40,6 +40,33 @@ namespace E_CommerceSystem.Repositories
         // Revokes a refresh token by marking it as revoked and saving metadata
         public void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
         {
+            token.Revoked = DateTime.UtcNow;              // Set revocation timestamp
+
+
+
+
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
 }
