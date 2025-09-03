@@ -97,7 +97,15 @@ namespace E_CommerceSystem.Controllers
         [HttpGet("DashboardSummary")] // Endpoint to get dashboard summary
         public IActionResult GetDashboardSummary()
         {
+            try // Try-catch block for error handling
+            {
+                var today = DateTime.Today;
+                var monthStart = new DateTime(today.Year, today.Month, 1);
+                var monthEnd = monthStart.AddMonths(1).AddDays(-1);
 
 
-        }
+
+
+            }
+    }
     }
