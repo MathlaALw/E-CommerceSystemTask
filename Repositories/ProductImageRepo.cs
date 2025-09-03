@@ -2,5 +2,7 @@
 {
     public class ProductImageRepo
     {
+        private readonly ApplicationDbContext _context; // Database context
+
     }
 }
