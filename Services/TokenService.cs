@@ -107,5 +107,9 @@ namespace E_CommerceSystem.Services
 
                 // Sets the Secure flag, which ensures the cookie is sent only over HTTPS.
                 Secure = true, // Use Secure in production
-            }
+
+                // Prevents the browser from sending the cookie with cross-site requests.
+                SameSite = SameSiteMode.Strict
+            };
+        }
 }
