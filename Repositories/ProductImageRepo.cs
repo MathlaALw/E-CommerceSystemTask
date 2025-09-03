@@ -53,7 +53,7 @@ namespace E_CommerceSystem.Repositories
         }
         public IEnumerable<ProductImage> GetProductImages(int productId) // Method to retrieve all images for a specific product
         {
-            try
+            try // Try-catch block to handle potential exceptions
             {
                 return _context.ProductImages
                     .Where(pi => pi.PID == productId)
