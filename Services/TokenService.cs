@@ -27,6 +27,9 @@ namespace E_CommerceSystem.Services
 
             // Retrieves the "JwtSettings" section from the application's configuration.
             var jwtSettings = _configuration.GetSection("JwtSettings");
+
+            // Gets the secret key from the configuration, used for signing the token.
+            var secretKey = jwtSettings["SecretKey"];
         }
 
 }
