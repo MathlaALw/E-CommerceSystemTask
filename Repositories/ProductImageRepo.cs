@@ -46,10 +46,16 @@ namespace E_CommerceSystem.Repositories
             {
                 return _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId); // Retrieve the image from the database
             }
+            catch (Exception ex) // Catch any exceptions that occur during the database operation
+            {
+                throw new InvalidOperationException($"Database error: {ex.Message}");
+            }
+        }
+
 
 
 
 
 
     }
-    }
+}
