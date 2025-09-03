@@ -37,8 +37,14 @@
             return $"/uploads/{subFolder}/{uniqueFileName}";
         }
 
+        public void DeleteImage(string imageUrl) // Method to delete an image file
+        {
+            if (string.IsNullOrEmpty(imageUrl))
+                return;
 
 
 
+
+
+        }
     }
-}
