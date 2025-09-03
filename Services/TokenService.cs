@@ -100,6 +100,7 @@ namespace E_CommerceSystem.Services
             // Creates a new CookieOptions object to configure the cookies.
             var cookieOptions = new CookieOptions
             {
-
+                // Ensures the cookie is only accessible via HTTP requests, not client-side scripts.
+                HttpOnly = true,
             }
 }
