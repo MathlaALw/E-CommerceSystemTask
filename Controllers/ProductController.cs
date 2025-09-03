@@ -111,7 +111,7 @@ namespace E_CommerceSystem.Controllers
         {
             try // Try-catch block to handle potential exceptions
             {
-                _productService.SetMainProductImage(productId, imageId);
+                _productService.SetMainProductImage(productId, imageId); // Set the main image using the service
                 return Ok("Main image set successfully.");
             }
             catch (Exception ex)
