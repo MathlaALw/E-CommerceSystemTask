@@ -165,6 +165,43 @@ namespace E_CommerceSystem.Controllers
 
             }
         }
+        [HttpPost("Logout")] // Defines an HTTP POST endpoint for the "Logout" action
+        public IActionResult Logout()
+        {
+            try
+            {
+                var refreshToken = Request.Cookies["refreshToken"];
+                if (!string.IsNullOrEmpty(refreshToken))
+                {
+                    var storedToken = _refreshTokenRepo.GetRefreshToken(refreshToken);
+                    if (storedToken != null)
+                    {
+                        _refreshTokenRepo.RevokeRefreshToken(storedToken, GetIpAddress(), "Logout");
+                    }
+                }
+
+                _tokenService.RemoveTokenCookies(Response);
+                return Ok(new { message = "Logout successful" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while logging out. {ex.Message}");
+            }
+        }
+
+        private string GetIpAddress()
+        {
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+            {
+                return Request.Headers["X-Forwarded-For"];
+            }
+            else
+            {
+                return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+            }
+        }
+
+
 
     }
 }
