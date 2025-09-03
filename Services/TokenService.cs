@@ -42,6 +42,10 @@ namespace E_CommerceSystem.Services
 
              // Adds the user's role as the 'role' claim.
             new Claim(ClaimTypes.Role, user.Role),
+
+             // Adds a unique JWT ID ('jti') to prevent token replay attacks.
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
         }
 
 }
