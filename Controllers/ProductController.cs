@@ -58,7 +58,7 @@ namespace E_CommerceSystem.Controllers
                 await _productService.AddProductWithImages(productInput); // Add the new product to the database/service layer
                 return Ok("Product added successfully.");
             }
-            catch (Exception ex)
+            catch (Exception ex) // Catch any exceptions that occur during the process
             {
                 return StatusCode(500, $"An error occurred while adding the product: {ex.Message}");
             }
