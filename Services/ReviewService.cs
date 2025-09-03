@@ -1,4 +1,5 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper; 
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Security.Cryptography;
