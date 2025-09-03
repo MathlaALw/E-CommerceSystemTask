@@ -122,8 +122,10 @@ namespace E_CommerceSystem.Services
             response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
 
             // Method to remove the token cookies from the HTTP response.
-    public void RemoveTokenCookies(HttpResponse response)
+          public void RemoveTokenCookies(HttpResponse response)
         {
+            // Deletes the access token cookie.
+            response.Cookies.Delete("accessToken");
         }
     }
 }
