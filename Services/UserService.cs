@@ -26,6 +26,7 @@ namespace E_CommerceSystem.Services
             _userRepo.AddUser(user);
         }
 
+        // Delete User
         public void DeleteUser(int uid)
         {
             var user = _userRepo.GetUserById(uid);
