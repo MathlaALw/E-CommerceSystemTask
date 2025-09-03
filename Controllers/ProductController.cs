@@ -52,7 +52,7 @@ namespace E_CommerceSystem.Controllers
 
                 if (productInput == null) // Check if input data is null
                 {
-                    return BadRequest("Product data is required.");
+                    return BadRequest("Product data is required."); // Return a 400 Bad Request response if the product data is null
                 }
 
                 await _productService.AddProductWithImages(productInput);
