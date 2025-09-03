@@ -13,7 +13,7 @@ namespace E_CommerceSystem.Repositories
         {
             try
             {
-                _context.ProductImages.Add(productImage);
+                _context.ProductImages.Add(productImage); // Add the product image to the context
                 _context.SaveChanges();
             }
 
