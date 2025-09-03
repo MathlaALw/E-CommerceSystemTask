@@ -74,8 +74,13 @@ namespace E_CommerceSystem.Controllers
                 return StatusCode(500, $"An error occurred while retrieving top rated products: {ex.Message}");
             }
 
-
-
         }
+
+        [HttpGet("ActiveCustomers")] // Endpoint to get active customers
+        public IActionResult GetActiveCustomers(
+         [FromQuery] DateTime startDate,
+         [FromQuery] DateTime endDate,
+         [FromQuery] int limit = 10)
+
     }
 }
