@@ -42,6 +42,7 @@ namespace E_CommerceSystem.Repositories
         {
             token.Revoked = DateTime.UtcNow;              // Set revocation timestamp
             token.RevokedByIp = ipAddress;                // Store IP address of revoker
+            token.ReplacedByToken = replacedByToken;      // If rotated, set replacement token
 
 
 
