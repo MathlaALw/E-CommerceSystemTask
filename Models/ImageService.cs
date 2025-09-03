@@ -62,6 +62,13 @@
             if (imageFile.Length > 5 * 1024 * 1024)
                 return false;
 
+            // Check file extension
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+            var fileExtension = Path.GetExtension(imageFile.FileName).ToLower();
+            if (!allowedExtensions.Contains(fileExtension))
+                return false;
+
+
 
 
 
