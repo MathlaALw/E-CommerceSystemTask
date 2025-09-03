@@ -205,7 +205,7 @@ namespace E_CommerceSystem.Services
 
         public void DeleteProductImages(int productId) // Delete all images associated with a product
         {
-            var images = _productImageRepo.GetProductImages(productId);
+            var images = _productImageRepo.GetProductImages(productId); // Get all images for the product
             foreach (var image in images)
             {
                 _imageService.DeleteImage(image.ImageUrl);
