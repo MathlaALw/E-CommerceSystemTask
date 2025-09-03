@@ -209,7 +209,7 @@ namespace E_CommerceSystem.Services
             foreach (var image in images) // Loop through each image
             {
                 _imageService.DeleteImage(image.ImageUrl); // Delete physical file
-                _productImageRepo.DeleteProductImage(image.ImageId);
+                _productImageRepo.DeleteProductImage(image.ImageId); // Remove from repository
             }
         }
 
