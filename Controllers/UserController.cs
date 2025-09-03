@@ -200,6 +200,9 @@ namespace E_CommerceSystem.Controllers
             }
             else
             {
+                // If no proxy header, returns the remote IP address from the HTTP context.
+                // .MapToIPv4() ensures it's in IPv4 format, and .ToString() converts it to a string.
+
                 return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
             }
         }
