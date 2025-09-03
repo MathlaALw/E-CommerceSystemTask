@@ -14,7 +14,7 @@ namespace E_CommerceSystem.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[Controller]")]
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
@@ -33,7 +33,7 @@ namespace E_CommerceSystem.Controllers
         {
             try
             {
-                if(InputUser == null)
+                if (InputUser == null)
                     return BadRequest("User data is required");
 
                 //var user = new User
@@ -85,7 +85,7 @@ namespace E_CommerceSystem.Controllers
             {
                 var user = _userService.GetUserById(UserID);
                 return Ok(user);
-   
+
             }
             catch (Exception ex)
             {
@@ -152,3 +152,6 @@ namespace E_CommerceSystem.Controllers
 
             }
         }
+
+    }
+}
