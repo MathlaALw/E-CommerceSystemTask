@@ -1,4 +1,5 @@
-﻿using E_CommerceSystem.Models;
+﻿using AutoMapper; 
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 
 namespace E_CommerceSystem.Services
