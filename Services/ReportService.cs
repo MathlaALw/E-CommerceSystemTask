@@ -8,7 +8,9 @@ using System.Linq;
 
 namespace E_CommerceSystem.Services
 {
-    public class ReportService
+    public class ReportService 
     {
+        private readonly ApplicationDbContext _context; // Database context
+
     }
 }
