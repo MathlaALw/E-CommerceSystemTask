@@ -33,7 +33,7 @@ namespace E_CommerceSystem.Services
                 })
                  .OrderByDescending(p => p.TotalQuantitySold) // Order by total quantity sold descending
                 .Take(limit) // Limit the number of results
-                .ToList();
+                .ToList(); // Execute the query and return the list
         }
 
 
