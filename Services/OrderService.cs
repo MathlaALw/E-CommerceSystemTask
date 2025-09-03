@@ -15,16 +15,18 @@ namespace E_CommerceSystem.Services
         private readonly IProductService _productService;
         private readonly IOrderProductsService _orderProductsService;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
 
-        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService)
+        public OrderService(IOrderRepo orderRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper, IUserService userService, IEmailService emailService)
         {
             _orderRepo = orderRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
             _mapper = mapper;
             _userService = userService;
+            _emailService = emailService;
         }
 
         //get all orders for login user
@@ -144,7 +146,8 @@ namespace E_CommerceSystem.Services
             var order = _mapper.Map<Order>(existingProduct);
             _orderRepo.AddOrder(order);
             //AddOrder(order); // Save the order to the database
-
+            // Send order confirmation email
+            _emailService.SendOrderConfirmationEmail(order);
             // Process each item in the order
             foreach (var item in items)
             {
@@ -201,6 +204,9 @@ namespace E_CommerceSystem.Services
             order.Status = OrderStatus.Cancelled;
             _orderRepo.UpdateOrder(order);
 
+            // Send cancellation email
+            _emailService.SendOrderCancellationEmail(order);
+
 
         }
 
@@ -220,6 +226,11 @@ namespace E_CommerceSystem.Services
             order.Status = status;
             _orderRepo.UpdateOrder(order);
 
+            // Send status update email
+            if (status == OrderStatus.Shipped || status == OrderStatus.Delivered)
+            {
+                _emailService.SendOrderStatusUpdateEmail(order, status);
+            }
 
         }
 
