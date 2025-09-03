@@ -23,7 +23,7 @@ namespace E_CommerceSystem.Services
                 .Include(op => op.product) // Include product details
                 .Include(op => op.Order) // Include order details
                 .Where(op => op.Order.OrderDate >= startDate && op.Order.OrderDate <= endDate) // Filter by date range
-                .GroupBy(op => new { op.PID, op.product.ProductName })
+                .GroupBy(op => new { op.PID, op.product.ProductName }) // Group by product ID and name
                 .Select(g => new BestSellingProductDTO
 
         }
