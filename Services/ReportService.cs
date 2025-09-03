@@ -103,7 +103,7 @@ namespace E_CommerceSystem.Services
                 {
                     UserId = g.Key.UID, // User ID
                     UserName = g.Key.UName, // User Name
-                    Email = g.Key.Email,
+                    Email = g.Key.Email, // User Email
                     OrderCount = g.Count(),
                     TotalSpent = g.Sum(o => o.TotalAmount)
                 })
