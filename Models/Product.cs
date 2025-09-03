@@ -41,6 +41,10 @@ namespace E_CommerceSystem.Models
         public int SupplierId { get; set; }
         public Supplier Supplier { get; set; }
 
-
+        // Concurrency token
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+   
+    
     }
 }

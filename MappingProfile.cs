@@ -19,6 +19,8 @@ namespace E_CommerceSystem
             CreateMap<Models.SupplierDTO, Models.Supplier>();
             CreateMap<Models.Supplier, Models.SupplierDTO>();
 
+            
+
 
 
 
