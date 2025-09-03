@@ -59,6 +59,9 @@ namespace E_CommerceSystem.Services
             claims: claims,
             // Sets the token's expiration time based on the configured ExpiryInMinutes.
             expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryInMinutes"])),
+            // Sets the signing credentials.
+            signingCredentials: creds
+        );
 
         }
 
