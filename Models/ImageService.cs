@@ -16,7 +16,7 @@
             if (imageFile == null || imageFile.Length == 0) // Check if the file is null or empty
                 throw new ArgumentException("No image file provided");
 
-            if (!IsValidImage(imageFile))
+            if (!IsValidImage(imageFile)) // Validate the image file type
                 throw new ArgumentException("Invalid image file");
 
         }
