@@ -130,7 +130,7 @@ namespace E_CommerceSystem.Controllers
                 _productService.DeleteProductImage(imageId);
                 return Ok("Image deleted successfully.");
             }
-            catch (Exception ex)
+            catch (Exception ex) // Catch any exceptions that occur during the process
             {
                 return StatusCode(500, $"An error occurred while deleting image. {ex.Message}");
             }
