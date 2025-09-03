@@ -122,6 +122,15 @@ namespace E_CommerceSystem.Controllers
                 // Best selling products this month
                 var bestSellers = _reportService.GetBestSellingProducts(monthStart, monthEnd, 5); // Get top 5 best-selling products this month
 
+                return Ok(new // Return 200 OK with the summary
+                {
+                    TodayRevenue = todayRevenue, // Today's revenue
+                    MonthRevenue = monthRevenue, // This month's revenue
+                    TotalCustomers = totalCustomers, // Total customers
+                    MonthOrders = monthOrders, // Total orders this month
+                    BestSellers = bestSellers // Best-selling products this month
+                });
+
 
 
 
