@@ -20,7 +20,7 @@
                 throw new ArgumentException("Invalid image file");
 
             // Create uploads directory if it doesn't exist
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", subFolder);
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", subFolder); // Define the uploads folder path
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
