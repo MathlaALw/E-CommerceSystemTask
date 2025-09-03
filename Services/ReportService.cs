@@ -80,7 +80,7 @@ namespace E_CommerceSystem.Services
         {
             return _context.Products // Query to get products
                 .Where(p => p.Reviews.Count > 0) // Filter products with at least one review
-                .Select(p => new TopRatedProductDTO
+                .Select(p => new TopRatedProductDTO // Select into DTO
                 {
                     ProductId = p.PID,
                     ProductName = p.ProductName,
