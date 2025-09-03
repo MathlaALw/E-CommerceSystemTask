@@ -2,6 +2,7 @@
 using E_CommerceSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
@@ -110,6 +111,10 @@ namespace E_CommerceSystem.Controllers
                 // This month's revenue
                 var monthRevenue = _reportService.GetRevenueReport(monthStart, monthEnd, "daily") // Call the service method
                     .Sum(r => r.TotalRevenue); // Sum the total revenue
+
+                // Total customers
+                var totalCustomers = _context.Users.Count(u => u.Role == "user");
+
 
 
 
