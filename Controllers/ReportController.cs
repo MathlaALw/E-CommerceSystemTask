@@ -113,7 +113,7 @@ namespace E_CommerceSystem.Controllers
                     .Sum(r => r.TotalRevenue); // Sum the total revenue
 
                 // Total customers
-                var totalCustomers = _context.Users.Count(u => u.Role == "user");
+                var totalCustomers = _context.Users.Count(u => u.Role == "user"); // Count users with role 'user'
 
 
 
