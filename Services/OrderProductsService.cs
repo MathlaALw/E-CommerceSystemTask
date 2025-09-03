@@ -8,9 +8,10 @@ namespace E_CommerceSystem.Services
     {
         private readonly IOrderProductsRepo _orderProductsRepo;
         private readonly IMapper _mapper; //add AutoMapper dependency injection field
-        public OrderProductsService(IOrderProductsRepo orderProductsRepo)
+        public OrderProductsService(IOrderProductsRepo orderProductsRepo, IMapper mapper)
         {
             _orderProductsRepo = orderProductsRepo;
+            _mapper = mapper; 
         }
 
         public void AddOrderProducts(OrderProducts product)
