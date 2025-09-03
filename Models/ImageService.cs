@@ -33,8 +33,12 @@
             {
                 await imageFile.CopyToAsync(fileStream);
             }
-
-
-
+            // Return relative path for web access
+            return $"/uploads/{subFolder}/{uniqueFileName}";
         }
+
+
+
+
     }
+}
