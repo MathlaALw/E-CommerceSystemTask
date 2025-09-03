@@ -55,7 +55,7 @@ namespace E_CommerceSystem.Controllers
                     return BadRequest("Product data is required."); // Return a 400 Bad Request response if the product data is null
                 }
 
-                await _productService.AddProductWithImages(productInput);
+                await _productService.AddProductWithImages(productInput); // Add the new product to the database/service layer
                 return Ok("Product added successfully.");
             }
             catch (Exception ex)
