@@ -39,6 +39,9 @@ namespace E_CommerceSystem.Services
 
              // Adds the user's name as the 'name' claim.
             new Claim(JwtRegisteredClaimNames.Name, user.UName),
+
+             // Adds the user's role as the 'role' claim.
+            new Claim(ClaimTypes.Role, user.Role),
         }
 
 }
