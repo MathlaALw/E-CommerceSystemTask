@@ -24,7 +24,7 @@ namespace E_CommerceSystem.Controllers
         public IActionResult GetBestSellingProducts( // Get best-selling products within a date range
           [FromQuery] DateTime startDate, // Start date from query parameters
           [FromQuery] DateTime endDate, // End date from query parameters
-          [FromQuery] int limit = 10)
+          [FromQuery] int limit = 10) // Limit the number of results
 
 
     }
