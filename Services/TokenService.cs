@@ -114,5 +114,8 @@ namespace E_CommerceSystem.Services
 
             // Appends the access token to the response cookies with the defined options.
             response.Cookies.Append("accessToken", jwtToken, cookieOptions);
+
+            // Updates the cookie expiration to match the refresh token's expiration.
+            cookieOptions.Expires = refreshToken.Expires;
         }
 }
