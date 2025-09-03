@@ -99,7 +99,7 @@ namespace E_CommerceSystem.Services
                 .Include(o => o.user) // Include user details
                 .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate && o.Status != OrderStatus.Cancelled) // Filter by date range and exclude cancelled orders
                 .GroupBy(o => new { o.UID, o.user.UName, o.user.Email }) // Group by user ID, name, and email
-                .Select(g => new ActiveCustomerDTO
+                .Select(g => new ActiveCustomerDTO // Select into DTO
                 {
                     UserId = g.Key.UID,
                     UserName = g.Key.UName,
