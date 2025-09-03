@@ -51,7 +51,7 @@ namespace E_CommerceSystem.Controllers
                     return BadRequest("Period type must be 'daily' or 'monthly'.");
                 }
 
-                var result = _reportService.GetRevenueReport(startDate, endDate, periodType);
+                var result = _reportService.GetRevenueReport(startDate, endDate, periodType); // Call the service method
                 return Ok(result);
             }
 
