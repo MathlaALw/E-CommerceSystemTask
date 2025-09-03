@@ -36,6 +36,35 @@ namespace E_CommerceSystem.Controllers
                                           // It ensures that only authenticated users can access the resource.
                                           // The Policy = "AdminOnly" part specifies that the authenticated user must also
                                           // have the "AdminOnly" policy applied to their account, which typically means they have the 'Admin' role.
+
+        public async Task<IActionResult> AddNewProduct([FromForm] ProductDTO productInput) // Add product with images
+        {
+            try
+            {
+                // Authorization check
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var userRole = GetUserRoleFromToken(token);
+
+                if (userRole != "admin")
+                {
+                    return BadRequest("You are not authorized to perform this action.");
+                }
+
+                if (productInput == null)
+                {
+                    return BadRequest("Product data is required.");
+                }
+
+                await _productService.AddProductWithImages(productInput);
+                return Ok("Product added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while adding the product: {ex.Message}");
+            }
+        }
+
+
         public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
             try
