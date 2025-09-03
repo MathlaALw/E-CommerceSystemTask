@@ -7,7 +7,7 @@ namespace E_CommerceSystem.Repositories
     {
         private readonly ApplicationDbContext _context;  // EF Core DbContext for database access
 
-       // Constructor injecting ApplicationDbContext dependency
+        // Constructor injecting ApplicationDbContext dependency
         public RefreshTokenRepo(ApplicationDbContext context)
         {
             _context = context;
@@ -28,4 +28,10 @@ namespace E_CommerceSystem.Repositories
                   .Include(rt => rt.User)                 // Eager load related User entity
                   .FirstOrDefault(rt => rt.Token == token); // Find first token that matches
         }
-    }
+
+
+        // Updates an existing refresh token in the database
+        public void UpdateRefreshToken(RefreshToken refreshToken)
+        {
+        }
+}
