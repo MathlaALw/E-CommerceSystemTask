@@ -173,7 +173,7 @@ namespace E_CommerceSystem.Controllers
                 var refreshToken = Request.Cookies["refreshToken"];   // Tries to retrieve the "refreshToken" from the incoming request's cookies
                 if (!string.IsNullOrEmpty(refreshToken)) // Checks if the refresh token cookie exists and is not empty
                 {
-                    var storedToken = _refreshTokenRepo.GetRefreshToken(refreshToken);
+                    var storedToken = _refreshTokenRepo.GetRefreshToken(refreshToken);  // Gets the refresh token record from the repository based on the token string.
                     if (storedToken != null)
                     {
                         _refreshTokenRepo.RevokeRefreshToken(storedToken, GetIpAddress(), "Logout");
