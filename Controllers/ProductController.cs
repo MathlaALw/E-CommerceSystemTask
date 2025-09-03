@@ -7,27 +7,32 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
+
 
 namespace E_CommerceSystem.Controllers
 {
 
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[Controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
         private readonly IConfiguration _configuration;
-      
-        public ProductController(IProductService productService, IConfiguration configuration)
+        private readonly IMapper _mapper;
+
+
+        public ProductController(IProductService productService, IConfiguration configuration, IMapper mapper)
         {
             _productService = productService;
             _configuration = configuration;
+            _mapper = mapper;
            
         }
 
         [HttpPost("AddProduct")]
-        public IActionResult AddNewProduct(ProductDTO productInput)
+        public IActionResult AddNewProduct(ProductDTO productInput, int supplierId , int categoryId)
         {
             try
             {
@@ -60,7 +65,10 @@ namespace E_CommerceSystem.Controllers
                 //};
 
                 // Map DTO to Product entity
-                //var product = _mapper.Map<Product>(productInput);
+                var product = _mapper.Map<Product>(productInput);
+                product.SupplierId = supplierId;
+                product.CategoryId = categoryId;
+                product.OverallRating = 0;
                 // Add the new product to the database/service layer
                 _productService.AddProduct(productInput);
 
