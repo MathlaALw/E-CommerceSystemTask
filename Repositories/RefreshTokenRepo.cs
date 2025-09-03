@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_CommerceSystem.Repositories
 {
-    public class RefreshTokenRepo
+    public class RefreshTokenRepo : IRefreshTokenRepo
     {
         private readonly ApplicationDbContext _context;  // EF Core DbContext for database access
 
