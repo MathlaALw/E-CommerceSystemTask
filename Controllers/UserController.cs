@@ -137,5 +137,8 @@ namespace E_CommerceSystem.Controllers
                 // Creates and returns a new RefreshToken object.
                 return new RefreshToken
                 {
+                    // Converts the random bytes to a URL-safe Base64 string for the token value.
+                    Token = Convert.ToBase64String(randomBytes),
+
                 }
         }
