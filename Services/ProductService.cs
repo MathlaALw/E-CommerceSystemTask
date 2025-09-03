@@ -215,7 +215,7 @@ namespace E_CommerceSystem.Services
 
         public IEnumerable<ProductImage> GetProductImages(int productId) // Get all images for a product
         {
-            return _productImageRepo.GetProductImages(productId);
+            return _productImageRepo.GetProductImages(productId); // Retrieve images from the repository
         }
 
 
