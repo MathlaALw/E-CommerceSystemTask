@@ -89,6 +89,17 @@ namespace E_CommerceSystem.Repositories
                     image.IsMain = (image.ImageId == imageId); // Set IsMain to true for the specified image, false for others
                 }
 
+                // Update product's main image URL
+                var product = _context.Products.Find(productId);
+                var mainImage = _context.ProductImages.FirstOrDefault(pi => pi.ImageId == imageId);
+                if (product != null && mainImage != null)
+                {
+                    product.MainImageUrl = mainImage.ImageUrl;
+                }
+
+                _context.SaveChanges();
+            }
+
 
 
 
@@ -97,4 +108,4 @@ namespace E_CommerceSystem.Repositories
 
 
             }
-}
+    }
