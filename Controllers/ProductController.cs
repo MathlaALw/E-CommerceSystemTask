@@ -75,7 +75,7 @@ namespace E_CommerceSystem.Controllers
 
                 if (userRole != "admin") // Only allow Admin users to add products
                 {
-                    return BadRequest("You are not authorized to perform this action.");
+                    return BadRequest("You are not authorized to perform this action."); // Return a 400 Bad Request response if the user is not authorized
                 }
 
                 if (productInput == null)
