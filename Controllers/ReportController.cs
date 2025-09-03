@@ -55,15 +55,16 @@ namespace E_CommerceSystem.Controllers
                 return Ok(result);
             }
             catch (Exception ex) // Catch any exceptions
-           
+
             {
                 return StatusCode(500, $"An error occurred while retrieving revenue report: {ex.Message}");
             }
 
-
-
-
+        }
+        [HttpGet("TopRatedProducts")] // Endpoint to get top-rated products
+        public IActionResult GetTopRatedProducts([FromQuery] int limit = 10)
+        {
 
         }
     }
-    }
+}
