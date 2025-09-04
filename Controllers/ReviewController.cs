@@ -34,6 +34,12 @@ namespace E_CommerceSystem.Controllers
                 // Extract user ID 
                 int uid = int.Parse(userId);
 
+                // Check if user has purchased the product
+                if (!_reviewService.HasUserPurchasedProduct(uid, pid))
+                {
+                    return BadRequest("You can only review products you've purchased and received.");
+                }
+
                 _reviewService.AddReview(uid, pid, review);
 
                 return Ok("Review added successfully.");
@@ -68,15 +74,42 @@ namespace E_CommerceSystem.Controllers
                     return NotFound("No Reviews found matching the given product id.");
                 }
 
-                List<ReviewDTO> reviewOutputList = new List<ReviewDTO>();
-                var reviewOutput = new ReviewDTO();
-                foreach (var review in reviews)
+                // Check if the current user has purchased this product
+                bool hasPurchased = false;
+                try
                 {
-                    reviewOutput.Rating = review.Rating;
-                    reviewOutput.Comment = review.Comment;
-                    reviewOutputList.Add(reviewOutput);
+                    var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        var userId = GetUserIdFromToken(token);
+                        int uid = int.Parse(userId);
+                        hasPurchased = _reviewService.HasUserPurchasedProduct(uid, productId);
+                    }
                 }
-                return Ok(reviewOutputList);
+                catch
+                {
+                    // If there's any error getting user info, assume not purchased
+                    hasPurchased = false;
+                }
+
+                // Prepare response
+                var response = new
+                {
+                    Reviews = reviews.Select(r => new ReviewResponseDTO
+                    {
+                        ReviewID = r.ReviewID,
+                        Rating = r.Rating,
+                        Comment = r.Comment,
+                        ReviewDate = r.ReviewDate,
+                        UserName = r.user.UName,
+                        UserId = r.UID
+                    }),
+                    CanReview = hasPurchased,
+                    AverageRating = reviews.Any() ? reviews.Average(r => r.Rating) : 0,
+                    TotalReviews = reviews.Count()
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
