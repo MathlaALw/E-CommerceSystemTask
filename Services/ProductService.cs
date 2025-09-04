@@ -15,7 +15,7 @@ namespace E_CommerceSystem.Services
         private readonly IMapper _mapper;
         private readonly ISupplierRepo _supplierRepo;
         private readonly ICategoryRepo _categoryRepo;
-
+        private readonly IAppLogger<ProductService> _logger;
         public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper, ISupplierRepo supplierRepo,
             ICategoryRepo categoryRepo)
         {

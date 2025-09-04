@@ -8,6 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
+using Serilog;
 using System.Security.Claims;
 using System.Text;
 
@@ -18,6 +21,36 @@ namespace E_CommerceSystem
     {
         public static void Main(string[] args)
         {
+            // Configure Serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                 .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .Enrich.WithProcessId()
+                .Enrich.WithThreadId()
+                   .Enrich.WithProperty("Application", "E-CommerceSystem")
+
+                .WriteTo.Console(
+                    outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+                .WriteTo.File(
+                    path: "logs/log-.txt",
+                    rollingInterval: RollingInterval.Day,
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .WriteTo.MSSqlServer(
+                    connectionString: "DefaultConnection", 
+                    sinkOptions: new MSSqlServerSinkOptions
+                    {
+                        TableName = "Logs",
+                        AutoCreateSqlTable = true,
+                         SchemaName = "dbo"
+                    },
+                    restrictedToMinimumLevel: LogEventLevel.Warning)
+
+                .CreateLogger();
+
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers();
 
@@ -68,7 +101,7 @@ namespace E_CommerceSystem
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-           
+            builder.Services.AddScoped(typeof(IAppLogger<>), typeof(SerilogLogger<>)); // Register SerilogLogger as the implementation for IAppLogger
 
             // Add JWT Authentication
             var jwtSettings = builder.Configuration.GetSection("Jwt");
