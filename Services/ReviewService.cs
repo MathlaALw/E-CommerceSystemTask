@@ -4,6 +4,7 @@ using E_CommerceSystem.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Security.Cryptography;
 using AutoMapper;
+using E_CommerceSystem.Exceptions;
 
 namespace E_CommerceSystem.Services
 {
@@ -64,12 +65,17 @@ namespace E_CommerceSystem.Services
         // Add review
         public void AddReview(int uid, int pid, ReviewDTO reviewDTO)
         {
+            try
+            { 
+            _logger.LogInformation("User {UserId} attempting to add review for product {ProductId}", uid, pid);
             // Check if the user has already added a review for this product
             var existingReview = GetReviewsByProductIdAndUserId(pid, uid);
 
             if (existingReview != null)
-                throw new InvalidOperationException($"You have already reviewed this product.");
-
+            {
+                _logger.LogWarning("User {UserId} attempted to review product {ProductId} multiple times", uid, pid);
+                throw new BadRequestException($"You have already reviewed this product.");
+            }
             // Check if the user has purchased this product
             bool hasPurchased = false;
             var orders = _orderService.GetOrderByUserId(uid);
@@ -89,8 +95,10 @@ namespace E_CommerceSystem.Services
             }
 
             if (!hasPurchased)
-                throw new InvalidOperationException("You can only review products you've purchased and received.");
-
+            {
+                _logger.LogWarning("User {UserId} attempted to review product {ProductId} without purchasing it", uid, pid);
+                throw new BadRequestException("You can only review products you've purchased and received.");
+            }
             // Add review
             var review = new Review
             {
@@ -101,9 +109,15 @@ namespace E_CommerceSystem.Services
                 ReviewDate = DateTime.Now
             };
             _reviewRepo.AddReview(review);
-
+            _logger.LogInformation("Review added successfully for product {ProductId} by user {UserId}", pid, uid);
             // Recalculate and update the product's overall rating
             RecalculateProductRating(pid);
+              }
+             catch (Exception ex) when(ex is not BadRequestException)
+             {
+                _logger.LogError(ex, "Error adding review for product {ProductId} by user {UserId}", pid, uid);
+                throw new AppException($"Error adding review: {ex.Message}", 500, false);
+            }
         }
 
         // Update review

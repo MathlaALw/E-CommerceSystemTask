@@ -1,4 +1,6 @@
 
+using E_CommerceSystem.Filters;
+using E_CommerceSystem.Middleware;
 using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using E_CommerceSystem.Services;
@@ -52,7 +54,11 @@ namespace E_CommerceSystem
                 .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddControllers();
+            // register the validation filter globally
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ValidateModelAttribute>();
+            });
 
             // Add services to the container.
             builder.Services.AddScoped<IUserRepo, UserRepo>();
@@ -160,19 +166,19 @@ namespace E_CommerceSystem
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
             var app = builder.Build();
 
@@ -182,7 +188,7 @@ namespace E_CommerceSystem
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseAuthentication(); //jwt check middleware
