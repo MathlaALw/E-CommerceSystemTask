@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using E_CommerceSystem.Filters;
 
 
 namespace E_CommerceSystem.Controllers
@@ -31,11 +32,11 @@ namespace E_CommerceSystem.Controllers
         }
         //[AllowAnonymous]
         [HttpPost("AddProduct")]
-        //[Authorize(Policy = "AdminOnly")] // [Authorize] is an attribute that restricts access to the action method or controller.
+        [Authorize(Policy = "AdminOnly")] // [Authorize] is an attribute that restricts access to the action method or controller.
                                           // It ensures that only authenticated users can access the resource.
                                           // The Policy = "AdminOnly" part specifies that the authenticated user must also
                                           // have the "AdminOnly" policy applied to their account, which typically means they have the 'Admin' role.
-
+        [ValidateModel] // Custom action filter to validate the model state before executing the action method. --> Validation Filter
         public async Task<IActionResult> AddNewProduct([FromForm] ProductDTO productInput ,int supplierId , int categoryId) // Add product with images
         {
             try // Try-catch block to handle potential exceptions

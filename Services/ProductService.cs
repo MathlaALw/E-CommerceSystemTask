@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using E_CommerceSystem.Exceptions;
+using E_CommerceSystem.Middleware;
 
 namespace E_CommerceSystem.Services
 {
@@ -15,7 +17,7 @@ namespace E_CommerceSystem.Services
         private readonly IMapper _mapper;
         private readonly ISupplierRepo _supplierRepo;
         private readonly ICategoryRepo _categoryRepo;
-
+        
         public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper, ISupplierRepo supplierRepo,
             ICategoryRepo categoryRepo)
         {
@@ -61,10 +63,25 @@ namespace E_CommerceSystem.Services
         }
         public Product GetProductById(int pid)
         {
-            var product = _productRepo.GetProductById(pid);
-            if (product == null)
-                throw new KeyNotFoundException($"Product with ID {pid} not found.");
-            return product;
+            try
+            {
+                _logger.LogInformation("Getting product by ID: {ProductId}", pid);
+
+                var product = _productRepo.GetProductById(pid);
+                if (product == null)
+                {
+                    _logger.LogWarning("Product with ID {ProductId} not found", pid);
+                    throw new NotFoundException($"Product with ID {pid} not found.");
+                }
+
+                _logger.LogInformation("Product with ID {ProductId} found: {ProductName}", pid, product.ProductName);
+                return product;
+            }
+            catch (Exception ex) when (ex is not NotFoundException)
+            {
+                _logger.LogError(ex, "Error occurred while getting product by ID: {ProductId}", pid);
+                throw new AppException($"Database error: {ex.Message}", 500, false);
+            }
         }
         // Add Product DTO
         public void AddProduct(ProductDTO productDTO)
