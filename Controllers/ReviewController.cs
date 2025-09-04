@@ -67,7 +67,7 @@ namespace E_CommerceSystem.Controllers
                 }
 
                 // Call the service to get the paged and filtered products
-                var reviews = _reviewService.GetAllReviews(pageNumber, pageSize,productId);
+                var reviews = _reviewService.GetAllReviews(pageNumber, pageSize, productId);
 
                 if (reviews == null || !reviews.Any())
                 {
@@ -124,7 +124,7 @@ namespace E_CommerceSystem.Controllers
 
             try
             {
-                var review = _reviewService.GetReviewById(ReviewId); 
+                var review = _reviewService.GetReviewById(ReviewId);
                 if (review == null)
                     return NotFound($"Review with ID {ReviewId} not found.");
 
@@ -137,7 +137,7 @@ namespace E_CommerceSystem.Controllers
                 // Extract user ID 
                 int uid = int.Parse(userId);
 
-                if(review.UID == uid)
+                if (review.UID == uid)
                 {
                     _reviewService.DeleteReview(ReviewId);
 
@@ -177,7 +177,7 @@ namespace E_CommerceSystem.Controllers
                 int uid = int.Parse(userId);
 
                 //update review
-                if(review.UID == uid)
+                if (review.UID == uid)
                 {
                     _reviewService.UpdateReview(ReviewId, reviewDTO);
                     return Ok($"Review whith ReviewId {ReviewId} updated successfully.");
@@ -209,7 +209,29 @@ namespace E_CommerceSystem.Controllers
 
             throw new UnauthorizedAccessException("Invalid or unreadable token.");
         }
-    }
 
+        // Add a new endpoint to check if user can review a product
+        [HttpGet("CanReview/{productId}")]
+        public IActionResult CanReviewProduct(int productId)
+        {
+            try
+            {
+                // Retrieve the Authorization header from the request
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+                // Decode the token to get user ID
+                var userId = GetUserIdFromToken(token);
+                int uid = int.Parse(userId);
+
+                bool canReview = _reviewService.HasUserPurchasedProduct(uid, productId);
+
+                return Ok(new { CanReview = canReview });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while checking review eligibility. {(ex.Message)}");
+            }
+        }
+    }
     
 }

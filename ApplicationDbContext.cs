@@ -44,7 +44,11 @@ namespace E_CommerceSystem
                 .HasOne(pi => pi.Product)
                 .WithMany(p => p.ProductImages)
                 .HasForeignKey(pi => pi.PID);
-      
+
+            modelBuilder.Entity<Review>()
+                .HasIndex(r => new { r.PID, r.UID })
+                .IsUnique();
+
 
         }
     }
