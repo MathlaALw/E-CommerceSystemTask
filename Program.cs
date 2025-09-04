@@ -40,6 +40,10 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+
+            builder.Services.AddScoped<ISupplierRepo, SupplierRepo>();
+            builder.Services.AddScoped<ISupplierService, SupplierService>();
+
             // Register Services
             builder.Services.AddScoped<IProductImageRepo, ProductImageRepo>();
             builder.Services.AddScoped<IImageService, ImageService>();
@@ -55,6 +59,10 @@ namespace E_CommerceSystem
 
             // Invoice Service
             builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+
+
+            builder.Services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

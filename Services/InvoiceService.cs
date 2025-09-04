@@ -27,7 +27,7 @@ namespace E_CommerceSystem.Services
 
         public InvoiceDTO GetInvoiceData(int orderId)
         {
-            //var order = _orderProductsService.GetOrdersByOrderId(orderId);
+            var order = _orderProductsService.GetOrdersByOrderId(orderId);
 
             var orderProducts = _orderProductsService.GetOrdersByOrderId(orderId);
             var user = _userService.GetUserById(orderProducts.First().Order.UID);
