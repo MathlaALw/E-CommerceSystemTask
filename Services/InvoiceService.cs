@@ -8,15 +8,15 @@ namespace E_CommerceSystem.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        private readonly IOrderService _orderService;
+       
         private readonly IUserService _userService;
         private readonly IOrderProductsService _orderProductsService;
         private readonly IProductService _productService;
 
-        public InvoiceService(IOrderService orderService, IUserService userService,
+        public InvoiceService(IUserService userService,
                             IOrderProductsService orderProductsService, IProductService productService)
         {
-            _orderService = orderService;
+            
             _userService = userService;
             _orderProductsService = orderProductsService;
             _productService = productService;

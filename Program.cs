@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 
@@ -70,38 +71,38 @@ namespace E_CommerceSystem
            
 
             // Add JWT Authentication
-            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"];
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            var secretKey = jwtSettings["Key"];
 
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                    .AddJwtBearer(options =>
+            var jwtSection = builder.Configuration.GetSection("Jwt");
+            var secret = jwtSection["Key"]?.Trim();
+            var issuer = jwtSection["Issuer"];
+            var audience = jwtSection["Audience"];
+
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret!));
+
+            builder.Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = false, // You can set this to true if you want to validate the issuer.
-                            ValidateAudience = false, // You can set this to true if you want to validate the audience.
-                            ValidateLifetime = true, // Ensures the token hasn't expired.
-                            ValidateIssuerSigningKey = true, // Ensures the token is properly signed.
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) // Match with your token generation key.
-                        };
-
-                        // Extract token from cookie or header
-                        options.Events = new JwtBearerEvents
-                        {
-                            OnMessageReceived = context =>
-                            {
-                                // Try to get token from cookie first
-                                context.Token = context.Request.Cookies["accessToken"];
-
-                                return Task.CompletedTask;
-
-                            }
-                        };
-                    });
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = signingKey,          // SAME key as generation (UTF-8)
+                        ValidateIssuer = true,
+                        ValidIssuer = issuer,                   // SAME issuer
+                        ValidateAudience = true,
+                        ValidAudience = audience,               // SAME audience
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,              // optional: strict expiry
+                        NameClaimType = jwtSection["NameClaimType"] ?? ClaimTypes.Name,
+                        RoleClaimType = jwtSection["RoleClaimType"] ?? ClaimTypes.Role
+                    };
+                });
 
             builder.Services.AddAuthorization(options =>
             {

@@ -6,7 +6,7 @@ namespace E_CommerceSystem.Services
     {
         void AddProduct(Product product);
         void AddProduct(ProductDTO productDTO);
-        Task AddProductWithImages(ProductDTO productDTO);
+        Task AddProductWithImages(ProductDTO productDTO, int supplierId, int categoryId);
         void DeleteProductImage(int imageId);
         void DeleteProductImages(int productId);
         IEnumerable<Product> GetAllProducts(int pageNumber, int pageSize, string? name = null, decimal? minPrice = null, decimal? maxPrice = null);
@@ -16,6 +16,6 @@ namespace E_CommerceSystem.Services
         void SetMainProductImage(int productId, int imageId);
         void UpdateProduct(int productId, ProductDTO productDTO);
         void UpdateProduct(Product product);
-        Task UpdateProductWithImages(int productId, ProductDTO productDTO);
+        Task UpdateProductWithImages(int productId, ProductDTO productDTO, string imageUrl);
     }
 }

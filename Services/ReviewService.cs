@@ -12,17 +12,17 @@ namespace E_CommerceSystem.Services
         // Dependencies
         public IReviewRepo _reviewRepo;
         public IProductService _productService;
-        public IOrderService _orderService;
+        
         public IOrderProductsService _orderProductsService;
 
         // AutoMapper
         private readonly IMapper _mapper;
-        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IOrderService orderService, IMapper mapper)
+        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper)
         {
             _reviewRepo = reviewRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
-            _orderService = orderService;
+           
             _mapper = mapper;
         }
 
@@ -72,21 +72,21 @@ namespace E_CommerceSystem.Services
 
             // Check if the user has purchased this product
             bool hasPurchased = false;
-            var orders = _orderService.GetOrderByUserId(uid);
+            //var orders = _orderService.GetOrderByUserId(uid);
 
-            foreach (var order in orders)
-            {
-                // Only consider delivered orders for reviews
-                if (order.Status != OrderStatus.Delivered)
-                    continue;
+            //foreach (var order in orders)
+            //{
+            //    // Only consider delivered orders for reviews
+            //    if (order.Status != OrderStatus.Delivered)
+            //        continue;
 
-                var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
-                if (orderProducts.Any(op => op.PID == pid))
-                {
-                    hasPurchased = true;
-                    break;
-                }
-            }
+            //    var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
+            //    if (orderProducts.Any(op => op.PID == pid))
+            //    {
+            //        hasPurchased = true;
+            //        break;
+            //    }
+            //}
 
             if (!hasPurchased)
                 throw new InvalidOperationException("You can only review products you've purchased and received.");
@@ -155,20 +155,20 @@ namespace E_CommerceSystem.Services
         // Helper Method to check if the user have purchased the product
         public bool HasUserPurchasedProduct(int userId, int productId)
         {
-            var orders = _orderService.GetOrderByUserId(userId);
+            //var orders = _orderService.GetOrderByUserId(userId);
 
-            foreach (var order in orders)
-            {
-                // Only consider completed orders (delivered)
-                if (order.Status == OrderStatus.Delivered)
-                {
-                    var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
-                    if (orderProducts.Any(op => op.PID == productId))
-                    {
-                        return true;
-                    }
-                }
-            }
+            //foreach (var order in orders)
+            //{
+            //    // Only consider completed orders (delivered)
+            //    if (order.Status == OrderStatus.Delivered)
+            //    {
+            //        var orderProducts = _orderProductsService.GetOrdersByOrderId(order.OID);
+            //        if (orderProducts.Any(op => op.PID == productId))
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //}
 
             return false;
         }

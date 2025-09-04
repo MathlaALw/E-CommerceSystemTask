@@ -18,8 +18,13 @@ namespace E_CommerceSystem.Models
         public int Stock { get; set; }
 
         // For image upload
-        public IFormFile Image { get; set; }
-        public List<IFormFile> AdditionalImages { get; set; }
+        public string MainImageUrl { get; set; }
+        public List<string> AdditionalImageUrls { get; set; } = new List<string>();
 
+        //public int CategoryId { get; set; }
+
+        //public int SupplierId { get; set; }
+
+        //public decimal OverallRating { get; set; }
     }
 }

@@ -16,15 +16,18 @@ namespace E_CommerceSystem.Models
 
         [Required]
         [Range(0, int.MaxValue)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         [Required]
         [Range(0, int.MaxValue)]
-        public int Stock { get; set; }
 
+        public int Stock { get; set; }
+        [Column(TypeName = "decimal(3,2)")]
         public decimal OverallRating { get; set; }
 
         // Add image support
+        //public IFormFile Image { get; set; }
         public string MainImageUrl { get; set; }
 
         [JsonIgnore] // To prevent circular references during serialization
@@ -39,12 +42,13 @@ namespace E_CommerceSystem.Models
         // Navigation property for Category
         [ForeignKey("Categoty")]
         public int CategoryId { get; set; }
-
+        [JsonIgnore]
         public Category Categoty{get; set;}
 
         // Navigation property for Supplier
         [ForeignKey("Supplier")]
         public int SupplierId { get; set; }
+        [JsonIgnore]
         public Supplier Supplier { get; set; }
 
         // Concurrency token

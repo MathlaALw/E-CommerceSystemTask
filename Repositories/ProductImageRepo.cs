@@ -95,6 +95,7 @@ namespace E_CommerceSystem.Repositories
                 if (product != null && mainImage != null) // If both product and main image exist
                 {
                     product.MainImageUrl = mainImage.ImageUrl; // Update the product's main image URL
+                   
                 }
 
                 _context.SaveChanges();

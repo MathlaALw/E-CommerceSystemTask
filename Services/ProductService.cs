@@ -13,13 +13,18 @@ namespace E_CommerceSystem.Services
         private readonly IProductImageRepo _productImageRepo; // For managing product images
         private readonly IImageService _imageService; // For handling image file operations
         private readonly IMapper _mapper;
+        private readonly ISupplierRepo _supplierRepo;
+        private readonly ICategoryRepo _categoryRepo;
 
-        public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper)
+        public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper, ISupplierRepo supplierRepo,
+            ICategoryRepo categoryRepo)
         {
             _productRepo = productRepo;
             _productImageRepo = productImageRepo;
             _imageService = imageService;
             _mapper = mapper;
+            _supplierRepo = supplierRepo;
+            _categoryRepo = categoryRepo;
         }
 
 
@@ -111,96 +116,139 @@ namespace E_CommerceSystem.Services
             return product;
         }
 
-        public async Task AddProductWithImages(ProductDTO productDTO) // Add product with images
+        public async Task AddProductWithImages(ProductDTO productDTO, int supplierId, int categoryId) // Add product with images
         {
-            var product = _mapper.Map<Product>(productDTO); // Map DTO to entity
-
-            // Add the product first
-            _productRepo.AddProduct(product);
-
-            // Handle main image
-            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image))
+            try
             {
-                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products"); // Save image and get URL
+                var product = _mapper.Map<Product>(productDTO); // Map DTO to entity
+                product.SupplierId = supplierId;
+                product.CategoryId = categoryId;
+                product.RowVersion = new byte[] { 0 }; // Initialize RowVersion for concurrency on new
+                product.ProductName = productDTO.ProductName;
+                product.Description = productDTO.Description;
+                product.Price = productDTO.Price;
 
-                var mainImage = new ProductImage // Create ProductImage entity
+                // Add the product first
+                _productRepo.AddProduct(product);
+                // Validate relations
+                var supplier = _supplierRepo.GetSupplierById(supplierId);
+                if (supplier is null) throw new KeyNotFoundException($"Supplier {supplierId} not found.");
+
+                var category = _categoryRepo.GetCategoryById(categoryId);
+                if (category is null) throw new KeyNotFoundException($"Category {categoryId} not found.");
+
+
+                // Handle main image
+                if (!string.IsNullOrEmpty(productDTO.MainImageUrl))
                 {
-                    PID = product.PID, // Associate with the newly created product
-                    ImageUrl = imageUrl, // Set image URL
-                    IsMain = true, // Set as main image
-                    DisplayOrder = 0 // Set display order
-                };
-
-                _productImageRepo.AddProductImage(mainImage); // Add image to the repository
-
-                // Update product's main image URL
-                product.MainImageUrl = imageUrl; // Update main image URL
-                _productRepo.UpdateProduct(product); // Update product to save main image URL
-            }
-            // Handle additional images
-            if (productDTO.AdditionalImages != null && productDTO.AdditionalImages.Any()) // Check if there are additional images
-            {
-                int order = 1; // Start display order from 1 (0 is for main image)
-                foreach (var additionalImage in productDTO.AdditionalImages) // Loop through each additional image
-                {
-                    if (_imageService.IsValidImage(additionalImage)) // Validate the image
+                    var mainImage = new ProductImage
                     {
-                        var imageUrl = await _imageService.SaveImageAsync(additionalImage, "products"); // Save image and get URL
+                        PID = product.PID,
+                        ImageUrl = productDTO.MainImageUrl,
+                        IsMain = true,
+                        DisplayOrder = 0
+                    };
 
-                        var productImage = new ProductImage // Create ProductImage entity
+                    _productImageRepo.AddProductImage(mainImage); // Add image to the repository
+
+                    // Update product's main image URL
+                    product.MainImageUrl = productDTO.MainImageUrl; // Update main image URL
+                    _productRepo.UpdateProduct(product); // Update product to save main image URL
+                }
+                // Handle additional images
+                if (productDTO.AdditionalImageUrls != null && productDTO.AdditionalImageUrls.Any())
+                {
+                    int order = 1;
+                    foreach (var imageUrl in productDTO.AdditionalImageUrls)
+                    {
+                        if (!string.IsNullOrEmpty(imageUrl))
                         {
-                            PID = product.PID, // Associate with the newly created product
-                            ImageUrl = imageUrl, // Set image URL
-                            IsMain = false, // Not the main image
-                            DisplayOrder = order++ // Increment display order
-                        };
+                            var productImage = new ProductImage
+                            {
+                                PID = product.PID,
+                                ImageUrl = imageUrl,
+                                IsMain = false,
+                                DisplayOrder = order++
+                            };
 
-                        _productImageRepo.AddProductImage(productImage); // Add image to the repository
+                            _productImageRepo.AddProductImage(productImage);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            { }
 
         }
 
-        public async Task UpdateProductWithImages(int productId, ProductDTO productDTO) // Update product with images
+        public async Task UpdateProductWithImages(int productId, ProductDTO productDTO, string imageUrl) // Update product with images
         {
-            var existingProduct = _productRepo.GetProductById(productId); // Get existing product
+            var existingProduct = _productRepo.GetProductById(productId);
             if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {productId} not found.");
 
-            _mapper.Map(productDTO, existingProduct); // Map updated fields from DTO to entity
+            _mapper.Map(productDTO, existingProduct);
 
             // Handle new main image
-            if (productDTO.Image != null && _imageService.IsValidImage(productDTO.Image)) // New main image provided
+            if (!string.IsNullOrEmpty(productDTO.MainImageUrl))
             {
                 // Delete old main image if exists
-                var oldMainImage = _productImageRepo.GetProductImages(productId) // Get existing images
+                var oldMainImage = _productImageRepo.GetProductImages(productId)
                     .FirstOrDefault(pi => pi.IsMain);
 
-                if (oldMainImage != null) // If old main image exists
+                if (oldMainImage != null)
                 {
-                    _imageService.DeleteImage(oldMainImage.ImageUrl); // Delete physical file
-                    _productImageRepo.DeleteProductImage(oldMainImage.ImageId); // Remove from repository
+                    _productImageRepo.DeleteProductImage(oldMainImage.ImageId);
                 }
 
-                // Save new main image
-                var imageUrl = await _imageService.SaveImageAsync(productDTO.Image, "products"); // Save new image and get URL
-
-                var mainImage = new ProductImage // Create new ProductImage entity
+                // Add new main image
+                var mainImage = new ProductImage
                 {
-                    PID = productId, // Associate with the product
-                    ImageUrl = imageUrl, // Set image URL
-                    IsMain = true, // Set as main image
-                    DisplayOrder = 0 // Set display order
+                    PID = productId,
+                    ImageUrl = productDTO.MainImageUrl,
+                    IsMain = true,
+                    DisplayOrder = 0
                 };
 
-                _productImageRepo.AddProductImage(mainImage); // Add new main image to the repository
+                _productImageRepo.AddProductImage(mainImage);
 
                 // Update product's main image URL
-                existingProduct.MainImageUrl = imageUrl;
+                existingProduct.MainImageUrl = productDTO.MainImageUrl;
             }
 
-            _productRepo.UpdateProduct(existingProduct); // Update product details
+            _productRepo.UpdateProduct(existingProduct);
+
+            // Handle additional images
+            if (productDTO.AdditionalImageUrls != null && productDTO.AdditionalImageUrls.Any())
+            {
+                // Delete existing additional images
+                var existingAdditionalImages = _productImageRepo.GetProductImages(productId)
+                    .Where(pi => !pi.IsMain)
+                    .ToList();
+
+                foreach (var image in existingAdditionalImages)
+                {
+                    _productImageRepo.DeleteProductImage(image.ImageId);
+                }
+
+                // Add new additional images
+                int order = 1;
+                foreach (var imageU in productDTO.AdditionalImageUrls)
+                {
+                    if (!string.IsNullOrEmpty(imageU))
+                    {
+                        var productImage = new ProductImage
+                        {
+                            PID = productId,
+                            ImageUrl = imageU,
+                            IsMain = false,
+                            DisplayOrder = order++
+                        };
+
+                        _productImageRepo.AddProductImage(productImage);
+                    }
+                }
+            }
         }
 
         public void DeleteProductImages(int productId) // Delete all images associated with a product

@@ -108,32 +108,35 @@ namespace E_CommerceSystem.Controllers
         [NonAction]
         public string GenerateJwtToken(string userId, string username, string role)
         {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["SecretKey"];
+            var jwtSection = _configuration.GetSection("Jwt");
+            var secret = jwtSection["Key"]?.Trim();          // Trim just in case
+            var issuer = jwtSection["Issuer"];
+            var audience = jwtSection["Audience"];
+            var expiryMinutes = Convert.ToDouble(jwtSection["ExpiryInMinutes"]);
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId),
-                new Claim(JwtRegisteredClaimNames.Name, username),
-                new Claim(JwtRegisteredClaimNames.UniqueName, role),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        new Claim(JwtRegisteredClaimNames.Sub, userId),
+        new Claim(JwtRegisteredClaimNames.Name, username),
+        new Claim("role", role), // standard role claim
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    };
 
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret!)); // UTF-8 BYTES
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
+                issuer: issuer,               // include issuer
+                audience: audience,           // include audience
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryInMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-
         }
 
-       // Add method to generate refresh token
+        // Add method to generate refresh token
 
         // [NonAction] attribute indicates that this method is not a web action and cannot be called directly via a URL.
         [NonAction]

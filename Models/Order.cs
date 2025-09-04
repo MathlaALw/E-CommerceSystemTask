@@ -11,6 +11,7 @@ namespace E_CommerceSystem.Models
 
         public DateTime OrderDate { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
 
         [ForeignKey("user")]

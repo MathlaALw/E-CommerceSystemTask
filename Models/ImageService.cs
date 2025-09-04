@@ -1,89 +1,93 @@
-﻿namespace E_CommerceSystem.Models
+﻿using System;
+
+namespace E_CommerceSystem.Models
 {
     public class ImageService : IImageService
     {
-        private readonly IWebHostEnvironment _environment; // To access web hosting environment details
-        private readonly IConfiguration _configuration; // To access configuration settings
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
 
-        public ImageService(IWebHostEnvironment environment, IConfiguration configuration) // Constructor with dependency injection
+        private static readonly HashSet<string> AllowedExtensions =
+            new(new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" }, StringComparer.OrdinalIgnoreCase);
+
+        private static readonly HashSet<string> AllowedContentTypes =
+            new(new[] { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/webp" }, StringComparer.OrdinalIgnoreCase);
+
+        private const long MaxBytes = 5 * 1024 * 1024; // 5 MB
+
+        public ImageService(IWebHostEnvironment environment, IConfiguration configuration)
         {
-            _environment = environment; // Access to web hosting environment
-            _configuration = configuration; // Access to configuration settings
+            _environment = environment;
+            _configuration = configuration;
         }
 
-        public async Task<string> SaveImageAsync(IFormFile imageFile, string subFolder = "") // Method to save an image file asynchronously
+        // ✅ Correct signature: IFormFile, not string
+        public async Task<string> SaveImageAsync(IFormFile imageFile, string subFolder = "")
         {
-            if (imageFile == null || imageFile.Length == 0) // Check if the file is null or empty
-                throw new ArgumentException("No image file provided");
+            if (imageFile == null || imageFile.Length == 0)
+                throw new ArgumentException("No image file provided.", nameof(imageFile));
 
-            if (!IsValidImage(imageFile)) // Validate the image file type
-                throw new ArgumentException("Invalid image file");
+            if (!IsValidImage(imageFile))
+                throw new ArgumentException("Invalid image file type or size.", nameof(imageFile));
 
-            // Create uploads directory if it doesn't exist
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads", subFolder); // Define the uploads folder path
-            if (!Directory.Exists(uploadsFolder)) // Check if the directory exists
-                Directory.CreateDirectory(uploadsFolder);
+            // Ensure webroot
+            var webRoot = _environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-            // Generate unique filename
-            var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            // /wwwroot/uploads/{subFolder}
+            var uploadsFolder = Path.Combine(webRoot, "uploads", subFolder ?? string.Empty);
+            Directory.CreateDirectory(uploadsFolder);
 
-            // Save the file
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            // Unique filename with original extension
+            var ext = Path.GetExtension(imageFile.FileName);
+            var uniqueFileName = $"{Guid.NewGuid():N}{ext}";
+            var fullPath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Save asynchronously
+            await using (var stream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true))
             {
-                await imageFile.CopyToAsync(fileStream);
+                await imageFile.CopyToAsync(stream); // 
+                                                     // Return a web-relative URL: /uploads[/subFolder]/file
+                var sub = string.IsNullOrWhiteSpace(subFolder) ? "" : $"{subFolder.Trim('/')}/";
+                return $"/uploads/{sub}{uniqueFileName}";
             }
-            // Return relative path for web access
-            return $"/uploads/{subFolder}/{uniqueFileName}";
         }
 
-        public void DeleteImage(string imageUrl) // Method to delete an image file
+        public void DeleteImage(string imageUrl)
         {
-            if (string.IsNullOrEmpty(imageUrl))
+            if (string.IsNullOrWhiteSpace(imageUrl))
                 return;
 
-            // Convert URL to physical path
-            var physicalPath = imageUrl.StartsWith("/") // Check if the URL is relative
-                ? Path.Combine(_environment.WebRootPath, imageUrl.TrimStart('/')) // Trim leading slash for correct path
-                : imageUrl;
+            var webRoot = _environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
-            if (File.Exists(physicalPath)) // Check if the file exists
-            {
-                File.Delete(physicalPath); // Delete the file
-            }
+            // Convert URL (/uploads/...) to physical path
+            var relative = imageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+            var fullPath = Path.Combine(webRoot, relative);
+
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
         }
 
-        public bool IsValidImage(IFormFile imageFile) // Method to validate image file types
+        public bool IsValidImage(IFormFile imageFile)
         {
-            if (imageFile == null) // Check if the file is null
-                return false;
+            if (imageFile == null || imageFile.Length == 0) return false;
+            if (imageFile.Length > MaxBytes) return false;
 
-            // Check file size (max 5MB)
-            if (imageFile.Length > 5 * 1024 * 1024)
-                return false;
+            var ext = Path.GetExtension(imageFile.FileName);
+            if (string.IsNullOrEmpty(ext) || !AllowedExtensions.Contains(ext)) return false;
 
-            // Check file extension
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" }; // Allowed image extensions
-            var fileExtension = Path.GetExtension(imageFile.FileName).ToLower(); // Get file extension in lowercase
-            if (!allowedExtensions.Contains(fileExtension)) // Check if the extension is allowed
-                return false;
+            var contentType = imageFile.ContentType ?? "";
+            if (!AllowedContentTypes.Contains(contentType)) return false;
 
-            // Check content type
-            var allowedContentTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp" }; // Allowed MIME types
-            if (!allowedContentTypes.Contains(imageFile.ContentType.ToLower())) // Check if the content type is allowed
-                return false;
-
-            return true; // If all checks pass, the image is valid
+            return true;
         }
     }
 
 
 
-
-
-
-
-
-
 }
+
+
+
+
+
     
