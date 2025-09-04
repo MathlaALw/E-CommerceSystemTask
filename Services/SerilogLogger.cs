@@ -1,7 +1,7 @@
 ﻿using Serilog;
 namespace E_CommerceSystem.Services
 {
-    public class SerilogLogger<T>
+    public class SerilogLogger<T> : IAppLogger<T>
     {
         private readonly Serilog.ILogger _logger;
 
