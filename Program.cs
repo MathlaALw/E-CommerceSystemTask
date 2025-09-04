@@ -1,4 +1,5 @@
 
+using E_CommerceSystem.Models;
 using E_CommerceSystem.Repositories;
 using E_CommerceSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,9 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+            // Register Services
+            builder.Services.AddScoped<IProductImageRepo, ProductImageRepo>();
+            builder.Services.AddScoped<IImageService, ImageService>();
 
             // Add AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
