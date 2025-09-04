@@ -20,6 +20,8 @@ namespace E_CommerceSystem
         public DbSet<Supplier> Suppliers { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }//add RefreshTokens DbSet to ApplicationDbContext
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -37,6 +39,12 @@ namespace E_CommerceSystem
             modelBuilder.Entity<Order>()
                         .Property(o => o.Status)
                         .HasConversion<string>();
+
+            modelBuilder.Entity<ProductImage>()
+    .HasOne(pi => pi.Product)
+    .WithMany(p => p.ProductImages)
+    .HasForeignKey(pi => pi.PID);
+
         }
     }
 }
