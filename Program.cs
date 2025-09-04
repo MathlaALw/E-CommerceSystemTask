@@ -52,16 +52,23 @@ namespace E_CommerceSystem
                     restrictedToMinimumLevel: LogEventLevel.Warning)
 
                 .CreateLogger();
-
-            var builder = WebApplication.CreateBuilder(args);
+            try
+            {
+                Log.Information("Starting web application");
+                var builder = WebApplication.CreateBuilder(args);
             // register the validation filter globally
             builder.Services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateModelAttribute>();
+                options.Filters.Add<LoggingActionFilter>();
             });
 
-            // Add services to the container.
-            builder.Services.AddScoped<IUserRepo, UserRepo>();
+                // Use Serilog
+                
+                builder.Host.UseSerilog();
+
+                // Add services to the container.
+                builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IUserService, UserService>();
 
 
@@ -104,7 +111,10 @@ namespace E_CommerceSystem
             builder.Services.AddScoped<IRefreshTokenRepo, RefreshTokenRepo>();
             builder.Services.AddScoped<ITokenService, TokenService>();
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddScoped<LoggingActionFilter>();
+
+
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped(typeof(IAppLogger<>), typeof(SerilogLogger<>)); // Register SerilogLogger as the implementation for IAppLogger
@@ -181,9 +191,13 @@ namespace E_CommerceSystem
                 });
             });
             var app = builder.Build();
+                app.UseMiddleware<LogContextMiddleware>();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+                // 
+                app.UseSerilogRequestLogging();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -191,7 +205,20 @@ namespace E_CommerceSystem
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
-            app.UseAuthentication(); //jwt check middleware
+                // Use Serilog request logging
+                app.UseSerilogRequestLogging(options =>
+                {
+                    options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+                    options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+                    {
+                        diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+                        diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                        diagnosticContext.Set("UserAgent", httpContext.Request.Headers["User-Agent"]);
+                        diagnosticContext.Set("UserId", httpContext.User.Identity?.Name ?? "Anonymous");
+                    };
+                });
+
+                app.UseAuthentication(); //jwt check middleware
             app.UseAuthorization();
 
             // Add static file serving for uploaded images
@@ -200,6 +227,32 @@ namespace E_CommerceSystem
             app.MapControllers();
 
             app.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Application terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
+
+        private static ColumnOptions GetColumnOptions()
+        {
+            var columnOptions = new ColumnOptions();
+            columnOptions.Store.Remove(StandardColumn.Properties);
+            columnOptions.Store.Add(StandardColumn.LogEvent);
+            columnOptions.AdditionalColumns = new List<SqlColumn>
+            {
+                new SqlColumn { ColumnName = "UserId", DataType = System.Data.SqlDbType.NVarChar, DataLength = 50, AllowNull = true },
+                new SqlColumn { ColumnName = "MachineName", DataType = System.Data.SqlDbType.NVarChar, DataLength = 50, AllowNull = true },
+                new SqlColumn { ColumnName = "ProcessId", DataType = System.Data.SqlDbType.Int, AllowNull = true },
+                new SqlColumn { ColumnName = "ThreadId", DataType = System.Data.SqlDbType.Int, AllowNull = true }
+            };
+            return columnOptions;
+        }
+
+
     }
 }

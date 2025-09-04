@@ -1,5 +1,7 @@
 ﻿using E_CommerceSystem.Exceptions;
+using E_CommerceSystem.Helpers;
 using E_CommerceSystem.Models;
+using E_CommerceSystem.Services;
 using System.Net;
 using System.Text.Json;
 
@@ -35,51 +37,89 @@ namespace E_CommerceSystem.Middleware
             HttpStatusCode statusCode;
             bool includeStackTrace = _environment.IsDevelopment();
             string message;
+            string logMessage;
+            LogLevel logLevel;
 
             switch (exception)
             {
                 case NotFoundException:
                     statusCode = HttpStatusCode.NotFound;
                     message = exception.Message;
-                    _logger.LogWarning(exception, "Resource not found: {Message}", exception.Message);
+                    logMessage = $"Resource not found: {exception.Message}";
+                    logLevel = LogLevel.Warning;
                     break;
 
                 case BadRequestException:
                     statusCode = HttpStatusCode.BadRequest;
                     message = exception.Message;
-                    _logger.LogWarning(exception, "Bad request: {Message}", exception.Message);
+                    logMessage = $"Bad request: {exception.Message}";
+                    logLevel = LogLevel.Warning;
                     break;
 
                 case UnauthorizedException:
                     statusCode = HttpStatusCode.Unauthorized;
                     message = exception.Message;
-                    _logger.LogWarning(exception, "Unauthorized: {Message}", exception.Message);
+                    logMessage = $"Unauthorized: {exception.Message}";
+                    logLevel = LogLevel.Warning;
                     break;
 
                 case ForbiddenException:
                     statusCode = HttpStatusCode.Forbidden;
                     message = exception.Message;
-                    _logger.LogWarning(exception, "Forbidden: {Message}", exception.Message);
+                    logMessage = $"Forbidden: {exception.Message}";
+                    logLevel = LogLevel.Warning;
                     break;
 
                 case ValidationException validationEx:
                     statusCode = HttpStatusCode.BadRequest;
                     message = exception.Message;
-                    _logger.LogWarning(exception, "Validation failed: {Message}", exception.Message);
+                    logMessage = $"Validation failed: {exception.Message}";
+                    logLevel = LogLevel.Warning;
+
+                    // Log validation errors in detail
+                    foreach (var error in validationEx.Errors)
+                    {
+                        _logger.LogWarning("Validation error for {Field}: {Errors}",
+                            error.Key, string.Join(", ", error.Value));
+                    }
                     break;
 
                 case AppException appEx when !appEx.IsOperational:
                     statusCode = (HttpStatusCode)appEx.StatusCode;
                     message = appEx.Message;
-                    _logger.LogError(exception, "Application error: {Message}", exception.Message);
+                    logMessage = $"Application error: {appEx.Message}";
+                    logLevel = LogLevel.Error;
                     break;
 
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
                     message = "An internal server error has occurred.";
-                    _logger.LogError(exception, "Unhandled exception: {Message}", exception.Message);
+                    logMessage = $"Unhandled exception: {exception.Message}";
+                    logLevel = LogLevel.Error;
                     break;
             }
+
+            // Log the error with appropriate level
+            switch (logLevel)
+            {
+                case LogLevel.Warning:
+                    _logger.LogWarning(exception.Message , logMessage);
+                    break;
+                case LogLevel.Error:
+                    _logger.LogError(exception, logMessage);
+                    break;
+                case LogLevel.Critical:
+                    _logger.LogCritical(exception, logMessage);
+                    break;
+                default:
+                    _logger.LogError(exception, logMessage);
+                    break;
+            }
+
+            // Aadditional context to the log
+            _logger.LogDebug("Error details - Status: {StatusCode}, Path: {Path}, Method: {Method}, User: {User}",
+                (int)statusCode, context.Request.Path, context.Request.Method,
+                context.User.Identity?.Name ?? "Anonymous");
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
@@ -101,6 +141,11 @@ namespace E_CommerceSystem.Middleware
 
             var json = JsonSerializer.Serialize(errorResponse, options);
             await context.Response.WriteAsync(json);
+
+           
         }
     }
+
+
 }
+

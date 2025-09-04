@@ -17,9 +17,10 @@ namespace E_CommerceSystem.Services
         private readonly IMapper _mapper;
         private readonly ISupplierRepo _supplierRepo;
         private readonly ICategoryRepo _categoryRepo;
-        
+        private readonly IAppLogger<ProductService> _logger;
+
         public ProductService(IProductRepo productRepo, IProductImageRepo productImageRepo, IImageService imageService, IMapper mapper, ISupplierRepo supplierRepo,
-            ICategoryRepo categoryRepo)
+            ICategoryRepo categoryRepo, IAppLogger<ProductService> logger)
         {
             _productRepo = productRepo;
             _productImageRepo = productImageRepo;
@@ -27,6 +28,7 @@ namespace E_CommerceSystem.Services
             _mapper = mapper;
             _supplierRepo = supplierRepo;
             _categoryRepo = categoryRepo;
+            _logger = logger;
         }
 
 
@@ -71,7 +73,7 @@ namespace E_CommerceSystem.Services
                 if (product == null)
                 {
                     _logger.LogWarning("Product with ID {ProductId} not found", pid);
-                    throw new NotFoundException($"Product with ID {pid} not found.");
+                    throw new KeyNotFoundException($"Product with ID {pid} not found.");
                 }
 
                 _logger.LogInformation("Product with ID {ProductId} found: {ProductName}", pid, product.ProductName);

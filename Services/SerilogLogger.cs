@@ -1,11 +1,11 @@
 ﻿using Serilog;
 namespace E_CommerceSystem.Services
 {
-    public class SerilogLogger<T> : IAppLogger<T>
+    public class SerilogLogger<T>
     {
-        private readonly ILogger _logger;
+        private readonly Serilog.ILogger _logger;
 
-        public SerilogLogger(ILogger logger)
+        public SerilogLogger(Serilog.ILogger logger)
         {
             _logger = logger.ForContext<T>();
         }

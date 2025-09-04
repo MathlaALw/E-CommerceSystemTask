@@ -15,16 +15,17 @@ namespace E_CommerceSystem.Services
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
         private readonly IOrderProductsService _orderProductsService;
-
+        private readonly ILogger<ReviewService> _logger;
         // AutoMapper
         private readonly IMapper _mapper;
-        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper , IOrderService orderService)
+        public ReviewService(IReviewRepo reviewRepo, IProductService productService, IOrderProductsService orderProductsService, IMapper mapper , IOrderService orderService, ILogger<ReviewService> logger)
         {
             _reviewRepo = reviewRepo;
             _productService = productService;
             _orderProductsService = orderProductsService;
             _orderService = orderService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // Get all reviews with pagination
