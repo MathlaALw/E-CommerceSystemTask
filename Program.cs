@@ -146,6 +146,8 @@ namespace E_CommerceSystem
             app.UseAuthentication(); //jwt check middleware
             app.UseAuthorization();
 
+            // Add static file serving for uploaded images
+            app.UseStaticFiles();
 
             app.MapControllers();
 
